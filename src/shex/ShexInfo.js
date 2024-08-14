@@ -1,28 +1,29 @@
 import qs from "query-string";
 import React, { useContext, useEffect, useState } from "react";
-import Alert from "react-bootstrap/Alert";
-import Button from "react-bootstrap/Button";
-import Col from "react-bootstrap/Col";
-import Container from "react-bootstrap/Container";
-import Form from "react-bootstrap/Form";
-import ProgressBar from "react-bootstrap/ProgressBar";
-import Row from "react-bootstrap/Row";
 import { useHistory } from "react-router";
+
+// React Bootstrap components
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Tab from 'react-bootstrap/Tab';
+import Tabs from 'react-bootstrap/Tabs';
+
 import API from "../API";
 import PageHeader from "../components/PageHeader";
 import { ApplicationContext } from "../context/ApplicationContext";
 import { mkPermalinkLong } from "../Permalink";
-import ResultSchemaInfo from "../results/ResultSchemaInfo";
 import axios from "../utils/networking/axiosConfig";
 import { mkError } from "../utils/ResponseError";
 import {
   getShexText,
   InitialShex,
   mkShexServerParams,
-  mkShexTabs,
   paramsFromStateShex,
   updateStateShex
 } from "./Shex";
+import ResultSchemaInfo from "../results/ResultSchemaInfo";
+import ShExResult from "./commons/ShExResult";
+import ShexInfoForm from "./shexInfo/ShExInfoForm";
 
 function ShexInfo(props) {
   const { shexSchema: ctxShex } = useContext(ApplicationContext);
@@ -44,6 +45,8 @@ function ShexInfo(props) {
 
   const urlInfo = API.routes.server.schemaInfo;
   const urlVisual = API.routes.server.schemaConvert;
+
+  const [key, setKey] = useState("shexEditor");
 
   useEffect(() => {
     if (props.location?.search) {
@@ -79,11 +82,6 @@ function ShexInfo(props) {
       }
     }
   }, [params]);
-
-  function handleSubmit(event) {
-    event.preventDefault();
-    setParams(mkParams());
-  }
 
   function mkParams(pShex = shex) {
     return {
@@ -181,33 +179,31 @@ function ShexInfo(props) {
           details={API.texts.pageExplanations.shexInfo}
         />
       </Row>
-      <Row>
-        <Col className={"half-col border-right"}>
-          <Form onSubmit={handleSubmit}>
-            {mkShexTabs(shex, setShEx)}
-            <hr />
-            <Button
-              variant="primary"
-              type="submit"
-              className={"btn-with-icon " + (loading ? "disabled" : "")}
-              disabled={loading}
-            >
-              {API.texts.actionButtons.analyze}
-            </Button>
-          </Form>
-        </Col>
-        {loading || result || error || permalink ? (
-          <Col className={"half-col"}>
-            {loading ? (
-              <ProgressBar
-                striped
-                animated
-                variant="info"
-                now={progressPercent}
-              />
-            ) : error ? (
-              <Alert variant="danger">{error}</Alert>
-            ) : result ? (
+      <Tabs
+        activeKey={key}
+        onSelect={(k) => setKey(k)}
+        id="shex-info-tab"
+        className="mb-3"
+      >
+        <Tab eventKey="shexEditor" title="ShEx editor">
+          <ShexInfoForm
+            shex={shex}
+            setShEx={setShEx}
+            loading={loading}
+            setParams={setParams}
+            mkParams={mkParams}
+            setKey={setKey}
+          />
+        </Tab>
+        <Tab eventKey="result" title="Result">
+          <ShExResult
+            loading={loading}
+            result={result}
+            error={error}
+            permalink={permalink}
+            progressPercent={progressPercent}
+            notRenderedYetMessage={API.texts.schemaInfoWillAppearHere}
+            resultComponent={(
               <ResultSchemaInfo
                 result={result}
                 params={params}
@@ -215,14 +211,10 @@ function ShexInfo(props) {
                 permalink={permalink}
                 disabled={disabledLinks}
               />
-            ) : null}
-          </Col>
-        ) : (
-          <Col className={"half-col"}>
-            <Alert variant="info">{API.texts.schemaInfoWillAppearHere}</Alert>
-          </Col>
-        )}
-      </Row>
+            )}
+          />
+        </Tab>
+      </Tabs>
     </Container>
   );
 }
