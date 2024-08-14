@@ -1,28 +1,23 @@
 import qs from "query-string";
 import React, { useContext, useEffect, useState } from "react";
-import Alert from "react-bootstrap/Alert";
-import Button from "react-bootstrap/Button";
+import { useHistory } from "react-router";
+
+// React Bootstrap components
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
-import Form from "react-bootstrap/Form";
-import ProgressBar from "react-bootstrap/ProgressBar";
 import Row from "react-bootstrap/Row";
-import { useHistory } from "react-router";
+import Tab from 'react-bootstrap/Tab';
+import Tabs from 'react-bootstrap/Tabs';
+
 import shumlex from "shumlex";
 import API from "../API";
 import PageHeader from "../components/PageHeader";
 import {
-  allEngines,
   schemaEngines,
-  SelectEngine,
   shaclEngines
 } from "../components/SelectEngine";
-import SelectFormat from "../components/SelectFormat";
 import { ApplicationContext } from "../context/ApplicationContext";
 import { mkPermalinkLong } from "../Permalink";
-import ResultSchemaConvert from "../results/ResultSchemaConvert";
-import ResultShapeForm from "../results/ResultShapeForm";
-import ResultShex2Xmi from "../results/ResultShex2Xmi";
 import axios from "../utils/networking/axiosConfig";
 import { mkError } from "../utils/ResponseError";
 import { getConverterInput } from "../utils/xmiUtils/shumlexUtils";
@@ -31,10 +26,13 @@ import {
   getShexText,
   InitialShex,
   mkShexServerParams,
-  mkShexTabs,
   paramsFromStateShex,
   updateStateShex
 } from "./Shex";
+
+import ShExResult from "./commons/ShExResult";
+import ShExConvertResult from "./shexConvert/ShExConvertResult";
+import ShExConvertForm from "./shexConvert/ShExConvertForm";
 
 function ShexConvert(props) {
   const { shexSchema: ctxShex } = useContext(ApplicationContext);
@@ -62,6 +60,8 @@ function ShexConvert(props) {
   const [progressPercent, setProgressPercent] = useState(0);
 
   const [disabledLinks, setDisabledLinks] = useState(false);
+
+  const [key, setKey] = useState("shexEditor");
 
   const urlInfo = API.routes.server.schemaInfo;
   const urlConvert = API.routes.server.schemaConvert;
@@ -141,11 +141,6 @@ function ShexConvert(props) {
       }
     }
   }, [params]);
-
-  function handleSubmit(event) {
-    event.preventDefault();
-    setParams(mkParams());
-  }
 
   function mkParams(
     pShex = shex,
@@ -333,109 +328,43 @@ function ShexConvert(props) {
           details={API.texts.pageExplanations.shexConversion}
         />
       </Row>
-      <Row>
-        <Col className={"half-col border-right"}>
-          <Form onSubmit={handleSubmit}>
-            {mkShexTabs(shex, setShex)}
-            <hr />
-            {/* Choose target engine */}
-            <SelectEngine
-              name={API.texts.selectors.targetEngine}
-              handleEngineChange={(newEngine) => {
-                // Set new engine if present
-                newEngine && setTargetSchemaEngine(newEngine);
-              }}
-              selectedEngine={targetSchemaEngine}
-              fromParams={false}
-              resetFromParams={false}
-              extraOptions={allEngines} // Allow to choose any engines
+      <Tabs
+        activeKey={key}
+        onSelect={(k) => setKey(k)}
+        id="shex-info-tab"
+        className="mb-3"
+      >
+        <Tab eventKey="shexEditor" title="ShEx editor">
+          <ShExConvertForm
+            loading={loading}
+            setParams={setParams}
+            mkParams={mkParams}
+            shex={shex}
+            setShex={setShex}
+            targetSchemaEngine={targetSchemaEngine}
+            setTargetSchemaEngine={setTargetSchemaEngine}
+            setKey={setKey}
+          />
+        </Tab>
+        <Tab eventKey="result" title="Result">
+          <ShExResult
+              loading={loading}
+              result={result}
+              error={error}
+              permalink={permalink}
+              progressPercent={progressPercent}
+              notRenderedYetMessage={API.texts.conversionResultsWillAppearHere}
+              resultComponent={(
+                <ShExConvertResult
+                  result={result}
+                  resultTypes={resultTypes}
+                  permalink={permalink}
+                  disabledLinks={disabledLinks}
+                />
+              )}
             />
-            {/* Warning to use shape-start if using shapeforms */}
-            {targetSchemaEngine === API.engines.shapeForms && (
-              <Alert variant="warning">
-                A <i>Shape Start</i> is required when using ShapeForms (
-                <a href={API.routes.utils.shapeFormHelpUrl} target="_blank">
-                  learn more
-                </a>
-                )
-              </Alert>
-            )}
-            {/* Choose target format, depending on engine */}
-            <SelectFormat
-              name={API.texts.selectors.targetFormat}
-              selectedFormat={targetSchemaFormat}
-              handleFormatChange={handleTargetFormatChange}
-              urlFormats={
-                targetSchemaEngine === API.engines.shex
-                  ? API.routes.server.shExFormats
-                  : shaclEngines.includes(targetSchemaEngine)
-                  ? API.routes.server.shaclFormats
-                  : null
-              }
-              // Additional target options if a client engine (shapeForms or shumlex is used)
-              extraOptions={
-                targetSchemaEngine === API.engines.shapeForms
-                  ? [API.formats.htmlForm]
-                  : targetSchemaEngine === API.engines.shumlex
-                  ? [API.formats.xmi]
-                  : targetSchemaEngine === API.engines.tresdshex
-                  ? [API.formats.tresd]
-                  : []
-              }
-            />
-            <hr />
-            <Button
-              variant="primary"
-              type="submit"
-              className={"btn-with-icon " + (loading ? "disabled" : "")}
-              disabled={loading}
-            >
-              {API.texts.actionButtons.convert}
-            </Button>
-          </Form>
-        </Col>
-        {loading || result || error || permalink ? (
-          <Col className={"half-col"}>
-            {loading ? (
-              <ProgressBar
-                striped
-                animated
-                variant="info"
-                now={progressPercent}
-              />
-            ) : error ? (
-              <Alert variant="danger">{error}</Alert>
-            ) : result ? (
-              // The target engine will decide the result component
-              result.renderType === resultTypes.schema ? (
-                <ResultSchemaConvert
-                  result={result}
-                  permalink={permalink}
-                  disabled={disabledLinks}
-                />
-              ) : result.renderType === resultTypes.shumlex ? (
-                <ResultShex2Xmi
-                  result={result}
-                  permalink={permalink}
-                  disabled={disabledLinks}
-                />
-              ) : result.renderType === resultTypes.shapeForms ? (
-                <ResultShapeForm
-                  result={result}
-                  permalink={permalink}
-                  disabled={disabledLinks}
-                />
-              ) : null
-            ) : null}
-          </Col>
-        ) : (
-          <Col className={"half-col"}>
-            <Alert variant="info">
-              {API.texts.conversionResultsWillAppearHere}
-            </Alert>
-          </Col>
-        )}
-      </Row>
+        </Tab>
+      </Tabs>
     </Container>
   );
 }
