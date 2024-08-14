@@ -571,7 +571,7 @@ function ShexValidate(props) {
         <Tab eventKey="result" title="Result">
           <ShExResult
               loading={loading}
-              result={results}
+              result={results[0]}
               error={error}
               permalink={permalink}
               progressPercent={progressPercent}
