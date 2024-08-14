@@ -7,10 +7,8 @@ import Form from "react-bootstrap/Form";
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
-// RDFShape API
-import API from "../../API";
-
 // RDFShape commons
+import API from "../../API";
 import {mkShexTabs} from "../Shex";
 
 // Reused custom components

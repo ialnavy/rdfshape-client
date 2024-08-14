@@ -1,5 +1,9 @@
 import qs from "query-string";
 import React, { useContext, useEffect, useMemo, useState } from "react";
+import { useHistory } from "react-router";
+import useWebSocket, { ReadyState } from "react-use-websocket";
+
+// React Bootstrap components
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
@@ -7,8 +11,9 @@ import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import Row from "react-bootstrap/Row";
-import { useHistory } from "react-router";
-import useWebSocket, { ReadyState } from "react-use-websocket";
+import Tab from 'react-bootstrap/Tab';
+import Tabs from 'react-bootstrap/Tabs';
+
 import API from "../API";
 import PageHeader from "../components/PageHeader";
 import { ApplicationContext } from "../context/ApplicationContext";
@@ -47,6 +52,9 @@ import {
   updateStateShex
 } from "./Shex";
 
+import ShExResult from "./commons/ShExResult";
+import ShExValidateResult from "./shexValidate/ShExValidateResult";
+
 function ShexValidate(props) {
   // Get all required data from state: data, schema, shapemap
   const {
@@ -82,6 +90,9 @@ function ShexValidate(props) {
   const [progressPercent, setProgressPercent] = useState(0);
 
   const [disabledLinks, setDisabledLinks] = useState(false);
+
+  const [outerKey, setOuterKey] = useState("shexValidateForm");
+  const [innerKey, setInnerKey] = useState("rdfEditor");
 
   const apiValidateUrl = API.routes.server.schemaValidate;
 
@@ -359,6 +370,7 @@ function ShexValidate(props) {
 
   function handleSubmit(event) {
     event.preventDefault();
+    setOuterKey("result");
     setParams(mkParams());
   }
 
@@ -505,92 +517,82 @@ function ShexValidate(props) {
           details={API.texts.pageExplanations.shexValidation}
         />
       </Row>
-      <Row>
-        <Col className={"half-col border-right"}>
+      <Tabs
+        activeKey={outerKey}
+        onSelect={(k) => setOuterKey(k)}
+        id="shex-validate-tab"
+        className="mb-3"
+      >
+        <Tab eventKey="shexValidateForm" title="Form">
           <Form onSubmit={handleSubmit}>
-            {mkDataTabs(data, setData, {
-              allowStream: true,
-              streamData,
-              setStreamData,
-              currentTabStore: currentTab,
-              setCurrentTabStore: setCurrentTab,
-            })}
-            <hr />
-            {mkShexTabs(shex, setShEx)}
-            <hr />
-            {mkShapeMapTabs(shapeMap, setShapeMap)}
-            <hr />
-            <Button
-              variant="primary"
-              type="submit"
-              className={
-                "btn-with-icon " +
-                (loading ||
-                (streamValidationInProgress && !streamValidationPaused)
-                  ? "disabled"
-                  : "")
-              }
-              // Disabled the validation button as usual and
-              // when a stream validation is running un-paused
-              disabled={
-                loading ||
-                (streamValidationInProgress && !streamValidationPaused)
-              }
+            <Tabs
+              activeKey={innerKey}
+              onSelect={(k) => setInnerKey(k)}
+              id="shex-validate-tab"
+              className="mb-3"
             >
-              {API.texts.actionButtons.validate}
-            </Button>
+              <Tab eventKey="rdfEditor" title="RDF editor">
+                {mkDataTabs(data, setData, {
+                  allowStream: true,
+                  streamData,
+                  setStreamData,
+                  currentTabStore: currentTab,
+                  setCurrentTabStore: setCurrentTab,
+                })}
+              </Tab>
+              <Tab eventKey="shexEditor" title="ShEx editor">
+                {mkShexTabs(shex, setShEx)}
+              </Tab>
+              <Tab eventKey="shapeMapEditor" title="ShapeMap editor">
+                {mkShapeMapTabs(shapeMap, setShapeMap)}
+              </Tab>
+            </Tabs>
+            <Button
+                variant="primary"
+                type="submit"
+                className={
+                  "btn-with-icon " +
+                  (loading ||
+                  (streamValidationInProgress && !streamValidationPaused)
+                    ? "disabled"
+                    : "")
+                }
+                // Disabled the validation button as usual and
+                // when a stream validation is running un-paused
+                disabled={
+                  loading ||
+                  (streamValidationInProgress && !streamValidationPaused)
+                }
+              >
+                {API.texts.actionButtons.validate}
+              </Button>
           </Form>
-        </Col>
-        {loading || results.length || permalink || error ? (
-          <Col className={"half-col"}>
-            {loading ? (
-              <ProgressBar
-                className="width-100"
-                striped
-                animated
-                variant="info"
-                now={progressPercent}
-              />
-            ) : error ? (
-              <Alert variant="danger">{error}</Alert>
-            ) : results.length &&
-              !streamValidationError &&
-              !streamValidationInProgress ? (
-              <ResultValidateShex
-                result={results[0]}
-                permalink={permalink}
-                disabled={disabledLinks}
-              />
-            ) : (
-              <ResultValidateStream
-                results={results}
-                error={streamValidationError}
-                config={serverParams}
-                paused={streamValidationPaused}
-                setPaused={(v) => {
-                  // Only pause validations if the connection had time to open
-                  if (
-                    [
-                      API.wsStatuses[ReadyState.CONNECTING],
-                      API.wsStatuses[ReadyState.OPEN],
-                    ].includes(connectionStatus)
-                  )
-                    setStreamValidationPaused(v);
-                }}
-                clearItems={() => setResults([])}
-                permalink={permalink}
-                disabled={disabledLinks}
-              />
-            )}
-          </Col>
-        ) : (
-          <Col className={"half-col"}>
-            <Alert variant="info">
-              {API.texts.validationResultsWillAppearHere}
-            </Alert>
-          </Col>
-        )}
-      </Row>
+        </Tab>
+        <Tab eventKey="result" title="Result">
+          <ShExResult
+              loading={loading}
+              result={results}
+              error={error}
+              permalink={permalink}
+              progressPercent={progressPercent}
+              notRenderedYetMessage={API.texts.validationResultsWillAppearHere}
+              resultComponent={(
+                <ShExValidateResult
+                  results={results}
+                  streamValidationError={streamValidationError}
+                  streamValidationInProgress={streamValidationInProgress}
+                  permalink={permalink}
+                  disabledLinks={disabledLinks}
+                  serverParams={serverParams}
+                  streamValidationPaused={streamValidationPaused}
+                  connectionStatus={connectionStatus}
+                  setStreamValidationPaused={setStreamValidationPaused}
+                  setResults={setResults}
+                />
+              )}
+            />
+        </Tab>
+      </Tabs>
     </Container>
   );
 }

@@ -3,7 +3,6 @@ import React, { useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router";
 
 // React Bootstrap components
-import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Tab from 'react-bootstrap/Tab';
@@ -331,7 +330,7 @@ function ShexConvert(props) {
       <Tabs
         activeKey={key}
         onSelect={(k) => setKey(k)}
-        id="shex-info-tab"
+        id="shex-convert-tab"
         className="mb-3"
       >
         <Tab eventKey="shexEditor" title="ShEx editor">
