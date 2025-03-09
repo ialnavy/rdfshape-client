@@ -1,18 +1,12 @@
 import qs from "query-string";
-import React, { Fragment, useContext, useEffect, useState } from "react";
-import Alert from "react-bootstrap/Alert";
-import Button from "react-bootstrap/Button";
-import Col from "react-bootstrap/Col";
+import React, { useContext, useEffect, useState } from "react";
 import Container from "react-bootstrap/Container";
-import Form from "react-bootstrap/Form";
-import ProgressBar from "react-bootstrap/ProgressBar";
 import Row from "react-bootstrap/Row";
 import { useHistory } from "react-router";
 import API from "../API";
 import PageHeader from "../components/PageHeader";
 import { ApplicationContext } from "../context/ApplicationContext";
 import { mkPermalinkLong } from "../Permalink";
-import ResultDataInfo from "../results/ResultDataInfo";
 import { processDotData } from "../utils/dot/dotUtils";
 import axios from "../utils/networking/axiosConfig";
 import { mkError } from "../utils/ResponseError";
@@ -23,6 +17,9 @@ import {
   paramsFromStateData,
   updateStateData
 } from "./Data";
+
+import DataInfoForm from './dataInfo/DataInfoForm';
+import DataInfoResult from './dataInfo/DataInfoResult';
 
 function DataInfo(props) {
   // Recover user input data from context, if any. Use first item of the data array
@@ -188,8 +185,12 @@ function DataInfo(props) {
     setProgressPercent(0);
   }
 
+  function shouldResultBeRendered() {
+    return (loading || result || error || permalink);
+  }
+
   return (
-    <Container fluid={true}>
+    <Container>
       <Row>
         <PageHeader
           title={API.texts.pageHeaders.dataInfo}
@@ -197,48 +198,25 @@ function DataInfo(props) {
         />
       </Row>
       <Row>
-        <Col className={"half-col border-right"}>
-          <Form onSubmit={handleSubmit}>
-            {mkDataTabs(data, setData)}
-            <hr />
-            <Button
-              id="submit"
-              variant="primary"
-              type="submit"
-              className={"btn-with-icon " + (loading ? "disabled" : "")}
-              disabled={loading}
-            >
-              {API.texts.actionButtons.analyze}
-            </Button>
-          </Form>
-        </Col>
-        {loading || result || error || permalink ? (
-          <Fragment>
-            <Col className={"half-col"}>
-              {loading ? (
-                <ProgressBar
-                  striped
-                  animated
-                  variant="info"
-                  now={progressPercent}
-                />
-              ) : error ? (
-                <Alert variant="danger">{error}</Alert>
-              ) : result ? (
-                <ResultDataInfo
-                  result={result}
-                  params={params}
-                  permalink={permalink}
-                  disabled={disabledLinks}
-                />
-              ) : null}
-            </Col>
-          </Fragment>
-        ) : (
-          <Col className={"half-col"}>
-            <Alert variant="info">{API.texts.dataInfoWillAppearHere}</Alert>
-          </Col>
-        )}
+        <p>TBD: Change number of columns and rows</p>
+      </Row>
+      <Row>
+        <DataInfoForm
+          handleSubmit={handleSubmit}
+          dataTabs={mkDataTabs(data, setData)}
+          loading={loading}
+        />
+      </Row>
+      <Row>
+        <DataInfoResult
+          loading={loading}
+          result={result}
+          error={error}
+          permalink={permalink}
+          progressPercent={progressPercent}
+          params={params}
+          disabledLinks={disabledLinks}
+        />
       </Row>
     </Container>
   );
