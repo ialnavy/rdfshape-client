@@ -24,6 +24,8 @@ import {
   updateStateData
 } from "./Data";
 
+import DataInfoResult from './dataInfo/DataInfoResult.tsx';
+
 function DataInfo(props) {
   // Recover user input data from context, if any. Use first item of the data array
   const {
@@ -66,7 +68,7 @@ function DataInfo(props) {
         setParams(params);
         setLastParams(params);
       } else {
-        setError(API.texts.errorParsingUrl);
+        setError(mkError({message: API.texts.errorParsingUrl}, urlInfo));
       }
     }
   }, [props.location?.search]);
@@ -83,7 +85,7 @@ function DataInfo(props) {
         setUpHistory();
         postDataInfo();
       } else {
-        setError(API.texts.noProvidedRdf);
+        setError(mkError({message: API.texts.noProvidedRdf}, urlInfo));
       }
     }
   }, [params]);
@@ -197,8 +199,9 @@ function DataInfo(props) {
         />
       </Row>
       <Row>
-        <Col className={"half-col border-right"}>
-          <Form onSubmit={handleSubmit}>
+        <p>TBD: Change number of columns and rows</p>
+      </Row>
+      <Row><Form onSubmit={handleSubmit}>
             {mkDataTabs(data, setData)}
             <hr />
             <Button
@@ -210,35 +213,20 @@ function DataInfo(props) {
             >
               {API.texts.actionButtons.analyze}
             </Button>
-          </Form>
+          </Form></Row>
+      <Row>
+        <Col className={"half-col border-right"}>
+          
         </Col>
-        {loading || result || error || permalink ? (
-          <Fragment>
-            <Col className={"half-col"}>
-              {loading ? (
-                <ProgressBar
-                  striped
-                  animated
-                  variant="info"
-                  now={progressPercent}
-                />
-              ) : error ? (
-                <Alert variant="danger">{error}</Alert>
-              ) : result ? (
-                <ResultDataInfo
-                  result={result}
-                  params={params}
-                  permalink={permalink}
-                  disabled={disabledLinks}
-                />
-              ) : null}
-            </Col>
-          </Fragment>
-        ) : (
-          <Col className={"half-col"}>
-            <Alert variant="info">{API.texts.dataInfoWillAppearHere}</Alert>
-          </Col>
-        )}
+        <DataInfoResult
+          isLoading={!!loading}
+          result={result}
+          error={error}
+          permalink={permalink}
+          progressPercent={progressPercent}
+          params={params}
+          disabledLinks={disabledLinks}
+        />
       </Row>
     </Container>
   );
