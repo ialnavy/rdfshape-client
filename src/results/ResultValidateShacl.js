@@ -5,7 +5,7 @@ import Alert from "react-bootstrap/Alert";
 import API from "../API";
 import Code from "../components/Code";
 import { Permalink } from "../Permalink";
-import ShowShapeMap from "../shapeMap/ShowShapeMap";
+import ShowShapeMap from "../domain/shapeMap/ShowShapeMap";
 import PrintJson from "../utils/PrintJson";
 import { equalsIgnoreCase, format2mode, scrollToResults } from "../utils/Utils";
 import { nonConformant } from "./ResultValidateShex";

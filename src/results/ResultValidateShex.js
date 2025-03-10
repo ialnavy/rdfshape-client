@@ -2,7 +2,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import Alert from "react-bootstrap/Alert";
 import API from "../API";
 import { Permalink } from "../Permalink";
-import ShowShapeMap from "../shapeMap/ShowShapeMap";
+import ShowShapeMap from "../domain/shapeMap/ShowShapeMap";
 import PrintJson from "../utils/PrintJson";
 import { equalsIgnoreCase, scrollToResults } from "../utils/Utils";
 

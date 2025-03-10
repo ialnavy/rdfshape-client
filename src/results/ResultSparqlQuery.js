@@ -2,7 +2,7 @@ import React, { Fragment, useEffect } from "react";
 import { Alert } from "react-bootstrap";
 import API from "../API";
 import { Permalink } from "../Permalink";
-import ShowQueryItems from "../query/ShowQueryItems";
+import ShowQueryItems from "../domain/query/ShowQueryItems";
 import PrintJson from "../utils/PrintJson";
 import { scrollToResults } from "../utils/Utils";
 

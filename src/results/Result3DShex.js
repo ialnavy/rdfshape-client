@@ -4,7 +4,7 @@ import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import API from "../API";
 import { Permalink } from "../Permalink";
-import { InitialUML, paramsFromStateUML } from "../uml/UML";
+import { InitialUML, paramsFromStateUML } from "../domain/uml/UML";
 import PrintJson from "../utils/PrintJson";
 import { scrollToResults } from "../utils/Utils";
 import ShowVisualization, {

@@ -35,7 +35,7 @@
     "react-open-iconic-svg": "^3.0.1",
     "react-pace-progress": "^2.0.0",
     "react-router": "^5.2.1",
-    "react-router-dom": "^5.3.0",
+    "react-router-dom": "^5.3.4",
     "react-scripts": "^3.4.4",
     "react-toastify": "^7.0.3",
     "react-tooltip": "^4.2.21",
@@ -73,6 +73,7 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/react-hooks": "^3.7.0",
+    "@types/react-router-dom": "^5.3.3",
     "react-test-renderer": "^16.14.0"
   }
 }

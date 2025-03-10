@@ -6,22 +6,22 @@ import {
   mkDataServerParams,
   mkDataVisualization,
   updateStateData
-} from "../data/Data";
+} from "../domain/data/Data";
 import {
   mkShaclServerParams,
   mkShaclVisualization,
   updateStateShacl
-} from "../shacl/Shacl";
+} from "../domain/shacl/Shacl";
 import {
   mkShexServerParams,
   mkShexVisualization,
   updateStateShex
-} from "../shex/Shex";
+} from "../domain/shex/Shex";
 import {
   mkUmlVisualization,
   paramsFromStateUML,
   updateStateUml
-} from "../uml/UML";
+} from "../domain/uml/UML";
 
 // Given some data and a target visualization type, fullscreen visualizations
 // meant to be embedded in iframes, etc. will be computed by the component

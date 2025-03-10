@@ -6,7 +6,7 @@ import shumlex from "shumlex";
 import API from "../API";
 import ByText from "../components/ByText";
 import { mkEmbedLink, Permalink } from "../Permalink";
-import { InitialUML, mkSvgElement, paramsFromStateUML } from "../uml/UML";
+import { InitialUML, mkSvgElement, paramsFromStateUML } from "../domain/uml/UML";
 import PrintJson from "../utils/PrintJson";
 import {
   format2mode,

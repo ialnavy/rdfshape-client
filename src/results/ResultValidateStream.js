@@ -4,7 +4,7 @@ import { Spinner } from "react-bootstrap";
 import Alert from "react-bootstrap/Alert";
 import API from "../API";
 import { Permalink } from "../Permalink";
-import ShowShapeMap from "../shapeMap/ShowShapeMap";
+import ShowShapeMap from "../domain/shapeMap/ShowShapeMap";
 import PrintJson from "../utils/PrintJson";
 import { mkError } from "../utils/ResponseError";
 import { scrollToResults, usePrevious } from "../utils/Utils";

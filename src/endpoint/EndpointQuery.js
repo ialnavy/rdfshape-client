@@ -17,7 +17,7 @@ import {
   mkQueryTabs,
   paramsFromStateQuery,
   updateStateQuery
-} from "../query/Query";
+} from "../domain/query/Query";
 import ResultSparqlQuery from "../results/ResultSparqlQuery";
 import axios from "../utils/networking/axiosConfig";
 import { mkError } from "../utils/ResponseError";

@@ -4,7 +4,7 @@ import { Tab, Tabs } from "react-bootstrap";
 import API from "../API";
 import ByText from "../components/ByText";
 import { mkEmbedLink, Permalink } from "../Permalink";
-import { InitialShex, paramsFromStateShex } from "../shex/Shex";
+import { InitialShex, paramsFromStateShex } from "../domain/shex/Shex";
 import PrintJson from "../utils/PrintJson";
 import { scrollToResults, yasheResultButtonsOptions } from "../utils/Utils";
 import ShowVisualization, {

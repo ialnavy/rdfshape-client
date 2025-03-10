@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
 import Button from "react-bootstrap/Button";
-import QueryForm from '../query/QueryForm'
+import QueryForm from '../domain/query/QueryForm'
 
 function TestYasqe()  {
     const [query,setQuery] = useState('');

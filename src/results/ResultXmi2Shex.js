@@ -5,7 +5,7 @@ import Tabs from "react-bootstrap/Tabs";
 import API from "../API";
 import ByText from "../components/ByText";
 import { mkEmbedLink, Permalink } from "../Permalink";
-import { InitialShex, paramsFromStateShex } from "../shex/Shex";
+import { InitialShex, paramsFromStateShex } from "../domain/shex/Shex";
 import { shumlexCytoscapeStyle } from "../utils/cytoscape/cytoUtils";
 import PrintJson from "../utils/PrintJson";
 import { scrollToResults, yasheResultButtonsOptions } from "../utils/Utils";
