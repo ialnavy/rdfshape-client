@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import { Form } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
@@ -26,31 +25,43 @@ import {
 } from "../domain/utils/Utils";
 import { visualizationTypes } from "./ShowVisualization";
 
-function VisualizationLinks({
+interface VisualizationLinksProps {
+  embedLink?: string | boolean;
+  disabled?: string | boolean;
+  generateDownloadLink: () => { link: string; type?: string };
+  styles?: React.CSSProperties;
+  type: string;
+  tooltips?: boolean;
+  controls?: boolean;
+  zoomControls?: [number, React.Dispatch<React.SetStateAction<number>>];
+  fullscreenControls?: [boolean, React.Dispatch<React.SetStateAction<boolean>>];
+  layoutControls?: [any, React.Dispatch<React.SetStateAction<any>>];
+  styleControls?: [any, React.Dispatch<React.SetStateAction<any>>];
+  cytoscape?: any;
+}
+
+const VisualizationLinks: React.FC<VisualizationLinksProps> = ({
   embedLink,
   disabled,
-  generateDownloadLink, // Function creating the correct download link + type
+  generateDownloadLink,
   styles,
-  type, // Visualization type
-  tooltips,
-  controls,
+  type,
+  tooltips = true,
+  controls = false,
   zoomControls,
   fullscreenControls,
   layoutControls,
   styleControls,
-  cytoscape, // cytoscape object
-}) {
-  const [zoom, setZoom] = zoomControls;
-  const [fullscreen, setFullscreen] = fullscreenControls;
-  const [layout, setLayout] = layoutControls;
-  const [cytoStyle, setCytoStyle] = styleControls;
+  cytoscape,
+}) => {
+  const [zoom, setZoom] = zoomControls || [1, () => {}];
+  const [fullscreen, setFullscreen] = fullscreenControls || [false, () => {}];
+  const [layout, setLayout] = layoutControls || [null, () => {}];
+  const [cytoStyle, setCytoStyle] = styleControls || [[], () => {}];
 
-  // Color used for cytoscape nodes, needed in state for UI
   const [cytoNodeColor, setCytoNodeColor] = useState(cytoscapeDefaultNodeColor);
-
   const [downloadLink, setDownloadLink] = useState(generateDownloadLink());
 
-  // Change the cyto graph style when a new node color is selected
   useEffect(() => {
     setCytoStyle([
       {
@@ -60,9 +71,8 @@ function VisualizationLinks({
         },
       },
     ]);
-  }, [cytoNodeColor]);
+  }, [cytoNodeColor, setCytoStyle]);
 
-  // Custom settings for the links tooltips
   const tooltipSettings = {
     delayShow: 1000,
     place: "left",
@@ -77,10 +87,7 @@ function VisualizationLinks({
             <a
               id="downloadLink"
               href={downloadLink.link}
-              download={
-                "visualization" +
-                (downloadLink.type ? `.${downloadLink.type}` : "")
-              }
+              download={`visualization${downloadLink.type ? `.${downloadLink.type}` : ""}`}
             >
               <Button
                 onMouseEnter={() => setDownloadLink(generateDownloadLink())}
@@ -104,7 +111,7 @@ function VisualizationLinks({
           <div data-tip data-for="embedLinkTip" className="embedded-icon">
             <a
               target="_blank"
-              href={disabled ? null : embedLink}
+              href={disabled ? undefined : (embedLink as string)}
               className={disabled ? "disabled" : ""}
             >
               <Button className="btn-controls" variant="secondary">
@@ -114,9 +121,9 @@ function VisualizationLinks({
 
             {tooltips && (
               <ReactTooltip id="embedLinkTip" {...tooltipSettings}>
-                {disabled == API.sources.byText
+                {disabled === API.sources.byText
                   ? API.texts.noPermalinkManual
-                  : disabled == API.sources.byFile
+                  : disabled === API.sources.byFile
                   ? API.texts.noPermalinkFile
                   : API.texts.visualizationSettings.embedLink}
               </ReactTooltip>
@@ -130,9 +137,7 @@ function VisualizationLinks({
           {fullscreenControls && (
             <>
               <Button
-                onClick={() => {
-                  setFullscreen(!fullscreen);
-                }}
+                onClick={() => setFullscreen(!fullscreen)}
                 className="btn-controls"
                 variant="secondary"
                 data-tip
@@ -151,13 +156,10 @@ function VisualizationLinks({
                     : API.texts.visualizationSettings.fullscreenIn}
                 </ReactTooltip>
               )}
-              {/* Extra button to fit the cyto */}
               {type === visualizationTypes.cytoscape && (
                 <>
                   <Button
-                    onClick={() => {
-                      cytoscape.fit();
-                    }}
+                    onClick={() => cytoscape.fit()}
                     className="btn-controls"
                     variant="secondary"
                     data-tip
@@ -179,7 +181,7 @@ function VisualizationLinks({
             type !== visualizationTypes.threeD && (
               <>
                 <Button
-                  onClick={() => setZoom(false)}
+                  onClick={() => setZoom(zoom - 1)}
                   className="btn-controls"
                   variant="secondary"
                   disabled={zoom <= visualizationMinZoom}
@@ -187,7 +189,7 @@ function VisualizationLinks({
                   <ZoomOutIcon className="white-icon" />
                 </Button>
                 <Button
-                  onClick={() => setZoom(true)}
+                  onClick={() => setZoom(zoom + 1)}
                   style={{ marginLeft: "1px" }}
                   className="btn-controls"
                   variant="secondary"
@@ -227,13 +229,12 @@ function VisualizationLinks({
                     controlId="layout"
                     className="layout-picker-container"
                   >
-                    {/* Map through all available layouts */}
                     {layouts.map((itLayout) => (
                       <div key={itLayout.name}>
                         <Form.Check
                           type="radio"
                           name="layout"
-                          value={itLayout}
+                          value={itLayout.name}
                           label={capitalize(itLayout.uiName || itLayout.name)}
                           onChange={() => setLayout(itLayout)}
                           checked={layout === itLayout}
@@ -256,7 +257,6 @@ function VisualizationLinks({
                 data-tip
                 data-for="color-picker-container"
               ></button>
-              {/* https://github.com/wwayne/react-tooltip */}
               <ReactTooltip
                 clickable={true}
                 event="mouseenter click"
@@ -280,27 +280,6 @@ function VisualizationLinks({
       )}
     </div>
   );
-}
-
-VisualizationLinks.propTypes = {
-  generateDownloadLink: PropTypes.func,
-  embedLink: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  styles: PropTypes.object,
-  tooltips: PropTypes.bool,
-  controls: PropTypes.bool,
-  zoomControls: PropTypes.array,
-  fullscreenControls: PropTypes.array,
-  layoutControls: PropTypes.array,
-  styleControls: PropTypes.array,
-};
-
-VisualizationLinks.defaultProps = {
-  disabled: false,
-  styles: {},
-  tooltips: true,
-  zoom: 1,
-  controls: false,
 };
 
 export default VisualizationLinks;

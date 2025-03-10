@@ -6,8 +6,8 @@ import { getItemRaw, guidGenerator } from "../../domain/utils/Utils";
 import ShowVisualization, {
   visualizationTypes
 } from "../../visualization/ShowVisualization";
-import DataTabs from "./DataTabs";
-import SelectInferenceEngine from "./SelectInferenceEngine";
+import DataTabs from "../../presentation/components/data/DataTabs";
+import SelectInferenceEngine from "../../domain/SelectInferenceEngine";
 
 // Properties used for streaming validations.
 // Describe the incoming stream and the validator behaviour.

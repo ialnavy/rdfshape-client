@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState, JSX } from "react";
 import { Tab, Tabs } from "react-bootstrap";
 import BootstrapTable from "fad-react-bootstrap-table-next";
-import { mkEmbedLink, Permalink } from "../../Permalink";
+import Permalink, { mkEmbedLink } from "../../Permalink";
 import PrintJson from "../miscellaneous/PrintJson";
 import { prefixMapTableColumns, scrollToResults } from "../../../domain/utils/Utils";
 import ShowVisualization, {

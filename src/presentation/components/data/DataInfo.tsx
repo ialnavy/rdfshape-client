@@ -13,7 +13,7 @@ import qs from "query-string";
 import axios from "../../../domain/utils/axiosConfig";
 
 // App Context
-import { ApplicationContext } from "../../containers/ApplicationContext";
+import { useAppContext } from "../../containers/ApplicationContext";
 // Strings externalisation
 import { useLocaleStrings } from "../../containers/StringsContext";
 
@@ -37,12 +37,12 @@ interface DataInfoProps {
 
 const DataInfo: React.FC<DataInfoProps> = (props) => {
   // Recover user input data from context, if any. Use first item of the data array
-  const appContext = useContext(ApplicationContext);
+  const { rdfData, setRdfData } = useAppContext();
 
   const navigate = useNavigate();
 
   // Set initial data from context, if possible
-  const [data, setData] = useState(appContext.rdfData[0]);
+  const [data, setData] = useState(rdfData[0]);
 
   const [result, setResult] = useState<any>(null);
 

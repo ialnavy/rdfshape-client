@@ -1,4 +1,4 @@
-import React, { createContext } from "react";
+import React, { createContext, useContext, useState } from "react";
 import { InitialDataStream } from "../../components/data/Data";
 import { InitialQuery } from "../../components/query/Query";
 import { InitialShacl } from "../../components/shacl/Shacl";
@@ -17,9 +17,41 @@ export const initialApplicationContext = {
   shaclSchema: InitialShacl,
   shapeMap: InitialShapeMap,
   umlData: InitialUML,
-  streamingData: InitialDataStream,
+  streamingData: InitialDataStream
 };
 
 // Shared context for storing the data the user is operating on
 // and using it throughout the application (e.g.: for autofilling input forms when changing page)
-export const ApplicationContext = createContext(initialApplicationContext);
+export const ApplicationContext = createContext<any>(null);
+
+export const ApplicationProvider: React.FC<React.PropsWithChildren<{}>> = ({ children }) => {
+  const [rdfData, setRdfData] = useState(initialApplicationContext.rdfData);
+  const [sparqlQuery, setSparqlQuery] = useState(initialApplicationContext.sparqlQuery);
+  const [sparqlEndpoint, setSparqlEndpoint] = useState(initialApplicationContext.sparqlEndpoint);
+  const [shexSchema, setShexSchema] = useState(initialApplicationContext.shexSchema);
+  const [shaclSchema, setShaclSchema] = useState(initialApplicationContext.shaclSchema);
+  const [shapeMap, setShapeMap] = useState(initialApplicationContext.shapeMap);
+  const [umlData, setUmlData] = useState(initialApplicationContext.umlData);
+  const [streamingData, setStreamingData] = useState(initialApplicationContext.streamingData);
+
+  return (
+    <ApplicationContext.Provider
+      value={{
+        rdfData, setRdfData,
+        sparqlQuery, setSparqlQuery,
+        sparqlEndpoint, setSparqlEndpoint,
+        shexSchema, setShexSchema,
+        shaclSchema, setShaclSchema,
+        shapeMap, setShapeMap,
+        umlData, setUmlData,
+        streamingData, setStreamingData
+      }}
+    >
+      {children}
+    </ApplicationContext.Provider>
+  );
+};
+
+export const useAppContext = () => {
+  return useContext(ApplicationContext);
+};

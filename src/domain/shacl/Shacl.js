@@ -1,7 +1,7 @@
 import React from "react";
 import API from "../../API";
 import { SelectSHACLEngine } from "../SelectEngine";
-import SelectInferenceEngine from "../../components/data/SelectInferenceEngine";
+import SelectInferenceEngine from "../SelectInferenceEngine";
 import { params2Form } from "../../presentation/Permalink";
 import axios from "../utils/axiosConfig";
 import { getItemRaw } from "../utils/Utils";

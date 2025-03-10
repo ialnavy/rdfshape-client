@@ -1,8 +1,8 @@
 import PropTypes from "prop-types";
 import React, { useContext, useEffect } from "react";
-import API from "../../API";
-import SelectFormat from "../SelectFormat";
-import { ApplicationContext } from "../../presentation/containers/ApplicationContext";
+import API from "../API";
+import SelectFormat from "../components/SelectFormat";
+import { ApplicationContext } from "../presentation/containers/ApplicationContext";
 
 function SelectInferenceEngine(props) {
   // We may be selecting the inference for RDF or for SHACL

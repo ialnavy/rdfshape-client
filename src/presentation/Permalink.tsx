@@ -2,7 +2,6 @@ import React, { useState, CSSProperties, ReactNode } from "react";
 
 // App Dependencies
 import FormData from "form-data";
-import PropTypes from "prop-types";
 import qs from "query-string";
 
 // React Bootstrap and Toastify components
@@ -120,7 +119,14 @@ interface PermalinkProps {
   shorten?: boolean;
 }
 
-export function Permalink(props: PermalinkProps) {
+const Permalink: React.FC<PermalinkProps> = (props = {
+  url: "",
+  disabled: null,
+  icon: "\uD83D\uDCCB",
+  style: undefined,
+  text: "Permalink",
+  shorten: true
+}) => {
   const [loading, setLoading] = useState(false);
   const [permalink, setPermalink] = useState<string | undefined>();
 
@@ -212,14 +218,4 @@ export function Permalink(props: PermalinkProps) {
   return null;
 }
 
-Permalink.propTypes = {
-  url: PropTypes.string.isRequired,
-  disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  icon: PropTypes.node,
-};
-
-Permalink.defaultProps = {
-  text: "Permalink",
-  shorten: true,
-  icon: "\uD83D\uDCCB",
-};
+export default Permalink;
