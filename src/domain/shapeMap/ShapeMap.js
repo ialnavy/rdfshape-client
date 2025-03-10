@@ -1,6 +1,6 @@
 import React from "react";
 import API from "../../API";
-import { getItemRaw } from "../../utils/Utils";
+import { getItemRaw } from "../utils/Utils";
 import ShapeMapTabs from "./ShapeMapTabs";
 
 export const InitialShapeMap = {

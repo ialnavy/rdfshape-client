@@ -1,6 +1,6 @@
 import API from "../../API";
-import axios from "../networking/axiosConfig";
-import { getFileContents } from "../Utils";
+import axios from "../../domain/utils/axiosConfig";
+import { getFileContents } from "../../domain/utils/Utils";
 
 // Some validations (shumlex, shapeforms) are done in the client, so the client must parse the input,
 // whether if it's plain text, a URL to be fetched or a file to be parsed.

@@ -1,10 +1,10 @@
 import React, { Fragment, useEffect, useState } from "react";
 import Alert from "react-bootstrap/Alert";
 import API from "../API";
-import { Permalink } from "../Permalink";
-import ShowShapeMap from "../domain/shapeMap/ShowShapeMap";
-import PrintJson from "../utils/PrintJson";
-import { equalsIgnoreCase, scrollToResults } from "../utils/Utils";
+import { Permalink } from "../presentation/Permalink";
+import ShowShapeMap from "../components/shapeMap/ShowShapeMap";
+import PrintJson from "../presentation/components/miscellaneous/PrintJson";
+import { equalsIgnoreCase, scrollToResults } from "../domain/utils/Utils";
 
 export const conformant = "conformant"; // Status of conformant nodes
 export const nonConformant = "nonconformant"; // Status of non-conformant nodes

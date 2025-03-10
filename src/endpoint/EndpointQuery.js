@@ -8,20 +8,20 @@ import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import { useHistory } from "react-router";
 import API from "../API";
-import PageHeader from "../components/PageHeader";
-import { ApplicationContext } from "../context/ApplicationContext";
-import { mkPermalinkLong } from "../Permalink";
+import PageHeader from "../presentation/components/PageHeader";
+import { ApplicationContext } from "../presentation/containers/ApplicationContext";
+import { mkPermalinkLong } from "../presentation/Permalink";
 import {
   getQueryText,
   InitialQuery,
   mkQueryTabs,
   paramsFromStateQuery,
   updateStateQuery
-} from "../domain/query/Query";
+} from "../components/query/Query";
 import ResultSparqlQuery from "../results/ResultSparqlQuery";
-import axios from "../utils/networking/axiosConfig";
-import { mkError } from "../utils/ResponseError";
-import { getItemRaw } from "../utils/Utils";
+import axios from "../domain/utils/axiosConfig";
+import { mkError } from "../presentation/components/miscellaneous/ResponseError";
+import { getItemRaw } from "../domain/utils/Utils";
 import EndpointInput from "./EndpointInput";
 
 function EndpointQuery(props) {

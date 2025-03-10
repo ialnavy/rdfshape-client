@@ -3,10 +3,10 @@ import React, { Fragment, useEffect, useState } from "react";
 import { Tab, Tabs } from "react-bootstrap";
 import API from "../API";
 import ByText from "../components/ByText";
-import { mkEmbedLink, Permalink } from "../Permalink";
-import { InitialShex, paramsFromStateShex } from "../domain/shex/Shex";
-import PrintJson from "../utils/PrintJson";
-import { scrollToResults, yasheResultButtonsOptions } from "../utils/Utils";
+import { mkEmbedLink, Permalink } from "../presentation/Permalink";
+import { InitialShex, paramsFromStateShex } from "../components/shex/Shex";
+import PrintJson from "../presentation/components/miscellaneous/PrintJson";
+import { scrollToResults, yasheResultButtonsOptions } from "../domain/utils/Utils";
 import ShowVisualization, {
   visualizationTypes
 } from "../visualization/ShowVisualization";
@@ -72,7 +72,7 @@ function ResultDataExtract({
                     API.queryParameters.visualization.types.shex,
                   visualizationTarget:
                     API.queryParameters.visualization.targets.svg,
-                })}
+                }, /* TBD: getString */)}
               />
             </Tab>
           )}

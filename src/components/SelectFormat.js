@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import Form from "react-bootstrap/Form";
 import API from "../API";
-import axios from "../utils/networking/axiosConfig";
+import axios from "../domain/utils/axiosConfig";
 
 function SelectFormat(props) {
   const [formats, setFormats] = useState(props.extraOptions);

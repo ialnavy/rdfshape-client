@@ -3,9 +3,9 @@ import React, { useContext, useEffect, useState } from "react";
 import { InputGroup } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import API from "../API";
-import { ApplicationContext } from "../context/ApplicationContext";
-import { InitialDataStream } from "../domain/data/Data";
-import { curateBoolean } from "../utils/Utils";
+import { ApplicationContext } from "../presentation/containers/ApplicationContext";
+import { InitialDataStream } from "./data/Data";
+import { curateBoolean } from "../domain/utils/Utils";
 
 // Form asking for/updating the input data stream information
 function ByStream({ streamValue: stream, handleStreamChange }) {

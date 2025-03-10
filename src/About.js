@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react";
 import Container from "react-bootstrap/Container";
 import API from "./API";
 import environmentConfiguration from "./EnvironmentConfig";
-import axios from "./utils/networking/axiosConfig";
-import PrintJson from "./utils/PrintJson";
+import axios from "./domain/utils/axiosConfig";
+import PrintJson from "./presentation/components/miscellaneous/PrintJson";
 
 function About() {
   const [status, setStatus] = useState({ msg: `Asking info to server` });

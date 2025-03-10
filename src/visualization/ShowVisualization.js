@@ -6,7 +6,7 @@ import format from "xml-formatter";
 import API from "../API";
 import CytoscapeContainer from "../utils/cytoscape/CytoscapeContainer";
 import { breadthfirst } from "../utils/cytoscape/cytoUtils";
-import PrintJson from "../utils/PrintJson";
+import PrintJson from "../presentation/components/miscellaneous/PrintJson";
 import PrintSVG from "../utils/PrintSVG";
 import PrintXml from "../utils/PrintXml";
 import ThreeContainer from "../utils/three/ThreeContainer";
@@ -15,7 +15,7 @@ import {
   visualizationMaxZoom,
   visualizationMinZoom,
   visualizationStepZoom
-} from "../utils/Utils";
+} from "../domain/utils/Utils";
 import VisualizationLinks from "./VisualizationLinks";
 
 // "cytoscape-svg" package

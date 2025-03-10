@@ -9,12 +9,12 @@ import ProgressBar from "react-bootstrap/ProgressBar";
 import Row from "react-bootstrap/Row";
 import { useHistory } from "react-router";
 import API from "../../API";
-import PageHeader from "../../components/PageHeader";
-import { ApplicationContext } from "../context/ApplicationContext";
-import { mkPermalinkLong } from "../../Permalink";
+import PageHeader from "../../presentation/components/PageHeader";
+import { ApplicationContext } from "../../presentation/containers/ApplicationContext";
+import { mkPermalinkLong } from "../../presentation/Permalink";
 import ResultSchemaInfo from "../../results/ResultSchemaInfo";
-import axios from "../../utils/networking/axiosConfig";
-import { mkError } from "../../utils/ResponseError";
+import axios from "../utils/axiosConfig";
+import { mkError } from "../../presentation/components/miscellaneous/ResponseError";
 import {
   getShexText,
   InitialShex,

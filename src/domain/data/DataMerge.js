@@ -9,14 +9,14 @@ import ProgressBar from "react-bootstrap/ProgressBar";
 import Row from "react-bootstrap/Row";
 import { useHistory } from "react-router";
 import API from "../../API";
-import PageHeader from "../../components/PageHeader";
-import SelectFormat from "../../components/SelectFormat";
-import { ApplicationContext } from "../context/ApplicationContext";
-import { mkPermalinkLong } from "../../Permalink";
+import PageHeader from "../../presentation/components/PageHeader";
+import SelectFormat from "../SelectFormat";
+import { ApplicationContext } from "../../presentation/containers/ApplicationContext";
+import { mkPermalinkLong } from "../../presentation/Permalink";
 import ResultDataMerge from "../../results/ResultDataMerge";
-import axios from "../../utils/networking/axiosConfig";
-import { mkError } from "../../utils/ResponseError";
-import { getFileContents } from "../../utils/Utils";
+import axios from "../utils/axiosConfig";
+import { mkError } from "../../presentation/components/miscellaneous/ResponseError";
+import { getFileContents } from "../utils/Utils";
 import {
   getDataText,
   mkDataServerParams,

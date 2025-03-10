@@ -1,10 +1,10 @@
 import React, { Fragment, useEffect } from "react";
 import { Alert } from "react-bootstrap";
 import API from "../API";
-import { Permalink } from "../Permalink";
-import ShowQueryItems from "../domain/query/ShowQueryItems";
-import PrintJson from "../utils/PrintJson";
-import { scrollToResults } from "../utils/Utils";
+import { Permalink } from "../presentation/Permalink";
+import ShowQueryItems from "../components/query/ShowQueryItems";
+import PrintJson from "../presentation/components/miscellaneous/PrintJson";
+import { scrollToResults } from "../domain/utils/Utils";
 
 function ResultSparqlQuery({ result: serverResponse, permalink, disabled }) {
   // De-structure results

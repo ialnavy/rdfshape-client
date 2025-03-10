@@ -1,12 +1,16 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import React, { useEffect, useState } from "react";
 import { Alert, Button, Container, Row } from "react-bootstrap";
-import API from "./API";
-import { getOriginalLink } from "./Permalink";
+
+import { useLocaleStrings } from "./containers/StringsContext";
+
+import { getOriginalLink } from "./presentation/Permalink";
 
 export default function PermalinkReceiver(props) {
   const [link, setLink] = useState();
   const [error, setError] = useState();
+
+  const { getString } = useLocaleStrings();
 
   useEffect(() => {
     const fetchLink = async (urlCode) => {
@@ -17,7 +21,7 @@ export default function PermalinkReceiver(props) {
       } else setError(fetchLink[1]);
     };
 
-    const code = props.match.params[API.queryParameters.permalink.code];
+    const code = props.match.params[getString("queryParameters.permalink.code")];
     if (code) {
       fetchLink(code);
     }

@@ -5,14 +5,14 @@ import Tabs from "react-bootstrap/Tabs";
 import shumlex from "shumlex";
 import API from "../API";
 import ByText from "../components/ByText";
-import { mkEmbedLink, Permalink } from "../Permalink";
-import { InitialUML, mkSvgElement, paramsFromStateUML } from "../domain/uml/UML";
-import PrintJson from "../utils/PrintJson";
+import { mkEmbedLink, Permalink } from "../presentation/Permalink";
+import { InitialUML, mkSvgElement, paramsFromStateUML } from "../components/uml/UML";
+import PrintJson from "../presentation/components/miscellaneous/PrintJson";
 import {
   format2mode,
   scrollToResults,
   yasheResultButtonsOptions
-} from "../utils/Utils";
+} from "../domain/utils/Utils";
 import ShowVisualization, {
   visualizationTypes
 } from "../visualization/ShowVisualization";
@@ -73,7 +73,7 @@ function ResultShEx2XMI({
                     API.queryParameters.visualization.types.uml,
                   visualizationTarget:
                     API.queryParameters.visualization.targets.svg,
-                })}
+                }, /* TBD: getString */)}
               />
             </div>
           </Tab>

@@ -9,19 +9,19 @@ import ProgressBar from "react-bootstrap/ProgressBar";
 import Row from "react-bootstrap/Row";
 import { useHistory } from "react-router";
 import API from "../../API";
-import PageHeader from "../../components/PageHeader";
-import { ApplicationContext } from "../context/ApplicationContext";
+import PageHeader from "../../presentation/components/PageHeader";
+import { ApplicationContext } from "../../presentation/containers/ApplicationContext";
 import {
   getDataText,
   mkDataServerParams,
   mkDataTabs,
   paramsFromStateData,
   updateStateData
-} from "../data/Data";
-import { mkPermalinkLong } from "../../Permalink";
+} from "../../components/data/Data";
+import { mkPermalinkLong } from "../../presentation/Permalink";
 import ResultValidateShacl from "../../results/ResultValidateShacl";
-import axios from "../../utils/networking/axiosConfig";
-import { mkError } from "../../utils/ResponseError";
+import axios from "../utils/axiosConfig";
+import { mkError } from "../../presentation/components/miscellaneous/ResponseError";
 import {
   getShaclText,
   InitialShacl,

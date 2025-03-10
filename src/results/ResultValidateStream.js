@@ -3,11 +3,11 @@ import React, { Fragment, useEffect, useState } from "react";
 import { Spinner } from "react-bootstrap";
 import Alert from "react-bootstrap/Alert";
 import API from "../API";
-import { Permalink } from "../Permalink";
-import ShowShapeMap from "../domain/shapeMap/ShowShapeMap";
-import PrintJson from "../utils/PrintJson";
-import { mkError } from "../utils/ResponseError";
-import { scrollToResults, usePrevious } from "../utils/Utils";
+import { Permalink } from "../presentation/Permalink";
+import ShowShapeMap from "../components/shapeMap/ShowShapeMap";
+import PrintJson from "../presentation/components/miscellaneous/PrintJson";
+import { mkError } from "../presentation/components/miscellaneous/ResponseError";
+import { scrollToResults, usePrevious } from "../domain/utils/Utils";
 
 export const valid = "valid"; // Status of valid validated data
 export const invalid = "invalid"; // Status of invalid validated data

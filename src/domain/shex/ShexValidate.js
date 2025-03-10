@@ -10,8 +10,8 @@ import Row from "react-bootstrap/Row";
 import { useHistory } from "react-router";
 import useWebSocket, { ReadyState } from "react-use-websocket";
 import API from "../../API";
-import PageHeader from "../../components/PageHeader";
-import { ApplicationContext } from "../context/ApplicationContext";
+import PageHeader from "../../presentation/components/PageHeader";
+import { ApplicationContext } from "../../presentation/containers/ApplicationContext";
 import {
   getDataText,
   getStreamingDataText,
@@ -24,7 +24,7 @@ import {
   updateStateData,
   updateStateStreamData
 } from "../data/Data";
-import { mkPermalinkLong } from "../../Permalink";
+import { mkPermalinkLong } from "../../presentation/Permalink";
 import ResultValidateShex from "../../results/ResultValidateShex";
 import ResultValidateStream, { errored } from "../../results/ResultValidateStream";
 import {
@@ -35,9 +35,9 @@ import {
   paramsFromStateShapeMap,
   updateStateShapeMap
 } from "../shapeMap/ShapeMap";
-import axios, { rootWsApi } from "../../utils/networking/axiosConfig";
-import { mkError } from "../../utils/ResponseError";
-import { curateBooleans, usePrevious } from "../../utils/Utils";
+import axios, { rootWsApi } from "../utils/axiosConfig";
+import { mkError } from "../../presentation/components/miscellaneous/ResponseError";
+import { curateBooleans, usePrevious } from "../utils/Utils";
 import {
   getShexText,
   InitialShex,

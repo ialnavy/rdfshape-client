@@ -10,7 +10,7 @@ import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import API from "../API";
-import axios from "../utils/networking/axiosConfig";
+import axios from "../domain/utils/axiosConfig";
 
 
 function RDFArea(props) {

@@ -23,7 +23,7 @@ import {
   capitalize,
   visualizationMaxZoom,
   visualizationMinZoom
-} from "../utils/Utils";
+} from "../domain/utils/Utils";
 import { visualizationTypes } from "./ShowVisualization";
 
 function VisualizationLinks({

@@ -2,13 +2,13 @@ import React, { Fragment, useEffect, useState } from "react";
 import { Tab, Tabs } from "react-bootstrap";
 import API from "../API";
 import ByText from "../components/ByText";
-import { Permalink } from "../Permalink";
-import PrintJson from "../utils/PrintJson";
+import { Permalink } from "../presentation/Permalink";
+import PrintJson from "../presentation/components/miscellaneous/PrintJson";
 import {
   format2mode,
   scrollToResults,
   yasheResultButtonsOptions
-} from "../utils/Utils";
+} from "../domain/utils/Utils";
 
 function ResultDataConvert({
   result: dataConvertResponse, // Request successful response

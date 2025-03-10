@@ -1,7 +1,7 @@
 import React, { useEffect, useReducer } from "react";
-import API from "../API";
-import { InitialData } from "../data/Data";
-import { curateObject } from "../utils/Utils";
+import API from "../../API";
+import { InitialData } from "../../components/data/Data";
+import { curateObject } from "../../domain/utils/Utils";
 import {
   ApplicationContext,
   initialApplicationContext

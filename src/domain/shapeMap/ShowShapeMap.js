@@ -13,7 +13,7 @@ import MediaPlayIcon from "react-open-iconic-svg/dist/MediaPlayIcon";
 import TrashIcon from "react-open-iconic-svg/dist/TrashIcon";
 import API from "../../API";
 import { conformant } from "../../results/ResultValidateShex";
-import { sortCaretGen } from "../../utils/Utils";
+import { sortCaretGen } from "../utils/Utils";
 
 const relativeBaseRegex = () => /^<internal:\/\/base\/(.*)>$/g;
 const iriRegex = () => /^<(.*)>$/g;

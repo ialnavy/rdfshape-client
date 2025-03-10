@@ -2,9 +2,9 @@ import PropTypes from "prop-types";
 import React from "react";
 import Form from "react-bootstrap/Form";
 import API from "../API";
-import TurtleForm from "../domain/data/TurtleForm";
-import ShexForm from "../domain/shex/ShexForm";
-import { format2mode } from "../utils/Utils";
+import TurtleForm from "./data/TurtleForm";
+import ShexForm from "./shex/ShexForm";
+import { format2mode } from "../domain/utils/Utils";
 import Code from "./Code";
 
 function ByText(props) {

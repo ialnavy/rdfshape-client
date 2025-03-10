@@ -1,133 +1,138 @@
-import React, { FC } from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import About from "../About";
-import API from "../API";
+import React from "react";
+import { Route, Routes as Switch } from "react-router";
+import { BrowserRouter as Router } from "react-router-dom";
+
 import "./App.css";
-import VisualizeRaw from "../components/VisualizeRaw";
-import DataConvert from "../domain/data/DataConvert";
-import DataExtract from "../domain/data/DataExtract";
-import DataInfo from "../domain/data/DataInfo";
-import DataMerge from "../domain/data/DataMerge";
-import DataQuery from "../domain/data/DataQuery";
-import EndpointExtract from "../endpoint/EndpointExtract";
-import EndpointInfo from "../endpoint/EndpointInfo";
-import EndpointQuery from "../endpoint/EndpointQuery";
-import Home from "../Home";
-import NotFound from "../NotFound";
-import PermalinkReceiver from "../PermalinkReceiver";
-import RDFShapeNavbar from "../RDFShapeNavbar";
-import ShaclConvert from "../domain/shacl/ShaclConvert";
-import ShaclInfo from "../domain/shacl/ShaclInfo";
-import ShaclValidate from "../domain/shacl/ShaclValidate";
-import ShapeMapInfo from "../domain/shapeMap/ShapeMapInfo";
-import ShexConvert from "../domain/shex/ShexConvert";
-import ShexInfo from "../domain/shex/ShexInfo";
-import ShexValidate from "../domain/shex/ShexValidate";
-import Xmi2Shex from "../domain/shex/Xmi2Shex";
 
-const Routes: FC = () => {
-  const renderWithNavbar = (Component: React.ComponentType) => {
+import API from "../API";
+
+import Home from "./components/Home";
+import DataInfo from "./components/data/DataInfo";
+
+// import About from "../About";
+// import VisualizeRaw from "../components/VisualizeRaw";
+// import DataConvert from "../domain/data/DataConvert";
+// import DataExtract from "../domain/data/DataExtract";
+// import DataMerge from "../domain/data/DataMerge";
+// import DataQuery from "../domain/data/DataQuery";
+// import EndpointExtract from "../endpoint/EndpointExtract";
+// import EndpointInfo from "../endpoint/EndpointInfo";
+// import EndpointQuery from "../endpoint/EndpointQuery";
+// import NotFound from "../NotFound";
+// import PermalinkReceiver from "../PermalinkReceiver";
+// import RDFShapeNavbar from "../RDFShapeNavbar";
+// import ShaclConvert from "../domain/shacl/ShaclConvert";
+// import ShaclInfo from "../domain/shacl/ShaclInfo";
+// import ShaclValidate from "../domain/shacl/ShaclValidate";
+// import ShapeMapInfo from "../domain/shapeMap/ShapeMapInfo";
+// import ShexConvert from "../domain/shex/ShexConvert";
+// import ShexInfo from "../domain/shex/ShexInfo";
+// import ShexValidate from "../domain/shex/ShexValidate";
+// import Xmi2Shex from "../domain/shex/Xmi2Shex";
+
+import { useLocation } from "react-router-dom";
+
+const Routes: React.FC = () => {
+  const location = useLocation();
+  
+  const renderWithNavbar = (Component: React.FC<any>) => {
     return (
-      <>
-        <RDFShapeNavbar />
-        {renderWithoutNavbar(Component)}
-      </>
+      <div>
+        {/* <RDFShapeNavbar /> */}
+        <Component location={location} />
+      </div>
     );
-  };
-
-  const renderWithoutNavbar = (Component: React.ComponentType) => {
-    // eslint-disable-next-line no-restricted-globals
-    const loc = location;
-    return <Component location={loc.search ? loc : undefined} />;
   };
 
   return (
     <Router>
       <Switch>
-        <Route path="/" exact render={() => renderWithNavbar(Home)} />
+        <Route path="/" element={renderWithNavbar(Home)} />
         <Route
           path={API.routes.client.dataInfoRoute}
-          render={() => renderWithNavbar(DataInfo)}
+          element={renderWithNavbar(DataInfo)}
         />
-        <Route
+        {
+        
+        /* TBD: TO BE DONE */
+        
+        /* <Route
           path={API.routes.client.dataConvertRoute}
-          render={() => renderWithNavbar(DataConvert)}
+          element={renderWithNavbar(DataConvert)}
         />
         <Route
           path={API.routes.client.dataQueryRoute}
-          render={() => renderWithNavbar(DataQuery)}
+          element={renderWithNavbar(DataQuery)}
         />
         <Route
           path={API.routes.client.dataExtractRoute}
-          render={() => renderWithNavbar(DataExtract)}
+          element={renderWithNavbar(DataExtract)}
         />
         <Route
           path={API.routes.client.dataMergeRoute}
-          render={() => renderWithNavbar(DataMerge)}
+          element={renderWithNavbar(DataMerge)}
         />
 
         <Route
           path={API.routes.client.endpointInfoRoute}
-          render={() => renderWithNavbar(EndpointInfo)}
+          element={renderWithNavbar(EndpointInfo)}
         />
         <Route
           path={API.routes.client.endpointQueryRoute}
-          render={() => renderWithNavbar(EndpointQuery)}
+          element={renderWithNavbar(EndpointQuery)}
         />
         <Route
           path={API.routes.client.endpointExtractRoute}
-          render={() => renderWithNavbar(EndpointExtract)}
+          element={renderWithNavbar(EndpointExtract)}
         />
 
         <Route
           path={API.routes.client.shexValidateRoute}
-          render={() => renderWithNavbar(ShexValidate)}
+          element={renderWithNavbar(ShexValidate)}
         />
         <Route
           path={API.routes.client.shexInfoRoute}
-          render={() => renderWithNavbar(ShexInfo)}
+          element={renderWithNavbar(ShexInfo)}
         />
 
         <Route
           path={API.routes.client.shexConvertRoute}
-          render={() => renderWithNavbar(ShexConvert)}
+          element={renderWithNavbar(ShexConvert)}
         />
         <Route
           path={API.routes.client.xmi2ShexRoute}
-          render={() => renderWithNavbar(Xmi2Shex)}
+          element={renderWithNavbar(Xmi2Shex)}
         />
         <Route
           path={API.routes.client.shaclInfoRoute}
-          render={() => renderWithNavbar(ShaclInfo)}
+          element={renderWithNavbar(ShaclInfo)}
         />
         <Route
           path={API.routes.client.shaclValidateRoute}
-          render={() => renderWithNavbar(ShaclValidate)}
+          element={renderWithNavbar(ShaclValidate)}
         />
         <Route
           path={API.routes.client.shaclConvertRoute}
-          render={() => renderWithNavbar(ShaclConvert)}
+          element={renderWithNavbar(ShaclConvert)}
         />
 
         <Route
           path={API.routes.client.shapeMapInfoRoute}
-          render={() => renderWithNavbar(ShapeMapInfo)}
+          element={renderWithNavbar(ShapeMapInfo)}
         />
         <Route
           path={API.routes.client.aboutRoute}
-          render={() => renderWithNavbar(About)}
+          element={renderWithNavbar(About)}
         />
-        {/* Raw visualizations for embeddings */}
         <Route
           path={API.routes.client.visualizeRawRoute}
-          render={() => renderWithoutNavbar(VisualizeRaw)}
+          element={ <VisualizeRaw /> }
         />
-        {/* Route to be shown for processing permalinks */}
         <Route
           path={API.routes.client.permalinkRoute}
-          component={PermalinkReceiver}
+          element={<PermalinkReceiver />}
         />
-        <Route render={() => renderWithNavbar(NotFound)} />
+        <Route element={renderWithNavbar(NotFound)} /> */}
       </Switch>
     </Router>
   );

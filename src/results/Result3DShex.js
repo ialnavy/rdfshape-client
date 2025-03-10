@@ -3,10 +3,10 @@ import React, { Fragment, useEffect, useState } from "react";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import API from "../API";
-import { Permalink } from "../Permalink";
-import { InitialUML, paramsFromStateUML } from "../domain/uml/UML";
-import PrintJson from "../utils/PrintJson";
-import { scrollToResults } from "../utils/Utils";
+import { Permalink } from "../presentation/Permalink";
+import { InitialUML, paramsFromStateUML } from "../components/uml/UML";
+import PrintJson from "../presentation/components/miscellaneous/PrintJson";
+import { scrollToResults } from "../domain/utils/Utils";
 import ShowVisualization, {
   visualizationTypes
 } from "../visualization/ShowVisualization";

@@ -1,7 +1,7 @@
 import React from "react";
 import shumlex from "shumlex";
 import API from "../../API";
-import { getItemRaw } from "../../utils/Utils";
+import { getItemRaw } from "../utils/Utils";
 import { getConverterInput } from "../../utils/xmiUtils/shumlexUtils";
 import ShowVisualization, {
   visualizationTypes

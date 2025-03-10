@@ -2,8 +2,8 @@ import React from "react";
 import shumlex from "shumlex";
 import API from "../../API";
 import { shumlexCytoscapeStyle } from "../../utils/cytoscape/cytoUtils";
-import axios from "../../utils/networking/axiosConfig";
-import { getItemRaw } from "../../utils/Utils";
+import axios from "../utils/axiosConfig";
+import { getItemRaw } from "../utils/Utils";
 import ShowVisualization, {
   visualizationTypes
 } from "../../visualization/ShowVisualization";

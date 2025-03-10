@@ -5,10 +5,10 @@ import BootstrapTable from "react-bootstrap-table-next";
 import shumlex from "shumlex";
 import API from "../API";
 import { shaclEngines } from "../components/SelectEngine";
-import { mkEmbedLink, Permalink } from "../Permalink";
+import { mkEmbedLink, Permalink } from "../presentation/Permalink";
 import { shumlexCytoscapeStyle } from "../utils/cytoscape/cytoUtils";
-import PrintJson from "../utils/PrintJson";
-import { prefixMapTableColumns, scrollToResults } from "../utils/Utils";
+import PrintJson from "../presentation/components/miscellaneous/PrintJson";
+import { prefixMapTableColumns, scrollToResults } from "../domain/utils/Utils";
 import ShowVisualization, {
   visualizationTypes
 } from "../visualization/ShowVisualization";
@@ -77,7 +77,7 @@ function ResultSchemaInfo({
         embedLink={mkEmbedLink(stateSchemaParams, {
           visualizationType: embedLinkType,
           visualizationTarget: API.queryParameters.visualization.targets.cyto,
-        })}
+        }, /* TBD: getString */)}
       />
     );
   }
@@ -167,7 +167,7 @@ function ResultSchemaInfo({
                           visualizationType: embedLinkType,
                           visualizationTarget:
                             API.queryParameters.visualization.targets.svg,
-                        })}
+                        }, /* TBD: getString */)}
                       />
                     </Tab>
                   )}

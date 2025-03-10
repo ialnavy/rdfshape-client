@@ -2,8 +2,8 @@ import React, { Fragment, useEffect, useState } from "react";
 import { Tab, Tabs } from "react-bootstrap";
 import BootstrapTable from "react-bootstrap-table-next";
 import API from "../API";
-import { Permalink } from "../Permalink";
-import { associationTableColumns, scrollToResults } from "../utils/Utils";
+import { Permalink } from "../presentation/Permalink";
+import { associationTableColumns, scrollToResults } from "../domain/utils/Utils";
 
 function ResultShapeMapInfo({
   result: shapeMapInfoResult,

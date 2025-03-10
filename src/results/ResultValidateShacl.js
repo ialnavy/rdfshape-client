@@ -4,10 +4,10 @@ import { Tab, Tabs } from "react-bootstrap";
 import Alert from "react-bootstrap/Alert";
 import API from "../API";
 import Code from "../components/Code";
-import { Permalink } from "../Permalink";
-import ShowShapeMap from "../domain/shapeMap/ShowShapeMap";
-import PrintJson from "../utils/PrintJson";
-import { equalsIgnoreCase, format2mode, scrollToResults } from "../utils/Utils";
+import { Permalink } from "../presentation/Permalink";
+import ShowShapeMap from "../components/shapeMap/ShowShapeMap";
+import PrintJson from "../presentation/components/miscellaneous/PrintJson";
+import { equalsIgnoreCase, format2mode, scrollToResults } from "../domain/utils/Utils";
 import { nonConformant } from "./ResultValidateShex";
 
 function ResultValidateShacl({

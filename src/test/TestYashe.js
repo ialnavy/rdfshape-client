@@ -6,8 +6,8 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
-import QueryForm from '../domain/query/QueryForm';
-import ShexForm from '../domain/shex/ShexForm';
+import QueryForm from '../components/query/QueryForm';
+import ShexForm from '../components/shex/ShexForm';
 // import {dataParamsFromQueryParams} from "../Utils";
 // import {params2Form} from "../Permalink";
 

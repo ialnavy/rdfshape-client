@@ -1,10 +1,10 @@
 import React, { createContext } from "react";
-import { InitialDataStream } from "../../domain/data/Data";
-import { InitialQuery } from "../../domain/query/Query";
-import { InitialShacl } from "../../domain/shacl/Shacl";
-import { InitialShapeMap } from "../../domain/shapeMap/ShapeMap";
-import { InitialShex } from "../../domain/shex/Shex";
-import { InitialUML } from "../../domain/uml/UML";
+import { InitialDataStream } from "../../components/data/Data";
+import { InitialQuery } from "../../components/query/Query";
+import { InitialShacl } from "../../components/shacl/Shacl";
+import { InitialShapeMap } from "../../components/shapeMap/ShapeMap";
+import { InitialShex } from "../../components/shex/Shex";
+import { InitialUML } from "../../components/uml/UML";
 
 // Initial values in context
 export const initialApplicationContext = {

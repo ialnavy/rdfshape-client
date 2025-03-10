@@ -4,11 +4,11 @@ import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import API from "../API";
 import ByText from "../components/ByText";
-import { mkEmbedLink, Permalink } from "../Permalink";
-import { InitialShex, paramsFromStateShex } from "../domain/shex/Shex";
+import { mkEmbedLink, Permalink } from "../presentation/Permalink";
+import { InitialShex, paramsFromStateShex } from "../components/shex/Shex";
 import { shumlexCytoscapeStyle } from "../utils/cytoscape/cytoUtils";
-import PrintJson from "../utils/PrintJson";
-import { scrollToResults, yasheResultButtonsOptions } from "../utils/Utils";
+import PrintJson from "../presentation/components/miscellaneous/PrintJson";
+import { scrollToResults, yasheResultButtonsOptions } from "../domain/utils/Utils";
 import ShowVisualization, {
   visualizationTypes
 } from "../visualization/ShowVisualization";
@@ -49,7 +49,7 @@ function ResultXMI2ShEx({
         embedLink={mkEmbedLink(schemaParams, {
           visualizationType: API.queryParameters.visualization.types.shex,
           visualizationTarget: API.queryParameters.visualization.targets.cyto,
-        })}
+        }, /* TBD: getString */)}
       />
     );
   }

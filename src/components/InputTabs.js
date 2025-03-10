@@ -4,7 +4,7 @@ import Form from "react-bootstrap/Form";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import API from "../API";
-import { yasheMinButtonsOptions } from "../utils/Utils";
+import { yasheMinButtonsOptions } from "../domain/utils/Utils";
 import ByFile from "./ByFile";
 import ByStream from "./ByStream";
 import ByText from "./ByText";

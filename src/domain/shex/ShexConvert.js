@@ -10,7 +10,7 @@ import Row from "react-bootstrap/Row";
 import { useHistory } from "react-router";
 import shumlex from "shumlex";
 import API from "../../API";
-import PageHeader from "../../components/PageHeader";
+import PageHeader from "../../presentation/components/PageHeader";
 import {
   allEngines,
   schemaEngines,
@@ -18,13 +18,13 @@ import {
   shaclEngines
 } from "../../components/SelectEngine";
 import SelectFormat from "../../components/SelectFormat";
-import { ApplicationContext } from "../context/ApplicationContext";
-import { mkPermalinkLong } from "../../Permalink";
+import { ApplicationContext } from "../../presentation/containers/ApplicationContext";
+import { mkPermalinkLong } from "../../presentation/Permalink";
 import ResultSchemaConvert from "../../results/ResultSchemaConvert";
 import ResultShapeForm from "../../results/ResultShapeForm";
 import ResultShex2Xmi from "../../results/ResultShex2Xmi";
-import axios from "../../utils/networking/axiosConfig";
-import { mkError } from "../../utils/ResponseError";
+import axios from "../utils/axiosConfig";
+import { mkError } from "../../presentation/components/miscellaneous/ResponseError";
 import { getConverterInput } from "../../utils/xmiUtils/shumlexUtils";
 import ShExParser from "./shapeform/ShExParser";
 import {

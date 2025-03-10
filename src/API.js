@@ -2,7 +2,7 @@
 
 import React from "react";
 import { ReadyState } from "react-use-websocket";
-import { rootApi } from "./utils/networking/axiosConfig";
+import { rootApi } from "./domain/utils/axiosConfig";
 
 class API {
   static appName = "RdfShape-Client";

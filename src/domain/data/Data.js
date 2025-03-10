@@ -1,8 +1,8 @@
 import React from "react";
 import API from "../../API";
-import { processDotData } from "../../utils/dot/dotUtils";
-import axios from "../../utils/networking/axiosConfig";
-import { getItemRaw, guidGenerator } from "../../utils/Utils";
+import { processDotData } from "../utils/dotUtils";
+import axios from "../utils/axiosConfig";
+import { getItemRaw, guidGenerator } from "../utils/Utils";
 import ShowVisualization, {
   visualizationTypes
 } from "../../visualization/ShowVisualization";
@@ -308,7 +308,7 @@ export async function mkDataVisualization(
         params
       );
       const dot = resultDot.result.content; // Get the DOT string from the axios data object
-      const dotVisualization = await processDotData(dot);
+      const dotVisualization = await processDotData(dot, getString);
 
       return (
         <ShowVisualization
