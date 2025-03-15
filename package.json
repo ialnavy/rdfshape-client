@@ -3,6 +3,7 @@
   "version": "0.2.12",
   "private": true,
   "dependencies": {
+    "@types/react-color": "^3.0.13",
     "@types/react-dom": "^19.0.4",
     "3dshex": "^0.5.2",
     "bootstrap": "^4.6.1",

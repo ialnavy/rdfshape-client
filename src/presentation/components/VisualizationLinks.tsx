@@ -12,8 +12,7 @@ import CogIcon from "react-open-iconic-svg/dist/CogIcon";
 import DataTransferDownloadIcon from "react-open-iconic-svg/dist/DataTransferDownloadIcon";
 import ExternalLinkIcon from "react-open-iconic-svg/dist/ExternalLinkIcon";
 import TargetIcon from "react-open-iconic-svg/dist/TargetIcon";
-import ReactTooltip from "react-tooltip";
-import API from "../API";
+import {Tooltip as ReactTooltip} from "react-tooltip";
 import {
   cytoscapeDefaultNodeColor,
   layouts
@@ -24,6 +23,10 @@ import {
   visualizationMinZoom
 } from "../domain/utils/Utils";
 import { visualizationTypes } from "./ShowVisualization";
+
+// App Context
+// Strings externalisation
+import { useLocaleStrings } from "../containers/StringsContext";
 
 interface VisualizationLinksProps {
   embedLink?: string | boolean;
@@ -61,6 +64,8 @@ const VisualizationLinks: React.FC<VisualizationLinksProps> = ({
 
   const [cytoNodeColor, setCytoNodeColor] = useState(cytoscapeDefaultNodeColor);
   const [downloadLink, setDownloadLink] = useState(generateDownloadLink());
+
+  const { getString } = useLocaleStrings();
 
   useEffect(() => {
     setCytoStyle([
@@ -101,8 +106,8 @@ const VisualizationLinks: React.FC<VisualizationLinksProps> = ({
             </a>
 
             {tooltips && (
-              <ReactTooltip id="downloadLinkTip" {...tooltipSettings}>
-                {API.texts.visualizationSettings.download}
+              <ReactTooltip id="downloadLinkTip" {...tooltipSettings} place="left">
+                {getString("texts.visualizationSettings.download")}
               </ReactTooltip>
             )}
           </div>
@@ -120,12 +125,12 @@ const VisualizationLinks: React.FC<VisualizationLinksProps> = ({
             </a>
 
             {tooltips && (
-              <ReactTooltip id="embedLinkTip" {...tooltipSettings}>
-                {disabled === API.sources.byText
-                  ? API.texts.noPermalinkManual
-                  : disabled === API.sources.byFile
-                  ? API.texts.noPermalinkFile
-                  : API.texts.visualizationSettings.embedLink}
+              <ReactTooltip id="embedLinkTip" {...tooltipSettings} place="left">
+                {disabled === getString("sources.byText")
+                  ? getString("texts.noPermalinkManual")
+                  : disabled === getString("sources.byFile")
+                  ? getString("texts.noPermalinkFile")
+                  : getString("texts.visualizationSettings.embedLink")}
               </ReactTooltip>
             )}
           </div>
@@ -150,10 +155,10 @@ const VisualizationLinks: React.FC<VisualizationLinksProps> = ({
                 )}
               </Button>
               {tooltips && (
-                <ReactTooltip id="fullscreenTip" {...tooltipSettings}>
+                <ReactTooltip id="fullscreenTip" {...tooltipSettings} place="left">
                   {fullscreen
-                    ? API.texts.visualizationSettings.fullscreenOut
-                    : API.texts.visualizationSettings.fullscreenIn}
+                    ? getString("texts.visualizationSettings.fullscreenOut")
+                    : getString("texts.visualizationSettings.fullscreenIn")}
                 </ReactTooltip>
               )}
               {type === visualizationTypes.cytoscape && (
@@ -168,8 +173,8 @@ const VisualizationLinks: React.FC<VisualizationLinksProps> = ({
                     <TargetIcon className="white-icon" />
                   </Button>
                   {tooltips && (
-                    <ReactTooltip id="centerTip" {...tooltipSettings}>
-                      {API.texts.visualizationSettings.center}
+                    <ReactTooltip id="centerTip" {...tooltipSettings} place="left">
+                      { getString("texts.visualizationSettings.center") }
                     </ReactTooltip>
                   )}
                 </>
@@ -215,30 +220,30 @@ const VisualizationLinks: React.FC<VisualizationLinksProps> = ({
               </Button>
               <ReactTooltip
                 clickable={true}
-                event="mouseenter click"
-                eventOff="mouseleave"
-                globalEventOff="click"
+                openEvents={{ "mouseenter": true, "click": true }}
+                closeEvents={{ "mouseleave": true }}
+                globalCloseEvents={{ clickOutsideAnchor: true }}
                 delayHide={150}
                 id="layout-picker-container"
+                className="layout-picker-container dark"
                 place="left"
-                type="dark"
-                effect="solid"
+                style={{ border: "solid" }}
               >
                 <Form>
                   <Form.Group
                     controlId="layout"
                     className="layout-picker-container"
                   >
-                    {layouts.map((itLayout) => (
+                    {layouts.map((itLayout: { name: string; uiName?: string }) => (
                       <div key={itLayout.name}>
-                        <Form.Check
-                          type="radio"
-                          name="layout"
-                          value={itLayout.name}
-                          label={capitalize(itLayout.uiName || itLayout.name)}
-                          onChange={() => setLayout(itLayout)}
-                          checked={layout === itLayout}
-                        />
+                      <Form.Check
+                        type="radio"
+                        name="layout"
+                        value={itLayout.name}
+                        label={capitalize(itLayout.uiName || itLayout.name)}
+                        onChange={() => setLayout(itLayout)}
+                        checked={layout === itLayout}
+                      />
                       </div>
                     ))}
                   </Form.Group>
@@ -259,15 +264,14 @@ const VisualizationLinks: React.FC<VisualizationLinksProps> = ({
               ></button>
               <ReactTooltip
                 clickable={true}
-                event="mouseenter click"
-                eventOff="mouseleave"
-                globalEventOff="click"
+                openEvents={{ "mouseenter": true, "click": true }}
+                closeEvents={{ "mouseleave": true }}
+                globalCloseEvents={{ clickOutsideAnchor: true }}
                 delayHide={150}
                 id="color-picker-container"
-                className="color-picker-container"
+                className="color-picker-container dark"
                 place="left"
-                type="dark"
-                effect="solid"
+                style={{ border: "solid" }}
               >
                 <CirclePicker
                   className="color-picker"
