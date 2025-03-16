@@ -1,0 +1,21 @@
+.homeGridImg {
+    width: 32px;
+    height: auto;
+    padding-inline: 0.5em;
+}
+
+.homeGridCell, .homeGridCellStack {
+    display: flex;
+    direction: column;
+    
+    align-items: center;
+    justify-content: center;
+}
+
+.homeGridCellHeader {
+    display: flex;
+    direction: row;
+    
+    align-items: center;
+    justify-content: center;
+}

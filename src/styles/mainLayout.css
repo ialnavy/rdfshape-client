@@ -1,0 +1,30 @@
+/* Nav bar */
+.rdfShapeNavBar {
+    display: flex;
+    direction: row;
+    height: 64px;
+    width: auto;
+}
+
+.rdfShapeNavBarLogo {
+    height: 100%;
+    width: auto;
+}
+
+.rdfShapeNavBarLogoContainer {
+    display: flex;
+    direction: row;
+    align-items: center;
+    justify-content: center;
+
+    height: 100%;
+    width: auto;
+}
+
+/* RDFShape Container (Having NavBar inside) */
+.rdfShapeContainer {
+    display: flex;
+    direction: column;
+    height: 100vh;
+    width: 100vw;
+}

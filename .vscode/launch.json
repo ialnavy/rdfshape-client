@@ -1,18 +1,13 @@
 {
-  // https://stackoverflow.com/a/48073761/9744696
-  "version": "0.2.0",
-  "configurations": [
-    {
-      "name": "Debug app (firefox)",
-      "type": "firefox",
-      "request": "launch",
-      "url": "http://localhost:3000",
-      "pathMappings": [
+    "version": "0.2.0",
+    "configurations": [
         {
-          "url": "http://localhost:3000/",
-          "path": "${workspaceFolder}/"
+            "name": "Launch Edge",
+            "request": "launch",
+            "type": "msedge",
+            "url": "http://localhost:5173",
+            "webRoot": "${workspaceFolder}",
+            "port": 5173
         }
-      ]
-    }
-  ]
+    ]
 }

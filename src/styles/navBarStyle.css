@@ -1,0 +1,29 @@
+body {
+    color: #1976d2;
+    background-color: #ffffff;
+}
+
+.rdfShapeNavBar {
+    color: #ffffff;
+    background-color: #1976d2;
+}
+
+.rdfShapeNavBarLogoText {
+    display: inline-block;
+    text-decoration: underline;
+    border-radius: 25%;
+    border: 1px solid #000000;
+    padding-inline: 5px;
+
+    color: #1976d2;
+    background-color: #ffffff;
+
+    transition: all 0.3s ease;
+}
+
+.rdfShapeNavBarLogoText:hover {
+    color: #ffffff;
+    background-color: #1976d2;
+    text-shadow: 0 0 5px #1976d2, 0 0 10px #1976d2, 0 0 20px #1976d2;
+    box-shadow: 0 0 10px #1976d2, 0 0 20px #1976d2, 0 0 30px #1976d2;
+}

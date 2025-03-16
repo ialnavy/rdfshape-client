@@ -1,0 +1,96 @@
+/* RDFShapeNavBar */
+body {
+  display: flex;
+  direction: column;
+  height: 100vh;
+  min-height: 240px;
+  width: 100vw;
+}
+
+/* Common adaptability rules */
+img,
+video {
+  height: 100%;
+  width: auto;
+}
+
+/* Look & feel rules */
+a {
+  color: #ffa500 !important;
+  text-decoration: underline !important;
+}
+
+a:hover {
+  text-shadow:
+    0 0 5px #0ff,
+    0 0 10px #0ff,
+    0 0 20px #0ff,
+    0 0 40px #0ff,
+    0 0 80px #0ff;
+  color: #0ff;
+  transition: all 0.3s ease-in-out;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 40vmin;
+  pointer-events: none;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes Appdisplay-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.half-col {
+  max-width: 50% !important;
+}
+
+.word-break {
+  word-break: break-word;
+}
+
+.no-overflow {
+  overflow: unset !important;
+}
+
+.jumbotron {
+  background-color: white !important;
+}
+
+.code {
+  font-family: monospace !important;
+}
+
+#navigation li.dropdown-item a.custom-dropdown-link {
+  color: rgba(0, 0, 0, 0.9) !important;
+  padding: 2px 0 !important;
+}
