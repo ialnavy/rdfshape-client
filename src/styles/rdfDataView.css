@@ -1,0 +1,13 @@
+.rdfDataOptionsCell {
+    display: flex;
+    direction: column;
+    gap: 10px;
+}
+
+.rdfDataResultResume {
+    color: gray;
+}
+
+.rdfDataResultResumeError {
+    color: red;
+}

@@ -5,7 +5,7 @@ import { StyledEngineProvider } from '@mui/material/styles';
 import "../../styles/mainLayout.css";
 import "../../styles/navBarStyle.css";
 
-import { useLocaleStrings } from "../containers/ExternalisedStringsContext";
+import { useLocale } from "../containers/ExternalisedStringsContext";
 import { makeParagraph } from "../../infrastructure_layer/utilities/ReactElementsUtils";
 
 
@@ -14,7 +14,7 @@ interface RDFShapeNavBarProps {
 }
 
 const RDFShapeNavBar: React.FC<RDFShapeNavBarProps> = ({ children }) => {
-    let { getString } = useLocaleStrings();
+    let { getString } = useLocale();
 
     return (
         <StyledEngineProvider injectFirst>
