@@ -40,6 +40,21 @@ mimeTypes:
   shex: "text/shex"
   svg: "image/svg+xml"
   png: "image/png"
+  turtle: "text/turtle"
+  javascript:
+    textJS: "text/javascript"
+    appJS: "application/javascript"
+    appXJS: "application/x-javascript"
+    textECMA: "text/ecmascript"
+    appECMA: "application/ecmascript"
+  json:
+    appJSON: "application/json"
+    appXJSON: "application/x-json"
+    manifestJSON: "application/manifest+json"
+    appLDJSON: "application/ld+json"
+  typescript:
+    textTS: "text/typescript"
+    appTS: "application/typescript"
 
 # Inferences
 inferences:
