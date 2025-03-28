@@ -593,10 +593,16 @@ viewTexts:
   rdfInference: "RDF Inference"
   rdfShapeApiCaption: "Full response of RDF validation against RDFShape API will be shown below."
   hideRdfShapeApiResponse: "Hide API Response"
+  navBar:
+    rdfData: "RDF Data"
+    aboutMenuTitle: "About"
+    aboutApiProject: "🚀 WESO RDFShape API Project"
+    aboutApiDocs: "🛠️ RDFShape API SwaggerAPI"
+    aboutClient: "ℹ️ About RDFShape Client"
   rdfData:
     tabTitleRdfForm: "RDF Form"
     tabTitleFullResponse: "RDFShape API Response"
     rdfResultCaption: "Results of RDF validation will be shown above."
     rdfDataCaption: "Enter the RDF data in the box below."
 
-# To be done!
+# To be extended!

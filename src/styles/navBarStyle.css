@@ -8,6 +8,11 @@ body {
     background-color: #1976d2;
 }
 
+.rdfShapeNavBarButton:hover {
+    /* Text wouldn't be visible if this is not set */
+    color: inherit;
+}
+
 .rdfShapeNavBarLogoText {
     display: flex;
     direction: row;
