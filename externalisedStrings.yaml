@@ -487,8 +487,6 @@ texts:
   enableFullscreen: "Show at fullscreen"
   leaveFullscreen: "✖ Leave fullscreen"
   useNodeSelector: "Use node selector"
-  rdfDataCaption: "Enter the RDF data in the box below."
-  rdfResultCaption: "Results of RDF validation will be shown above."
 
   # ID of the results container for any operation
   resultsId: "results-container"
@@ -590,4 +588,13 @@ defaultScripts:
     :harold schema:name         "Harold" ;    # %* Fails{:User} *)
             schema:gender       schema:Male ;
             schema:knows        :grace .      # %* :grace does not conform to :User *)
+viewTexts:
+  rdfFormat: "RDF Format"
+  rdfInference: "RDF Inference"
+  rdfData:
+    tabTitleRdfForm: "RDF Form"
+    tabTitleFullResponse: "RDFShape API Response"
+    rdfResultCaption: "Results of RDF validation will be shown above."
+    rdfDataCaption: "Enter the RDF data in the box below."
+
 # To be done!

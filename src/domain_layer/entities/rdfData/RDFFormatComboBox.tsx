@@ -10,7 +10,7 @@ interface RDFFormatComboBoxProps {
 }
 
 let RDFFormatComboBox: React.FC<RDFFormatComboBoxProps> = ({ rdfFormat, setRdfFormat }) => {
-    let { getStringsSet } = useLocale();
+    let { getString, getStringsSet } = useLocale();
     let [apiDataInfoFormats, setApiDataInfoFormats] = useState<string[]>(Object.values(getStringsSet("api.formats")));
 
     return (
@@ -20,7 +20,7 @@ let RDFFormatComboBox: React.FC<RDFFormatComboBoxProps> = ({ rdfFormat, setRdfFo
                 labelId="rdfDataFormat"
                 value={rdfFormat}
                 onChange={(event) => { setRdfFormat(event.target.value); }}
-                label="RDF Format"
+                label={getString("viewTexts.rdfFormat")}
                 defaultValue={apiDataInfoFormats[0]}
                 required={true}
             >

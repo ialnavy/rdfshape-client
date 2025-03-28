@@ -10,29 +10,30 @@ import { ViewUpdate } from "@uiw/react-codemirror";
 export type EditorFactoryProps = {
     code: string | undefined;
     language: string | undefined;
+    editable?: boolean | undefined;
+
     onChange?(value: string, viewUpdate: ViewUpdate): void;
 };
 
-let EditorFactory: React.FC<EditorFactoryProps> = ({ code, language, onChange }) => {
+let EditorFactory: React.FC<EditorFactoryProps> = ({ code, language, editable, onChange }) => {
     let { getString } = useLocale();
     let editor = undefined;
 
     switch (language) {
-
         case getString("mimeTypes.javascript.textJS"):
         case getString("mimeTypes.javascript.appJS"):
         case getString("mimeTypes.javascript.appXJS"):
         case getString("mimeTypes.javascript.textECMA"):
         case getString("mimeTypes.javascript.appECMA"):
-            editor = <CodeMirrorAdapter code={code} extensions={[javascript()]} onChange={onChange} />;
+            editor = <CodeMirrorAdapter code={code} extensions={[javascript()]} editable={editable} onChange={onChange} />;
             break;
 
         case getString("mimeTypes.turtle"):
-            editor = <CodeMirrorAdapter code={code} extensions={[turtle()]} onChange={onChange} />;
+            editor = <CodeMirrorAdapter code={code} extensions={[turtle()]} editable={editable} onChange={onChange} />;
             break;
 
         default:
-            editor = <CodeMirrorAdapter code={code} onChange={onChange} />;
+            editor = <CodeMirrorAdapter code={code} editable={editable} onChange={onChange} />;
     }
 
     return editor;

@@ -10,7 +10,7 @@ interface RDFInferenceComboBoxProps {
 }
 
 let RDFInferenceComboBox: React.FC<RDFInferenceComboBoxProps> = ({ rdfInference, setRdfInference }) => {
-    let { getStringsSet } = useLocale();
+    let { getString, getStringsSet } = useLocale();
     let [apiDataInfoInferences, setApiDataInfoInferences] = useState<string[]>(Object.values(getStringsSet("api.inference")));
 
     return (
@@ -20,7 +20,7 @@ let RDFInferenceComboBox: React.FC<RDFInferenceComboBoxProps> = ({ rdfInference,
                 labelId="rdfDataInference"
                 value={rdfInference}
                 onChange={(event) => { setRdfInference(event.target.value); }}
-                label="RDF Inference"
+                label={getString("viewTexts.rdfInference")}
                 defaultValue={apiDataInfoInferences[0]}
                 required={true}
             >

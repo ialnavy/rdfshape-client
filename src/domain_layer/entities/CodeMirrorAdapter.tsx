@@ -1,8 +1,6 @@
 import { Extension } from "@codemirror/state";
-import { minWidth } from "@mui/system";
 import CodeMirror, { EditorView, ViewUpdate } from "@uiw/react-codemirror";
-import React, { useEffect, useState } from "react";
-import { useWindowDimensions } from "../../infrastructure_layer/utilities/ReactElementsUtils";
+import React from "react";
 
 
 /*
@@ -12,11 +10,12 @@ import { useWindowDimensions } from "../../infrastructure_layer/utilities/ReactE
 export type CodeMirrorAdapterProps = {
     code: string | undefined;
     extensions?: Extension[];
+    editable?: boolean | undefined;
 
     onChange?(value: string, viewUpdate: ViewUpdate): void;
 };
 
-let CodeMirrorAdapter: React.FC<CodeMirrorAdapterProps> = ({ code, extensions, onChange }) => {
+let CodeMirrorAdapter: React.FC<CodeMirrorAdapterProps> = ({ code, extensions, editable, onChange }) => {
     let theme = EditorView.theme({
         "&": { height: "50vh", position: "fixed" },
         ".cm-scroller": { overflow: "auto" }
@@ -25,7 +24,8 @@ let CodeMirrorAdapter: React.FC<CodeMirrorAdapterProps> = ({ code, extensions, o
     return <CodeMirror
         value={code}
         extensions={[EditorView.lineWrapping, theme, ...(extensions || [])]}
-        onChange={onChange} />;
+        onChange={onChange}
+        editable={editable === undefined ? true : editable} />;
 };
 
 export default CodeMirrorAdapter;

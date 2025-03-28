@@ -1,16 +1,10 @@
 import { Container } from '@mui/material';
 import React from 'react';
 
-import { makeParagraph } from '../../../infrastructure_layer/utilities/ReactElementsUtils';
-import { useLocale } from '../../containers/ExternalisedStringsContext';
+import { makeParagraph } from '../../../../infrastructure_layer/utilities/ReactElementsUtils';
+import { useLocale } from '../../../containers/ExternalisedStringsContext';
+import { IRDFDataResult } from './IRDFDataResult';
 
-
-export type IRDFDataResult = {
-    isError: boolean;
-    fullResponse: string;
-    responseMessage: string;
-    responseNumberOfStatements: number | undefined;
-};
 
 let RDFDataResultResume: React.FC<IRDFDataResult> = ({ isError, fullResponse, responseMessage, responseNumberOfStatements }) => {
     let { getString } = useLocale();
