@@ -7,6 +7,7 @@ export type IRDFDataView = {
     fullResponse: string;
     responseMessage: string;
     responseNumberOfStatements: number;
+    isHiddenApiResponse: boolean;
     
     setCode(code: string): void;
     setRdfFormat(rdfFormat: string): void;
@@ -16,4 +17,5 @@ export type IRDFDataView = {
     setFullResponse(fullResponse: string): void;
     setResponseMessage(responseMessage: string): void;
     setResponseNumberOfStatements(responseNumberOfStatements: number): void;
+    setHiddenApiResponse(isHiddenApiResponse: boolean): void;
 };

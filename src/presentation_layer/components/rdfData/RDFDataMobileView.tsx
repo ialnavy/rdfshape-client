@@ -20,7 +20,7 @@ import RDFDataResultResume from './rdfDataResult/RDFDataResultResume';
  * @param param0 
  * @returns 
  */
-let RDFDataMobileView: React.FC<IRDFDataView> = ({ code, rdfFormat, rdfInference, sourceOfRDFData, isError, fullResponse, responseMessage, responseNumberOfStatements, setCode, setRdfFormat, setRdfInference, setSourceOfRDFData, setError, setFullResponse, setResponseMessage, setResponseNumberOfStatements }) => {
+let RDFDataMobileView: React.FC<IRDFDataView> = ({ code, rdfFormat, rdfInference, sourceOfRDFData, isError, fullResponse, responseMessage, responseNumberOfStatements, isHiddenApiResponse, setCode, setRdfFormat, setRdfInference, setSourceOfRDFData, setError, setFullResponse, setResponseMessage, setResponseNumberOfStatements, setHiddenApiResponse }) => {
     let { getString } = useLocale();
 
     // Tab control

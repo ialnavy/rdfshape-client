@@ -24,6 +24,9 @@ let RDFDataMainView: React.FC = () => {
     let [responseMessage, setResponseMessage] = useState<string>("");
     let [responseNumberOfStatements, setResponseNumberOfStatements] = useState<number>(0);
 
+    // These variables are used for conditional rendering of React subelements
+    let [isHiddenApiResponse, setHiddenApiResponse] = useState<boolean>(false);
+
     let doFetch = () => {
         fetchRDFDataInfo({
             host: getString("api.host"),
@@ -54,6 +57,7 @@ let RDFDataMainView: React.FC = () => {
             fullResponse={fullResponse}
             responseMessage={responseMessage}
             responseNumberOfStatements={responseNumberOfStatements}
+            isHiddenApiResponse={isHiddenApiResponse}
 
             setCode={setCode}
             setRdfFormat={setRdfFormat}
@@ -62,7 +66,8 @@ let RDFDataMainView: React.FC = () => {
             setError={setError}
             setFullResponse={setFullResponse}
             setResponseMessage={setResponseMessage}
-            setResponseNumberOfStatements={setResponseNumberOfStatements} />
+            setResponseNumberOfStatements={setResponseNumberOfStatements}
+            setHiddenApiResponse={setHiddenApiResponse} />
     ) : (
         <RDFDataDesktopView
             code={code}
@@ -73,6 +78,7 @@ let RDFDataMainView: React.FC = () => {
             fullResponse={fullResponse}
             responseMessage={responseMessage}
             responseNumberOfStatements={responseNumberOfStatements}
+            isHiddenApiResponse={isHiddenApiResponse}
 
             setCode={setCode}
             setRdfFormat={setRdfFormat}
@@ -81,7 +87,8 @@ let RDFDataMainView: React.FC = () => {
             setError={setError}
             setFullResponse={setFullResponse}
             setResponseMessage={setResponseMessage}
-            setResponseNumberOfStatements={setResponseNumberOfStatements} />);
+            setResponseNumberOfStatements={setResponseNumberOfStatements}
+            setHiddenApiResponse={setHiddenApiResponse} />);
 };
 
 export default RDFDataMainView;

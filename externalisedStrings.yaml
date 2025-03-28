@@ -591,6 +591,8 @@ defaultScripts:
 viewTexts:
   rdfFormat: "RDF Format"
   rdfInference: "RDF Inference"
+  rdfShapeApiCaption: "Full response of RDF validation against RDFShape API will be shown below."
+  hideRdfShapeApiResponse: "Hide API Response"
   rdfData:
     tabTitleRdfForm: "RDF Form"
     tabTitleFullResponse: "RDFShape API Response"
