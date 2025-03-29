@@ -4,6 +4,9 @@ FROM node:20-alpine AS build
 # Set the working directory in the container
 WORKDIR /app
 
+# Install build tools for native dependencies
+RUN apk add --no-cache python3 make g++
+
 # Copy package.json and package-lock.json to the working directory
 COPY package.json ./
 
