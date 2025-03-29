@@ -2,13 +2,15 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import yaml from "@rollup/plugin-yaml";
 
-// https://vite.dev/config/
 export default defineConfig({
-  root: '.',
+  plugins: [react(), yaml()],
+  build: {
+    outDir: 'dist',
+  },
   resolve: {
     alias: {
-      src: "/src",
+      '@': '/src',
     },
   },
-  plugins: [react(), yaml()]
-})
+});
+
