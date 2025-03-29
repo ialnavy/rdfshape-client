@@ -1,14 +1,15 @@
-FROM node:20-alpine AS build
+FROM node:lts-alpine AS build
 
 WORKDIR /app
 COPY package.json ./
-COPY . .
-
 RUN npm install --verbose
+
+COPY . ./
 RUN npm run build
 
-FROM nginx:alpine
-COPY --from=build /app/dist /usr/share/nginx/html
+FROM nginx:stable-alpine as prod
+RUN apk add --no-cache bash
+COPY --from=build /app/build .
 
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
