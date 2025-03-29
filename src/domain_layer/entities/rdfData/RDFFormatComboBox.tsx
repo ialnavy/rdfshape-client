@@ -11,7 +11,7 @@ interface RDFFormatComboBoxProps {
 
 let RDFFormatComboBox: React.FC<RDFFormatComboBoxProps> = ({ rdfFormat, setRdfFormat }) => {
     let { getString, getStringsSet } = useLocale();
-    let [apiDataInfoFormats, setApiDataInfoFormats] = useState<string[]>(Object.values(getStringsSet("api.formats")));
+    let [apiDataInfoFormats /* , setApiDataInfoFormats */] = useState<string[]>(Object.values(getStringsSet("api.formats")));
 
     return (
         <FormControl fullWidth>

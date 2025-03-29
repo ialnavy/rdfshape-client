@@ -11,7 +11,7 @@ interface RDFInferenceComboBoxProps {
 
 let RDFInferenceComboBox: React.FC<RDFInferenceComboBoxProps> = ({ rdfInference, setRdfInference }) => {
     let { getString, getStringsSet } = useLocale();
-    let [apiDataInfoInferences, setApiDataInfoInferences] = useState<string[]>(Object.values(getStringsSet("api.inference")));
+    let [apiDataInfoInferences /* , setApiDataInfoInferences */] = useState<string[]>(Object.values(getStringsSet("api.inference")));
 
     return (
         <FormControl fullWidth>

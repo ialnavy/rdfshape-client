@@ -8,7 +8,7 @@ import { IRDFDataResult } from './IRDFDataResult';
 import { makeParagraph } from '../../../../infrastructure_layer/utilities/ReactElementsUtils';
 
 
-let RDFDataResultFull: React.FC<IRDFDataResult> = ({ isError, fullResponse, responseMessage, responseNumberOfStatements }) => {
+let RDFDataResultFull: React.FC<IRDFDataResult> = ({ isError, fullResponse, /* responseMessage, responseNumberOfStatements */ }) => {
     let { getString } = useLocale();
 
     return (<Container>
