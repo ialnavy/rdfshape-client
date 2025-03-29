@@ -524,7 +524,8 @@ mimeTypes:
 # API Variables
 api:
   #host: "https://api.rdfshape.weso.es/api"
-  host: "http://127.0.0.1:8080/api"
+  host: "http://rdfshape-api:8080/api"
+  #host: "http://127.0.0.1:8080/api"
   endpoints:
     rdfDataInfo: "/data/info"
   formats:
