@@ -1,5 +1,5 @@
 import { Divider, Grid2 as Grid, Stack, Switch, Typography } from '@mui/material';
-import React, { useState } from "react";
+import React from "react";
 
 import { useLocale } from "../../containers/ExternalisedStringsContext";
 

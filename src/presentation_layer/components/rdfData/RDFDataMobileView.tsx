@@ -25,7 +25,7 @@ let RDFDataMobileView: React.FC<IRDFDataView> = ({ code, rdfFormat, rdfInference
 
     // Tab control
     let [tabIndex, setTabIndex] = useState<number>(0);
-    let handleTabChange = (event: React.SyntheticEvent, nextTabIndex: number) => {
+    let handleTabChange = (_event: React.SyntheticEvent, nextTabIndex: number) => {
         setTabIndex(nextTabIndex);
     };
 
