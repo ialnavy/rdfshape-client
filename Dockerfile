@@ -9,6 +9,7 @@ RUN npm run build
 
 FROM nginx:stable-alpine as prod
 RUN apk add --no-cache bash
+COPY nginx/*.conf /etc/nginx/conf.d/
 COPY --from=build /app/dist /usr/share/nginx/html
 
 EXPOSE 80
