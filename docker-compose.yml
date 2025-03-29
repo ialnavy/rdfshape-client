@@ -1,0 +1,47 @@
+version: "3"
+services:
+  rdfshape-api:
+    image: ghcr.io/weso/rdfshape-api:stable
+    container_name: rdfshape-api
+    hostname: rdfshape-api 
+    networks:
+      - rdfshape_network
+    healthcheck:
+      test: curl -s -f --retry 4 --max-time 4 --retry-delay 6 rdfshape-api
+      interval: 1m
+      timeout: 1m
+      start_period: 20s
+      retries: 2
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      - VIRTUAL_HOST=rdfshape-api
+
+  rdfshape-client:
+    image: ialnavy/rdfshape-client:latest
+    container_name: rdfshape-client
+    hostname: rdfshape-client
+    networks:
+      - rdfshape_network
+    depends_on:
+      - rdfshape-api
+    healthcheck:
+      test: curl -s -f --retry 4 --max-time 4 --retry-delay 6 rdfshape-client
+      interval: 1m
+      timeout: 1m
+      start_period: 15s
+      retries: 2
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    environment:
+      - VIRTUAL_HOST=rdfshape-client
+      - RDFSHAPE_HOST=rdfshape-api
+
+networks:
+  rdfshape_network:
+    name: rdfshape_network
+    driver: bridge
+    driver_opts:
+      com.docker.network.bridge.host_binding_ipv4: "<YOUR_IP_ADDRESS>"
