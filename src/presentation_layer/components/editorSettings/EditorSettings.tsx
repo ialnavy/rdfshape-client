@@ -47,7 +47,7 @@ let EditorSettings: React.FC<EditorSettingsProps> = ({
                 <Switch {... { inputProps: { "aria-label": "line-wrapping-input" } }} checked={isLineWrapping} onChange={() => { setLineWrapping(!isLineWrapping); }} />
             </MenuItem>
             <MenuItem onClick={handleClose} disableRipple>
-                <Button className="increase-font-size-input" color="inherit" onClick={() => { setFontSize(fontSize + 1); }}>{getString("viewTexts.settings.increaseFontSize")}</Button>
+                <Button className="increase-font-size-input" color="inherit" fullWidth style={{ justifyContent: 'flex-start' }} onClick={() => { setFontSize(fontSize + 1); }}>{getString("viewTexts.settings.increaseFontSize")}</Button>
             </MenuItem>
             <MenuItem onClick={handleClose} disableRipple>
                 <Button className="decrease-font-size-input" color="inherit" fullWidth style={{ justifyContent: 'flex-start' }} onClick={() => { setFontSize(fontSize - 1); }}>{getString("viewTexts.settings.decreaseFontSize")}</Button>
