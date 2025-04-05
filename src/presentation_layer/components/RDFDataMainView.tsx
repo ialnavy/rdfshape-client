@@ -6,11 +6,12 @@ import { useWindowDimensions } from "../../infrastructure_layer/utilities/ReactE
 import RDFDataDesktopView from "./rdfData/RDFDataDesktopView";
 import RDFDataMobileView from "./rdfData/RDFDataMobileView";
 
+import EditorFactory from "../../domain_layer/use_cases/EditorFactory";
 import { fetchRDFDataInfo } from '../../infrastructure_layer/services/FetchRdfData';
 
 
 let RDFDataMainView: React.FC = () => {
-    let { getString, getNumber, getStringsSet } = useLocale();
+    let { getString, getNumber, getBoolean, getStringsSet } = useLocale();
 
     // These variables are used for querying against RDFShape API
     let [code, setCode] = useState<string>(getString("defaultScripts.rdfData"));
@@ -25,7 +26,21 @@ let RDFDataMainView: React.FC = () => {
     let [responseNumberOfStatements, setResponseNumberOfStatements] = useState<number>(0);
 
     // These variables are used for conditional rendering of React subelements
-    let [isHiddenApiResponse, setHiddenApiResponse] = useState<boolean>(false);
+    let [isHiddenApiResponse, setHiddenApiResponse] = useState<boolean>(getBoolean("defaultBehaviour.hidApiResponse"));
+    let [isLineWrapping, setLineWrapping] = useState<boolean>(getBoolean("defaultBehaviour.lineWrapping"));
+    let [editor, setEditor] = useState<React.ReactNode>(null);
+
+    useEffect(() => {
+        setEditor(
+            <EditorFactory
+                code={code}
+                language={getString("mimeTypes.turtle")}
+                editable={true}
+                isLineWrapping={isLineWrapping}
+                onChange={(value: string) => { setCode(value); }}
+            />
+        );
+    }, [isLineWrapping]);
 
     let doFetch = () => {
         fetchRDFDataInfo({
@@ -53,42 +68,60 @@ let RDFDataMainView: React.FC = () => {
             rdfFormat={rdfFormat}
             rdfInference={rdfInference}
             sourceOfRDFData={sourceOfRDFData}
+
             isError={isError}
             fullResponse={fullResponse}
             responseMessage={responseMessage}
             responseNumberOfStatements={responseNumberOfStatements}
+
             isHiddenApiResponse={isHiddenApiResponse}
+            isLineWrapping={isLineWrapping}
+            editor={editor}
+
 
             setCode={setCode}
             setRdfFormat={setRdfFormat}
             setRdfInference={setRdfInference}
             setSourceOfRDFData={setSourceOfRDFData}
+
             setError={setError}
             setFullResponse={setFullResponse}
             setResponseMessage={setResponseMessage}
             setResponseNumberOfStatements={setResponseNumberOfStatements}
-            setHiddenApiResponse={setHiddenApiResponse} />
+
+            setHiddenApiResponse={setHiddenApiResponse}
+            setLineWrapping={setLineWrapping}
+            setEditor={setEditor} />
     ) : (
         <RDFDataDesktopView
             code={code}
             rdfFormat={rdfFormat}
             rdfInference={rdfInference}
             sourceOfRDFData={sourceOfRDFData}
+
             isError={isError}
             fullResponse={fullResponse}
             responseMessage={responseMessage}
             responseNumberOfStatements={responseNumberOfStatements}
+
             isHiddenApiResponse={isHiddenApiResponse}
+            isLineWrapping={isLineWrapping}
+            editor={editor}
+
 
             setCode={setCode}
             setRdfFormat={setRdfFormat}
             setRdfInference={setRdfInference}
             setSourceOfRDFData={setSourceOfRDFData}
+
             setError={setError}
             setFullResponse={setFullResponse}
             setResponseMessage={setResponseMessage}
             setResponseNumberOfStatements={setResponseNumberOfStatements}
-            setHiddenApiResponse={setHiddenApiResponse} />);
+
+            setHiddenApiResponse={setHiddenApiResponse}
+            setLineWrapping={setLineWrapping}
+            setEditor={setEditor} />);
 };
 
 export default RDFDataMainView;

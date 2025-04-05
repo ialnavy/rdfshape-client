@@ -2,22 +2,30 @@ import React from "react";
 
 import { useLocale } from "../../presentation_layer/containers/ExternalisedStringsContext";
 
-import CodeMirrorAdapter from "../entities/CodeMirrorAdapter";
 import { javascript } from "@codemirror/lang-javascript";
+import CodeMirror, { EditorView, Extension, ViewUpdate } from "@uiw/react-codemirror";
 import { turtle } from 'codemirror-lang-turtle';
-import { ViewUpdate } from "@uiw/react-codemirror";
 
-export type EditorFactoryProps = {
+
+interface EditorFactoryParams {
     code: string | undefined;
     language: string | undefined;
     editable?: boolean | undefined;
+    isLineWrapping?: boolean | undefined;
+    onChange?: (value: string, viewUpdate: ViewUpdate) => void;
+}
 
-    onChange?(value: string, viewUpdate: ViewUpdate): void;
-};
-
-let EditorFactory: React.FC<EditorFactoryProps> = ({ code, language, editable, onChange }) => {
+let EditorFactory = ({ code, language, editable, isLineWrapping, onChange }: EditorFactoryParams): React.ReactElement => {
     let { getString } = useLocale();
-    let editor = undefined;
+
+    let theme = EditorView.theme({
+        "&": { height: "50vh", position: "fixed" },
+        ".cm-scroller": { overflow: "auto" }
+    });
+
+    let extensions: Extension[] = [theme];
+    if (isLineWrapping)
+        extensions.push(EditorView.lineWrapping);
 
     switch (language) {
         case getString("mimeTypes.javascript.textJS"):
@@ -25,18 +33,20 @@ let EditorFactory: React.FC<EditorFactoryProps> = ({ code, language, editable, o
         case getString("mimeTypes.javascript.appXJS"):
         case getString("mimeTypes.javascript.textECMA"):
         case getString("mimeTypes.javascript.appECMA"):
-            editor = <CodeMirrorAdapter code={code} extensions={[javascript()]} editable={editable} onChange={onChange} />;
+            extensions.push(javascript());
             break;
-
         case getString("mimeTypes.turtle"):
-            editor = <CodeMirrorAdapter code={code} extensions={[turtle()]} editable={editable} onChange={onChange} />;
+            extensions.push(turtle());
             break;
-
         default:
-            editor = <CodeMirrorAdapter code={code} editable={editable} onChange={onChange} />;
+            break;
     }
 
-    return editor;
+    return (<CodeMirror
+        value={code}
+        extensions={extensions}
+        onChange={onChange}
+        editable={editable === undefined ? true : editable} />);
 };
 
 export default EditorFactory;

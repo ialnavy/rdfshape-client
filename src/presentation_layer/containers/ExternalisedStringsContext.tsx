@@ -23,6 +23,7 @@ export function useExternalisedStringsContext(): Record<string, any> {
 export interface IUseLocale {
     getString(key: string): string;
     getNumber(key: string): number;
+    getBoolean(key: string): boolean;
     getStringsSet(key: string): Record<string, any>;
 }
 
@@ -52,6 +53,14 @@ export function useLocale(): IUseLocale {
         throw new Error(`Value for key "${key}" is not a number.`);
     };
 
+    let getBoolean = (key: string): boolean => {
+        let value = getString(key);
+        if (value)
+            return (new Boolean(value)).valueOf();
+
+        throw new Error(`Value for key "${key}" is not a boolean.`);
+    };
+
     let getStringsSet = (key: string): Record<string, any> => {
         let keys = key.split(".");
         let value: any = strings;
@@ -67,5 +76,5 @@ export function useLocale(): IUseLocale {
         throw new Error(`Value for key "${key}" is not an object.`);
     }
 
-    return { getString, getNumber, getStringsSet };
+    return { getString, getNumber, getBoolean, getStringsSet };
 }

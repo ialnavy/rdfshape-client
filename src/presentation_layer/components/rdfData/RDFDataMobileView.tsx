@@ -7,8 +7,8 @@ import "../../../styles/rdfDataView.css";
 
 import RDFFormatComboBox from "../../../domain_layer/entities/rdfData/RDFFormatComboBox";
 import RDFInferenceComboBox from "../../../domain_layer/entities/rdfData/RDFInferenceComboBox";
-import EditorFactory from "../../../domain_layer/use_cases/EditorFactory";
 import CustomTabPanel, { a11yProps } from '../../../infrastructure_layer/utilities/CustomTabPanel';
+import EditorSettings from '../editorSettings/EditorSettings';
 import { IRDFDataView } from "./IRDFDataView";
 import RDFDataResultFull from './rdfDataResult/RDFDataResultFull';
 import RDFDataResultResume from './rdfDataResult/RDFDataResultResume';
@@ -20,7 +20,35 @@ import RDFDataResultResume from './rdfDataResult/RDFDataResultResume';
  * @param param0 
  * @returns 
  */
-let RDFDataMobileView: React.FC<IRDFDataView> = ({ code, rdfFormat, rdfInference, /* sourceOfRDFData, */ isError, fullResponse, responseMessage, responseNumberOfStatements, /* isHiddenApiResponse, */ setCode, setRdfFormat, setRdfInference, /* setSourceOfRDFData, setError, setFullResponse, setResponseMessage, setResponseNumberOfStatements, setHiddenApiResponse */ }) => {
+let RDFDataMobileView: React.FC<IRDFDataView> = ({
+    /* code, */
+    rdfFormat,
+    rdfInference,
+    /* sourceOfRDFData, */
+
+    isError,
+    fullResponse,
+    responseMessage,
+    responseNumberOfStatements,
+
+    /* isHiddenApiResponse, */
+    isLineWrapping,
+    editor,
+
+
+    /* setCode, */
+    setRdfFormat,
+    setRdfInference,
+    /* setSourceOfRDFData, */
+
+    /* setError, */
+    /* setFullResponse, */
+    /* setResponseMessage, */
+    /* setResponseNumberOfStatements, */
+
+    /* setHiddenApiResponse, */
+    setLineWrapping,
+    /* setEditor */ }) => {
     let { getString } = useLocale();
 
     // Tab control
@@ -54,14 +82,16 @@ let RDFDataMobileView: React.FC<IRDFDataView> = ({ code, rdfFormat, rdfInference
                 <Grid size={4}>
                     <RDFInferenceComboBox rdfInference={rdfInference} setRdfInference={setRdfInference} />
                 </Grid>
-                <Grid size={12}>
+                <Grid size={8}>
                     <Typography variant="caption">{getString("viewTexts.rdfData.rdfResultCaption")}</Typography>
+                </Grid>
+                <Grid size={4}>
+                    <EditorSettings isLineWrapping={isLineWrapping} setLineWrapping={setLineWrapping} />
                 </Grid>
                 <Grid size={12}>
                     <Divider orientation="horizontal" textAlign="center" />
                     <Typography variant="caption">{getString("viewTexts.rdfData.rdfDataCaption")}</Typography>
-                    <EditorFactory code={code} language={getString("mimeTypes.turtle")}
-                        onChange={(value: string) => { setCode(value); }} />
+                    {editor}
                 </Grid>
             </Grid>
         </CustomTabPanel>

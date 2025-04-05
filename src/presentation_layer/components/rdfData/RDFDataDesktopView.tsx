@@ -1,4 +1,4 @@
-import { Divider, Grid2 as Grid, Stack, Switch, Typography } from '@mui/material';
+import { Divider, Grid2 as Grid, InputLabel, Stack, Switch, Typography } from '@mui/material';
 import React from "react";
 
 import { useLocale } from "../../containers/ExternalisedStringsContext";
@@ -9,6 +9,7 @@ import EditorFactory from '../../../domain_layer/use_cases/EditorFactory';
 import { IRDFDataView } from "./IRDFDataView";
 import RDFDataResultFull from './rdfDataResult/RDFDataResultFull';
 import RDFDataResultResume from './rdfDataResult/RDFDataResultResume';
+import EditorSettings from '../editorSettings/EditorSettings';
 
 
 /**
@@ -18,7 +19,34 @@ import RDFDataResultResume from './rdfDataResult/RDFDataResultResume';
  * @param param0 
  * @returns 
  */
-let RDFDataDesktopView: React.FC<IRDFDataView> = ({ code, rdfFormat, rdfInference, /* sourceOfRDFData, */ isError, fullResponse, responseMessage, responseNumberOfStatements, isHiddenApiResponse, setCode, setRdfFormat, setRdfInference, /* setSourceOfRDFData, setError, setFullResponse, setResponseMessage, setResponseNumberOfStatements, */ setHiddenApiResponse }) => {
+let RDFDataDesktopView: React.FC<IRDFDataView> = ({ /* code, */
+    rdfFormat,
+    rdfInference,
+    /* sourceOfRDFData, */
+
+    isError,
+    fullResponse,
+    responseMessage,
+    responseNumberOfStatements,
+
+    isHiddenApiResponse,
+    isLineWrapping,
+    editor,
+
+
+    /* setCode, */
+    setRdfFormat,
+    setRdfInference,
+    /* setSourceOfRDFData, */
+
+    /* setError, */
+    /* setFullResponse, */
+    /* setResponseMessage, */
+    /* setResponseNumberOfStatements, */
+
+    setHiddenApiResponse,
+    setLineWrapping,
+    /* setEditor */ }) => {
     let { getString } = useLocale();
 
     return (
@@ -26,24 +54,27 @@ let RDFDataDesktopView: React.FC<IRDFDataView> = ({ code, rdfFormat, rdfInferenc
             <Grid size={12}>
                 <Divider orientation="horizontal" textAlign="center" />
             </Grid>
-            <Grid size={4}>
+            <Grid size={3}>
                 <RDFDataResultResume
                     isError={isError}
                     fullResponse={fullResponse}
                     responseMessage={responseMessage}
                     responseNumberOfStatements={responseNumberOfStatements} />
             </Grid>
-            <Grid size={3}>
+            <Grid size={2}>
                 <RDFFormatComboBox rdfFormat={rdfFormat} setRdfFormat={setRdfFormat} />
             </Grid>
-            <Grid size={3}>
+            <Grid size={2}>
                 <RDFInferenceComboBox rdfInference={rdfInference} setRdfInference={setRdfInference} />
             </Grid>
             <Grid size={2}>
                 <Stack alignItems="center" justifyContent="center">
-                    <Typography variant="caption">{getString("viewTexts.hideRdfShapeApiResponse")}</Typography>
-                    <Switch {... { inputProps: { "aria-label": getString("viewTexts.hideRdfShapeApiResponse") } }} checked={isHiddenApiResponse} onChange={() => { setHiddenApiResponse(!isHiddenApiResponse); }} />
+                    <InputLabel className="hide-api-response-input">{getString("viewTexts.hideRdfShapeApiResponse")}</InputLabel>
+                    <Switch {... { inputProps: { "aria-label": "hide-api-response-input" } }} checked={isHiddenApiResponse} onChange={() => { setHiddenApiResponse(!isHiddenApiResponse); }} />
                 </Stack>
+            </Grid>
+            <Grid size={2}>
+                <EditorSettings isLineWrapping={isLineWrapping} setLineWrapping={setLineWrapping} />
             </Grid>
             <Grid size={12}>
                 <Typography variant="caption">{getString("viewTexts.rdfData.rdfResultCaption")}</Typography>
@@ -51,8 +82,7 @@ let RDFDataDesktopView: React.FC<IRDFDataView> = ({ code, rdfFormat, rdfInferenc
             <Grid size={isHiddenApiResponse ? 12 : 8}>
                 <Divider orientation="horizontal" textAlign="center" />
                 <Typography variant="caption">{getString("viewTexts.rdfData.rdfDataCaption")}</Typography>
-                <EditorFactory code={code} language={getString("mimeTypes.turtle")}
-                    onChange={(value: string) => { setCode(value); }} />
+                {editor}
             </Grid>
             {!isHiddenApiResponse && (
                 <Grid size={4}>

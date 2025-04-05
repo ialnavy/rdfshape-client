@@ -499,8 +499,11 @@ texts:
 
 # Values for code behaviour
 limits:
-  byTextCharacterLimit: 2200
-  adaptabilityThresholdPx: 640
+  byTextCharacterLimit: "2200"
+  adaptabilityThresholdPx: "640"
+defaultBehaviour:
+  lineWrapping: "true"
+  hidApiResponse: "false"
 mimeTypes:
   shex: "text/shex"
   svg: "image/svg+xml"
@@ -593,6 +596,9 @@ viewTexts:
   rdfInference: "RDF Inference"
   rdfShapeApiCaption: "Full response of RDF validation against RDFShape API will be shown below."
   hideRdfShapeApiResponse: "Hide API Response"
+  settings:
+    title: "Settings"
+    lineWrapping: "Line Wrapping"
   navBar:
     rdfData: "RDF Data"
     aboutMenuTitle: "About"
