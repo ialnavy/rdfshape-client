@@ -50,16 +50,16 @@ let EditorSettings: React.FC<EditorSettingsProps> = ({
                 <Button className="increase-font-size-input" color="inherit" onClick={() => { setFontSize(fontSize + 1); }}>{getString("viewTexts.settings.increaseFontSize")}</Button>
             </MenuItem>
             <MenuItem onClick={handleClose} disableRipple>
-                <Button className="decrease-font-size-input" color="inherit" onClick={() => { setFontSize(fontSize - 1); }}>{getString("viewTexts.settings.decreaseFontSize")}</Button>
+                <Button className="decrease-font-size-input" color="inherit" fullWidth style={{ justifyContent: 'flex-start' }} onClick={() => { setFontSize(fontSize - 1); }}>{getString("viewTexts.settings.decreaseFontSize")}</Button>
             </MenuItem>
             <MenuItem onClick={handleClose} disableRipple>
-                <Button className="default-font-size-input" color="inherit" onClick={() => { setFontSize(getNumber("defaultBehaviour.editorFontSizePx")); }}>{getString("viewTexts.settings.defaultFontSize")}</Button>
+                <Button className="default-font-size-input" color="inherit" fullWidth style={{ justifyContent: 'flex-start' }} onClick={() => { setFontSize(getNumber("defaultBehaviour.editorFontSizePx")); }}>{getString("viewTexts.settings.defaultFontSize")}</Button>
             </MenuItem>
             <MenuItem onClick={handleClose} disableRipple>
-                <Button className="max-font-size-input" color="inherit" onClick={() => { setFontSize(getNumber("limits.maxEditorFontSizePx")); }}>{getString("viewTexts.settings.setMaxFontSize")}</Button>
+                <Button className="max-font-size-input" color="inherit" fullWidth style={{ justifyContent: 'flex-start' }} onClick={() => { setFontSize(getNumber("limits.maxEditorFontSizePx")); }}>{getString("viewTexts.settings.setMaxFontSize")}</Button>
             </MenuItem>
             <MenuItem onClick={handleClose} disableRipple>
-                <Button className="min-font-size-input" color="inherit" onClick={() => { setFontSize(getNumber("limits.minEditorFontSizePx")); }}>{getString("viewTexts.settings.setMinFontSize")}</Button>
+                <Button className="min-font-size-input" color="inherit" fullWidth style={{ justifyContent: 'flex-start' }} onClick={() => { setFontSize(getNumber("limits.minEditorFontSizePx")); }}>{getString("viewTexts.settings.setMinFontSize")}</Button>
             </MenuItem>
         </Menu>
     </Container>);
