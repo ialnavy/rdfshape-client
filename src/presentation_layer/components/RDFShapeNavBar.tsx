@@ -27,7 +27,7 @@ const RDFShapeNavBar: React.FC<RDFShapeNavBarProps> = ({ children }) => {
                     <Toolbar className="rdfShapeNavBar">
                         <Link href="/" className="rdfShapeNavBarLogoContainer">
                             <img
-                                src="multimedia/rdfShapeLogo/256.png"
+                                src="/multimedia/rdfShapeLogo/256.png"
                                 alt="RDFShape Logo"
                                 className="rdfShapeNavBarLogo"
                             />
