@@ -11,6 +11,7 @@ export type IRDFDataView = {
 
     isHiddenApiResponse: boolean;
     isLineWrapping: boolean;
+    fontSize: number;
     editor: React.ReactNode;
     
 
@@ -26,5 +27,6 @@ export type IRDFDataView = {
 
     setHiddenApiResponse(isHiddenApiResponse: boolean): void;
     setLineWrapping(isLineWrapping: boolean): void;
+    setFontSize(fontSize: number): void;
     setEditor(editor: React.ReactNode): void;
 };

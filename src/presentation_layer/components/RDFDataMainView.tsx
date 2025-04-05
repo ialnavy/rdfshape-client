@@ -28,6 +28,13 @@ let RDFDataMainView: React.FC = () => {
     // These variables are used for conditional rendering of React subelements
     let [isHiddenApiResponse, setHiddenApiResponse] = useState<boolean>(getBoolean("defaultBehaviour.hidApiResponse"));
     let [isLineWrapping, setLineWrapping] = useState<boolean>(getBoolean("defaultBehaviour.lineWrapping"));
+    let [fontSize, _setFontSize] = useState<number>(getNumber("defaultBehaviour.editorFontSizePx"));
+    let setFontSize = (value: number) => {
+        if (value >= getNumber("limits.minEditorFontSizePx")
+            && value <= getNumber("limits.maxEditorFontSizePx")) {
+            _setFontSize(value);
+        }
+    };
     let [editor, setEditor] = useState<React.ReactNode>(null);
 
     useEffect(() => {
@@ -37,10 +44,11 @@ let RDFDataMainView: React.FC = () => {
                 language={getString("mimeTypes.turtle")}
                 editable={true}
                 isLineWrapping={isLineWrapping}
+                fontSize={fontSize}
                 onChange={(value: string) => { setCode(value); }}
             />
         );
-    }, [isLineWrapping]);
+    }, [isLineWrapping, fontSize]);
 
     let doFetch = () => {
         fetchRDFDataInfo({
@@ -76,6 +84,7 @@ let RDFDataMainView: React.FC = () => {
 
             isHiddenApiResponse={isHiddenApiResponse}
             isLineWrapping={isLineWrapping}
+            fontSize={fontSize}
             editor={editor}
 
 
@@ -91,6 +100,7 @@ let RDFDataMainView: React.FC = () => {
 
             setHiddenApiResponse={setHiddenApiResponse}
             setLineWrapping={setLineWrapping}
+            setFontSize={setFontSize}
             setEditor={setEditor} />
     ) : (
         <RDFDataDesktopView
@@ -106,6 +116,7 @@ let RDFDataMainView: React.FC = () => {
 
             isHiddenApiResponse={isHiddenApiResponse}
             isLineWrapping={isLineWrapping}
+            fontSize={fontSize}
             editor={editor}
 
 
@@ -121,6 +132,7 @@ let RDFDataMainView: React.FC = () => {
 
             setHiddenApiResponse={setHiddenApiResponse}
             setLineWrapping={setLineWrapping}
+            setFontSize={setFontSize}
             setEditor={setEditor} />);
 };
 

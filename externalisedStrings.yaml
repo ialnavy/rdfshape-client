@@ -501,7 +501,10 @@ texts:
 limits:
   byTextCharacterLimit: "2200"
   adaptabilityThresholdPx: "640"
+  minEditorFontSizePx: "8"
+  maxEditorFontSizePx: "26"
 defaultBehaviour:
+  editorFontSizePx: "13"
   lineWrapping: "true"
   hidApiResponse: "false"
 mimeTypes:
@@ -599,6 +602,11 @@ viewTexts:
   settings:
     title: "Settings"
     lineWrapping: "Line Wrapping"
+    increaseFontSize: "➕ Font Size"
+    decreaseFontSize: "➖ Font Size"
+    defaultFontSize: "Default Font Size"
+    setMaxFontSize: "Max Font Size"
+    setMinFontSize: "Min Font Size"
   navBar:
     rdfData: "RDF Data"
     aboutMenuTitle: "About"

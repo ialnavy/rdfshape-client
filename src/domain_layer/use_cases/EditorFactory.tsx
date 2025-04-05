@@ -12,14 +12,25 @@ interface EditorFactoryParams {
     language: string | undefined;
     editable?: boolean | undefined;
     isLineWrapping?: boolean | undefined;
+    fontSize?: number | undefined;
     onChange?: (value: string, viewUpdate: ViewUpdate) => void;
 }
 
-let EditorFactory = ({ code, language, editable, isLineWrapping, onChange }: EditorFactoryParams): React.ReactElement => {
-    let { getString } = useLocale();
+let EditorFactory = ({ code, language, editable, isLineWrapping, fontSize, onChange }: EditorFactoryParams): React.ReactElement => {
+    let { getString, getNumber } = useLocale();
+
+    if (fontSize === undefined
+        || fontSize < getNumber("limits.minEditorFontSizePx")
+        || fontSize > getNumber("limits.maxEditorFontSizePx")) {
+        fontSize = getNumber("defaultBehaviour.editorFontSizePx");
+    }
 
     let theme = EditorView.theme({
-        "&": { height: "50vh", position: "fixed" },
+        "&": {
+            fontSize: ((new String(fontSize)).toString()).concat("px"),
+            height: "50vh",
+            position: "fixed"
+        },
         ".cm-scroller": { overflow: "auto" }
     });
 

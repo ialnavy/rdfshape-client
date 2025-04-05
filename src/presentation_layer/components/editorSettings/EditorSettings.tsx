@@ -4,8 +4,13 @@ import { useLocale } from '../../containers/ExternalisedStringsContext';
 import { EditorSettingsProps } from './IEditorSettings';
 
 
-let EditorSettings: React.FC<EditorSettingsProps> = ({ isLineWrapping, setLineWrapping }) => {
-    let { getString } = useLocale();
+let EditorSettings: React.FC<EditorSettingsProps> = ({
+    isLineWrapping,
+    fontSize,
+
+    setLineWrapping,
+    setFontSize }) => {
+    let { getString, getNumber } = useLocale();
 
     let [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     let handleClick = (event: React.MouseEvent<HTMLElement>) => { setAnchorEl(event.currentTarget); };
@@ -40,6 +45,21 @@ let EditorSettings: React.FC<EditorSettingsProps> = ({ isLineWrapping, setLineWr
             <MenuItem onClick={handleClose} disableRipple>
                 <InputLabel className="line-wrapping-input">{getString("viewTexts.settings.lineWrapping")}</InputLabel>
                 <Switch {... { inputProps: { "aria-label": "line-wrapping-input" } }} checked={isLineWrapping} onChange={() => { setLineWrapping(!isLineWrapping); }} />
+            </MenuItem>
+            <MenuItem onClick={handleClose} disableRipple>
+                <Button className="increase-font-size-input" color="inherit" onClick={() => { setFontSize(fontSize + 1); }}>{getString("viewTexts.settings.increaseFontSize")}</Button>
+            </MenuItem>
+            <MenuItem onClick={handleClose} disableRipple>
+                <Button className="decrease-font-size-input" color="inherit" onClick={() => { setFontSize(fontSize - 1); }}>{getString("viewTexts.settings.decreaseFontSize")}</Button>
+            </MenuItem>
+            <MenuItem onClick={handleClose} disableRipple>
+                <Button className="default-font-size-input" color="inherit" onClick={() => { setFontSize(getNumber("defaultBehaviour.editorFontSizePx")); }}>{getString("viewTexts.settings.defaultFontSize")}</Button>
+            </MenuItem>
+            <MenuItem onClick={handleClose} disableRipple>
+                <Button className="max-font-size-input" color="inherit" onClick={() => { setFontSize(getNumber("limits.maxEditorFontSizePx")); }}>{getString("viewTexts.settings.setMaxFontSize")}</Button>
+            </MenuItem>
+            <MenuItem onClick={handleClose} disableRipple>
+                <Button className="min-font-size-input" color="inherit" onClick={() => { setFontSize(getNumber("limits.minEditorFontSizePx")); }}>{getString("viewTexts.settings.setMinFontSize")}</Button>
             </MenuItem>
         </Menu>
     </Container>);

@@ -33,6 +33,7 @@ let RDFDataMobileView: React.FC<IRDFDataView> = ({
 
     /* isHiddenApiResponse, */
     isLineWrapping,
+    fontSize,
     editor,
 
 
@@ -48,6 +49,7 @@ let RDFDataMobileView: React.FC<IRDFDataView> = ({
 
     /* setHiddenApiResponse, */
     setLineWrapping,
+    setFontSize,
     /* setEditor */ }) => {
     let { getString } = useLocale();
 
@@ -86,7 +88,12 @@ let RDFDataMobileView: React.FC<IRDFDataView> = ({
                     <Typography variant="caption">{getString("viewTexts.rdfData.rdfResultCaption")}</Typography>
                 </Grid>
                 <Grid size={4}>
-                    <EditorSettings isLineWrapping={isLineWrapping} setLineWrapping={setLineWrapping} />
+                    <EditorSettings
+                        isLineWrapping={isLineWrapping}
+                        fontSize={fontSize}
+
+                        setLineWrapping={setLineWrapping}
+                        setFontSize={setFontSize} />
                 </Grid>
                 <Grid size={12}>
                     <Divider orientation="horizontal" textAlign="center" />

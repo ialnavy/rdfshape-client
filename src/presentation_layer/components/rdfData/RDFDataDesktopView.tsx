@@ -5,11 +5,10 @@ import { useLocale } from "../../containers/ExternalisedStringsContext";
 
 import RDFFormatComboBox from '../../../domain_layer/entities/rdfData/RDFFormatComboBox';
 import RDFInferenceComboBox from '../../../domain_layer/entities/rdfData/RDFInferenceComboBox';
-import EditorFactory from '../../../domain_layer/use_cases/EditorFactory';
+import EditorSettings from '../editorSettings/EditorSettings';
 import { IRDFDataView } from "./IRDFDataView";
 import RDFDataResultFull from './rdfDataResult/RDFDataResultFull';
 import RDFDataResultResume from './rdfDataResult/RDFDataResultResume';
-import EditorSettings from '../editorSettings/EditorSettings';
 
 
 /**
@@ -31,6 +30,7 @@ let RDFDataDesktopView: React.FC<IRDFDataView> = ({ /* code, */
 
     isHiddenApiResponse,
     isLineWrapping,
+    fontSize,
     editor,
 
 
@@ -46,6 +46,7 @@ let RDFDataDesktopView: React.FC<IRDFDataView> = ({ /* code, */
 
     setHiddenApiResponse,
     setLineWrapping,
+    setFontSize,
     /* setEditor */ }) => {
     let { getString } = useLocale();
 
@@ -74,7 +75,12 @@ let RDFDataDesktopView: React.FC<IRDFDataView> = ({ /* code, */
                 </Stack>
             </Grid>
             <Grid size={2}>
-                <EditorSettings isLineWrapping={isLineWrapping} setLineWrapping={setLineWrapping} />
+                <EditorSettings
+                    isLineWrapping={isLineWrapping}
+                    fontSize={fontSize}
+
+                    setLineWrapping={setLineWrapping}
+                    setFontSize={setFontSize} />
             </Grid>
             <Grid size={12}>
                 <Typography variant="caption">{getString("viewTexts.rdfData.rdfResultCaption")}</Typography>
