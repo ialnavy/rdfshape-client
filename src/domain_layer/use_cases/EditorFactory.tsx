@@ -17,7 +17,7 @@ interface EditorFactoryParams {
     editable?: boolean | undefined;
     isLineWrapping?: boolean | undefined;
     fontSize?: number | undefined;
-    setCode(code: string): void;
+    setCode?(code: string): void;
 }
 
 let EditorFactory = ({ code, idDoc, language, editable, isLineWrapping, fontSize, setCode }: EditorFactoryParams): React.ReactElement => {
@@ -78,9 +78,11 @@ let EditorFactory = ({ code, idDoc, language, editable, isLineWrapping, fontSize
         })
 
         let ytext = yDoc.getText('codemirror');
-        ytext.observe(() => {
-            setCode(ytext.toString());
-        });
+        if (setCode !== undefined) {
+            ytext.observe(() => {
+                setCode(ytext.toString());
+            });
+        }
 
         let undoManager = new Y.UndoManager(ytext);
 
@@ -110,11 +112,11 @@ let EditorFactory = ({ code, idDoc, language, editable, isLineWrapping, fontSize
         ? (<CodeMirror
             value={code}
             extensions={extensions}
-            onChange={(value: string) => { setCode(value); }}
+            onChange={(value: string) => { if (setCode !== undefined) setCode(value); }}
             editable={editable === undefined ? true : editable} />)
         : (<CodeMirror
             extensions={extensions}
-            onChange={(value: string) => { setCode(value); }}
+            onChange={(value: string) => { if (setCode !== undefined) setCode(value); }}
             editable={editable === undefined ? true : editable} />);
 };
 

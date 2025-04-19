@@ -7,9 +7,11 @@ import { EditorSettingsProps } from './IEditorSettings';
 let EditorSettings: React.FC<EditorSettingsProps> = ({
     isLineWrapping,
     fontSize,
+    isHiddenApiResponse,
 
     setLineWrapping,
-    setFontSize }) => {
+    setFontSize,
+    setHiddenApiResponse }) => {
     let { getString, getNumber } = useLocale();
 
     let [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -42,6 +44,10 @@ let EditorSettings: React.FC<EditorSettingsProps> = ({
             open={Boolean(anchorEl)}
             onClose={handleClose}
         >
+            <MenuItem onClick={handleClose} disableRipple>
+                <InputLabel className="hide-api-response-input">{getString("viewTexts.hideRdfShapeApiResponse")}</InputLabel>
+                <Switch {... { inputProps: { "aria-label": "hide-api-response-input" } }} checked={isHiddenApiResponse} onChange={() => { setHiddenApiResponse(!isHiddenApiResponse); }} />
+            </MenuItem>
             <MenuItem onClick={handleClose} disableRipple>
                 <InputLabel className="line-wrapping-input">{getString("viewTexts.settings.lineWrapping")}</InputLabel>
                 <Switch {... { inputProps: { "aria-label": "line-wrapping-input" } }} checked={isLineWrapping} onChange={() => { setLineWrapping(!isLineWrapping); }} />

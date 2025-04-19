@@ -616,6 +616,6 @@ viewTexts:
     tabTitleRdfForm: "RDF Form"
     tabTitleFullResponse: "RDFShape API Response"
     rdfResultCaption: "Results of RDF validation will be shown above."
-    rdfDataCaption: "Enter the RDF data in the box below."
+    rdfDataCaption: "Enter the RDF data in the box above."
 
 # To be extended!

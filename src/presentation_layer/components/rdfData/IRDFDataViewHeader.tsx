@@ -1,10 +1,6 @@
-export type IRDFDataView = {
-    idDoc: string | undefined;
-    
-    code: string;
+export type IRDFDataViewHeader = {
     rdfFormat: string;
     rdfInference: string;
-    sourceOfRDFData: string;
 
     isError: boolean;
     fullResponse: string;
@@ -16,10 +12,8 @@ export type IRDFDataView = {
     fontSize: number;
     
 
-    setCode(code: string): void;
     setRdfFormat(rdfFormat: string): void;
     setRdfInference(rdfInference: string): void;
-    setSourceOfRDFData(sourceOfRDFData: string): void;
 
     setError(isError: boolean): void;
     setFullResponse(fullResponse: string): void;

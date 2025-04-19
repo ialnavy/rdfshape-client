@@ -4,10 +4,13 @@ import { useParams } from "react-router-dom";
 import { useLocale } from "../../presentation_layer/containers/ExternalisedStringsContext";
 
 import { useWindowDimensions } from "../../infrastructure_layer/utilities/ReactElementsUtils";
-import RDFDataDesktopView from "./rdfData/RDFDataDesktopView";
-import RDFDataMobileView from "./rdfData/RDFDataMobileView";
+import RDFDataDesktopViewHeader from "./rdfData/RDFDataDesktopViewHeader";
+import RDFDataMobileViewHeader from "./rdfData/RDFDataMobileViewHeader";
 
+import { Container, Divider, Stack, Typography } from "@mui/material";
+import EditorFactory from "../../domain_layer/use_cases/EditorFactory";
 import { fetchRDFDataInfo } from '../../infrastructure_layer/services/FetchRdfData';
+import RDFDataResultFull from "./rdfData/rdfDataResult/RDFDataResultFull";
 
 
 let RDFDataMainView: React.FC = () => {
@@ -59,70 +62,85 @@ let RDFDataMainView: React.FC = () => {
 
     useEffect(doFetch, [code, rdfFormat, rdfInference, sourceOfRDFData]);
 
-    return (useWindowDimensions().width < getNumber("limits.adaptabilityThresholdPx")) ? (
-        <RDFDataMobileView
-            idDoc={idDoc}
+    return (<Stack direction="column" spacing={2} className="rdfDataMainView" alignContent="center" alignItems="center" justifyContent="center" justifyItems="center">
+        {(useWindowDimensions().width < getNumber("limits.adaptabilityThresholdPx")) ? (
+            <RDFDataMobileViewHeader
+                rdfFormat={rdfFormat}
+                rdfInference={rdfInference}
 
-            code={code}
-            rdfFormat={rdfFormat}
-            rdfInference={rdfInference}
-            sourceOfRDFData={sourceOfRDFData}
+                isError={isError}
+                fullResponse={fullResponse}
+                responseMessage={responseMessage}
+                responseNumberOfStatements={responseNumberOfStatements}
 
+                isHiddenApiResponse={isHiddenApiResponse}
+                isLineWrapping={isLineWrapping}
+                fontSize={fontSize}
+
+
+                setRdfFormat={setRdfFormat}
+                setRdfInference={setRdfInference}
+
+                setError={setError}
+                setFullResponse={setFullResponse}
+                setResponseMessage={setResponseMessage}
+                setResponseNumberOfStatements={setResponseNumberOfStatements}
+
+                setHiddenApiResponse={setHiddenApiResponse}
+                setLineWrapping={setLineWrapping}
+                setFontSize={setFontSize} />
+        ) : (
+            <RDFDataDesktopViewHeader
+                rdfFormat={rdfFormat}
+                rdfInference={rdfInference}
+
+                isError={isError}
+                fullResponse={fullResponse}
+                responseMessage={responseMessage}
+                responseNumberOfStatements={responseNumberOfStatements}
+
+                isHiddenApiResponse={isHiddenApiResponse}
+                isLineWrapping={isLineWrapping}
+                fontSize={fontSize}
+
+
+                setRdfFormat={setRdfFormat}
+                setRdfInference={setRdfInference}
+
+                setError={setError}
+                setFullResponse={setFullResponse}
+                setResponseMessage={setResponseMessage}
+                setResponseNumberOfStatements={setResponseNumberOfStatements}
+
+                setHiddenApiResponse={setHiddenApiResponse}
+                setLineWrapping={setLineWrapping}
+                setFontSize={setFontSize} />)}
+        <Divider orientation="horizontal" textAlign="center" />
+        <Container>
+            <EditorFactory
+                code={code}
+                idDoc={idDoc}
+                language={getString("mimeTypes.turtle")}
+                editable={true}
+                isLineWrapping={isLineWrapping}
+                fontSize={fontSize}
+                setCode={setCode}
+
+            /* WARNING!
+             * This element, which is the CodeMirror editor, MUST ALWAYS BE VISIBLE!
+             * Otherwise, the synchronisation of the Yjs document with the y-mongodb-provider
+             * would be lost when the component is made non-visible.
+             */
+
+            />
+        </Container>
+        <Typography variant="caption">{getString("viewTexts.rdfData.rdfDataCaption")}</Typography>
+        {!isHiddenApiResponse && (<RDFDataResultFull
             isError={isError}
             fullResponse={fullResponse}
             responseMessage={responseMessage}
-            responseNumberOfStatements={responseNumberOfStatements}
-
-            isHiddenApiResponse={isHiddenApiResponse}
-            isLineWrapping={isLineWrapping}
-            fontSize={fontSize}
-
-
-            setCode={setCode}
-            setRdfFormat={setRdfFormat}
-            setRdfInference={setRdfInference}
-            setSourceOfRDFData={setSourceOfRDFData}
-
-            setError={setError}
-            setFullResponse={setFullResponse}
-            setResponseMessage={setResponseMessage}
-            setResponseNumberOfStatements={setResponseNumberOfStatements}
-
-            setHiddenApiResponse={setHiddenApiResponse}
-            setLineWrapping={setLineWrapping}
-            setFontSize={setFontSize} />
-    ) : (
-        <RDFDataDesktopView
-            idDoc={idDoc}
-
-            code={code}
-            rdfFormat={rdfFormat}
-            rdfInference={rdfInference}
-            sourceOfRDFData={sourceOfRDFData}
-
-            isError={isError}
-            fullResponse={fullResponse}
-            responseMessage={responseMessage}
-            responseNumberOfStatements={responseNumberOfStatements}
-
-            isHiddenApiResponse={isHiddenApiResponse}
-            isLineWrapping={isLineWrapping}
-            fontSize={fontSize}
-
-
-            setCode={setCode}
-            setRdfFormat={setRdfFormat}
-            setRdfInference={setRdfInference}
-            setSourceOfRDFData={setSourceOfRDFData}
-
-            setError={setError}
-            setFullResponse={setFullResponse}
-            setResponseMessage={setResponseMessage}
-            setResponseNumberOfStatements={setResponseNumberOfStatements}
-
-            setHiddenApiResponse={setHiddenApiResponse}
-            setLineWrapping={setLineWrapping}
-            setFontSize={setFontSize} />);
+            responseNumberOfStatements={responseNumberOfStatements} />)}
+    </Stack>);
 };
 
 export default RDFDataMainView;
