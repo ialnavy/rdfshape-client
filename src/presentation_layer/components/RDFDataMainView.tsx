@@ -18,7 +18,7 @@ let RDFDataMainView: React.FC = () => {
     let { idDoc } = useParams();
 
     // These variables are used for querying against RDFShape API
-    let [code, setCode] = useState<string>(getString("defaultScripts.rdfData"));
+    let [code, setCode] = useState<string>("");
     let [rdfFormat, setRdfFormat] = useState<string>(getString("api.formats.turtle"));
     let [rdfInference, setRdfInference] = useState<string>(getString("api.inference.none"));
     let [sourceOfRDFData, setSourceOfRDFData] = useState<string>(getString("api.sources.byText"));
