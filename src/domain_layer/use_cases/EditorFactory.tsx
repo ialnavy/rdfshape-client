@@ -3,7 +3,7 @@ import React from "react";
 import { useLocale } from "../../presentation_layer/containers/ExternalisedStringsContext";
 
 import { javascript } from "@codemirror/lang-javascript";
-import CodeMirror, { EditorView, Extension, ViewUpdate } from "@uiw/react-codemirror";
+import CodeMirror, { EditorView, Extension } from "@uiw/react-codemirror";
 import { turtle } from 'codemirror-lang-turtle';
 import { yCollab } from 'y-codemirror.next';
 import { WebsocketProvider } from 'y-websocket';
@@ -17,10 +17,10 @@ interface EditorFactoryParams {
     editable?: boolean | undefined;
     isLineWrapping?: boolean | undefined;
     fontSize?: number | undefined;
-    onChange?: (value: string, viewUpdate: ViewUpdate) => void;
+    setCode(code: string): void;
 }
 
-let EditorFactory = ({ code, idDoc, language, editable, isLineWrapping, fontSize, onChange }: EditorFactoryParams): React.ReactElement => {
+let EditorFactory = ({ code, idDoc, language, editable, isLineWrapping, fontSize, setCode }: EditorFactoryParams): React.ReactElement => {
     let { getString, getNumber } = useLocale();
 
     // Font size umbral check
@@ -73,6 +73,9 @@ let EditorFactory = ({ code, idDoc, language, editable, isLineWrapping, fontSize
             if (event.status === 'connected')
                 console.log(event.status);
         });
+        provider.on('connection-error', () => {
+            provider.ws?.close();
+        })
 
         let ytext = yDoc.getText('codemirror');
         let undoManager = new Y.UndoManager(ytext);
@@ -85,30 +88,11 @@ let EditorFactory = ({ code, idDoc, language, editable, isLineWrapping, fontSize
         extensions.push(yCollab(ytext, provider.awareness, { undoManager }));
     }
 
-    /*
-     * VERY IMPORTANT!
-     * 
-     * An 'Y.Doc' object is not a string value like the 'code' prop,
-     * it is a set of concurrent updates loaded against a MongoDB provider.
-     * 
-     * Therefore, when using colaborativity functionality,
-     * we cannot manipulate the 'value' property of CodeMirror as a string;
-     * that would lead to concurrency issues.
-     * 
-     * Instead, we let the yjs library make the synchronisation of the 
-     * CodeMirror editor content, and handle each update of the document;
-     * again, synchronised with the MongoDB provider.
-     */
-    return (idDoc === undefined)
-        ? (<CodeMirror
-            value={code}
-            extensions={extensions}
-            onChange={onChange}
-            editable={editable === undefined ? true : editable} />)
-        : (<CodeMirror
-            extensions={extensions}
-            onChange={onChange}
-            editable={editable === undefined ? true : editable} />);
+    return (<CodeMirror
+        value={code}
+        extensions={extensions}
+        onChange={(value: string) => { setCode(value); }}
+        editable={editable === undefined ? true : editable} />);
 };
 
 export default EditorFactory;

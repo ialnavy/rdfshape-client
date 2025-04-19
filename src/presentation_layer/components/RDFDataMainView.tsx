@@ -30,6 +30,7 @@ let RDFDataMainView: React.FC = () => {
     let [responseNumberOfStatements, setResponseNumberOfStatements] = useState<number>(0);
 
     // These variables are used for conditional rendering of React subelements
+    let [isMobileView, setIsMobileView] = useState<boolean>(false);
     let [isHiddenApiResponse, setHiddenApiResponse] = useState<boolean>(getBoolean("defaultBehaviour.hidApiResponse"));
     let [isLineWrapping, setLineWrapping] = useState<boolean>(getBoolean("defaultBehaviour.lineWrapping"));
     let [fontSize, _setFontSize] = useState<number>(getNumber("defaultBehaviour.editorFontSizePx"));
@@ -39,21 +40,15 @@ let RDFDataMainView: React.FC = () => {
             _setFontSize(value);
         }
     };
-    let [editor, setEditor] = useState<React.ReactNode>(null);
-
-    useEffect(() => {
-        setEditor(
-            <EditorFactory
-                code={code}
-                idDoc={idDoc}
-                language={getString("mimeTypes.turtle")}
-                editable={true}
-                isLineWrapping={isLineWrapping}
-                fontSize={fontSize}
-                onChange={(value: string) => { setCode(value); }}
-            />
-        );
-    }, [code, idDoc, isLineWrapping, fontSize,]);
+    let [editor, setEditor] = useState<React.ReactNode>(<EditorFactory
+        code={code}
+        idDoc={idDoc}
+        language={getString("mimeTypes.turtle")}
+        editable={true}
+        isLineWrapping={isLineWrapping}
+        fontSize={fontSize}
+        setCode={setCode}
+    />);
 
     let doFetch = () => {
         fetchRDFDataInfo({
@@ -75,6 +70,20 @@ let RDFDataMainView: React.FC = () => {
 
     useEffect(doFetch, [code, rdfFormat, rdfInference, sourceOfRDFData]);
 
+    useEffect(() => {
+        setEditor(
+            <EditorFactory
+                code={code}
+                idDoc={idDoc}
+                language={getString("mimeTypes.turtle")}
+                editable={true}
+                isLineWrapping={isLineWrapping}
+                fontSize={fontSize}
+                setCode={setCode}
+            />
+        );
+    }, [isMobileView]);
+
     return (useWindowDimensions().width < getNumber("limits.adaptabilityThresholdPx")) ? (
         <RDFDataMobileView
             code={code}
@@ -87,6 +96,7 @@ let RDFDataMainView: React.FC = () => {
             responseMessage={responseMessage}
             responseNumberOfStatements={responseNumberOfStatements}
 
+            isMobileView={isMobileView}
             isHiddenApiResponse={isHiddenApiResponse}
             isLineWrapping={isLineWrapping}
             fontSize={fontSize}
@@ -103,10 +113,10 @@ let RDFDataMainView: React.FC = () => {
             setResponseMessage={setResponseMessage}
             setResponseNumberOfStatements={setResponseNumberOfStatements}
 
+            setIsMobileView={setIsMobileView}
             setHiddenApiResponse={setHiddenApiResponse}
             setLineWrapping={setLineWrapping}
-            setFontSize={setFontSize}
-            setEditor={setEditor} />
+            setFontSize={setFontSize} />
     ) : (
         <RDFDataDesktopView
             code={code}
@@ -119,6 +129,7 @@ let RDFDataMainView: React.FC = () => {
             responseMessage={responseMessage}
             responseNumberOfStatements={responseNumberOfStatements}
 
+            isMobileView={isMobileView}
             isHiddenApiResponse={isHiddenApiResponse}
             isLineWrapping={isLineWrapping}
             fontSize={fontSize}
@@ -135,10 +146,10 @@ let RDFDataMainView: React.FC = () => {
             setResponseMessage={setResponseMessage}
             setResponseNumberOfStatements={setResponseNumberOfStatements}
 
+            setIsMobileView={setIsMobileView}
             setHiddenApiResponse={setHiddenApiResponse}
             setLineWrapping={setLineWrapping}
-            setFontSize={setFontSize}
-            setEditor={setEditor} />);
+            setFontSize={setFontSize} />);
 };
 
 export default RDFDataMainView;

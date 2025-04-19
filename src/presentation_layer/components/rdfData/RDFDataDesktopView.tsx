@@ -1,5 +1,5 @@
 import { Divider, Grid2 as Grid, InputLabel, Stack, Switch, Typography } from '@mui/material';
-import React from "react";
+import React, { useEffect } from "react";
 
 import { useLocale } from "../../containers/ExternalisedStringsContext";
 
@@ -28,6 +28,7 @@ let RDFDataDesktopView: React.FC<IRDFDataView> = ({ /* code, */
     responseMessage,
     responseNumberOfStatements,
 
+    /* isMobileView, */
     isHiddenApiResponse,
     isLineWrapping,
     fontSize,
@@ -44,12 +45,15 @@ let RDFDataDesktopView: React.FC<IRDFDataView> = ({ /* code, */
     /* setResponseMessage, */
     /* setResponseNumberOfStatements, */
 
+    setIsMobileView,
     setHiddenApiResponse,
     setLineWrapping,
-    setFontSize,
-    /* setEditor */ }) => {
+    setFontSize }) => {
     let { getString } = useLocale();
 
+    useEffect(() => {
+        setIsMobileView(false);
+    }, []);
     return (
         <Grid container spacing={2} className="rdfDataSmallView">
             <Grid size={12}>

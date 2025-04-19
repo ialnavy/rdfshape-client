@@ -9,6 +9,7 @@ export type IRDFDataView = {
     responseMessage: string;
     responseNumberOfStatements: number;
 
+    isMobileView: boolean;
     isHiddenApiResponse: boolean;
     isLineWrapping: boolean;
     fontSize: number;
@@ -25,8 +26,8 @@ export type IRDFDataView = {
     setResponseMessage(responseMessage: string): void;
     setResponseNumberOfStatements(responseNumberOfStatements: number): void;
 
+    setIsMobileView(isMobileView: boolean): void;
     setHiddenApiResponse(isHiddenApiResponse: boolean): void;
     setLineWrapping(isLineWrapping: boolean): void;
     setFontSize(fontSize: number): void;
-    setEditor(editor: React.ReactNode): void;
 };

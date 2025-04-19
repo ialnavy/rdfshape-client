@@ -1,5 +1,5 @@
 import { Box, Container, Divider, Grid2 as Grid, Tab, Tabs, Typography } from '@mui/material';
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { useLocale } from "../../containers/ExternalisedStringsContext";
 
@@ -31,6 +31,7 @@ let RDFDataMobileView: React.FC<IRDFDataView> = ({
     responseMessage,
     responseNumberOfStatements,
 
+    /* isMobileView, */
     /* isHiddenApiResponse, */
     isLineWrapping,
     fontSize,
@@ -47,10 +48,10 @@ let RDFDataMobileView: React.FC<IRDFDataView> = ({
     /* setResponseMessage, */
     /* setResponseNumberOfStatements, */
 
+    setIsMobileView,
     /* setHiddenApiResponse, */
     setLineWrapping,
-    setFontSize,
-    /* setEditor */ }) => {
+    setFontSize }) => {
     let { getString } = useLocale();
 
     // Tab control
@@ -59,6 +60,9 @@ let RDFDataMobileView: React.FC<IRDFDataView> = ({
         setTabIndex(nextTabIndex);
     };
 
+    useEffect(() => {
+        setIsMobileView(true);
+    }, []);
     return (<Container>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
             <Tabs value={tabIndex} onChange={handleTabChange} aria-label="basic tabs example">
