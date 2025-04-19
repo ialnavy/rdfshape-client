@@ -59,7 +59,7 @@ let RDFDataMainView: React.FC = () => {
 
     let doFetch = () => {
         fetchRDFDataInfo({
-            host: getString("api.host"),
+            host: (process.env.RDFSHAPE_API_HOST as string) ?? "http://127.0.0.1:8080/api",
             endpoints: getStringsSet("api.endpoints"),
             contentType: getString("mimeTypes.json.appJSON"),
             content: code, format: rdfFormat, inference: rdfInference, source: sourceOfRDFData
