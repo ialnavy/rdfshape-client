@@ -67,7 +67,7 @@ let EditorFactory = ({ code, idDoc, language, editable, isLineWrapping, fontSize
         let yDoc = new Y.Doc();
         let provider = new WebsocketProvider(
             (import.meta.env.VITE_RDFSHAPE_Y_MONGO_DB_PROVIDER_HOST as string) ?? "ws://127.0.0.1:2403/",
-            idDoc ?? getString("api.defaultWssDocId"),
+            idDoc,
             yDoc);
         provider.on('status', (event) => {
             if (event.status === 'connected')

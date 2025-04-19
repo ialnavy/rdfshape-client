@@ -53,7 +53,7 @@ let RDFDataMainView: React.FC = () => {
                 onChange={(value: string) => { setCode(value); }}
             />
         );
-    }, [isLineWrapping, fontSize]);
+    }, [code, idDoc, isLineWrapping, fontSize,]);
 
     let doFetch = () => {
         fetchRDFDataInfo({
