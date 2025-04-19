@@ -532,7 +532,7 @@ api:
   #host: "https://api.rdfshape.weso.es/api"
   host: "http://127.0.0.1:8080/api"
   wssHost: "ws://127.0.0.1:2403/"
-  defaultWssDocId: "defaultDoc"
+  defaultWssDocId: "00000000-0000-4000-8000-000000000000"
   endpoints:
     rdfDataInfo: "/data/info"
   formats:
