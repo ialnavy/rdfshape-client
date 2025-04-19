@@ -42,8 +42,6 @@ let RDFDataMainView: React.FC = () => {
     let [editor, setEditor] = useState<React.ReactNode>(null);
 
     useEffect(() => {
-        if (idDoc === undefined)
-            idDoc = getString("api.defaultWssDocId");
         setEditor(
             <EditorFactory
                 code={code}
