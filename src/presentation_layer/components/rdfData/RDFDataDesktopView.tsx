@@ -1,15 +1,15 @@
 import { Divider, Grid2 as Grid, InputLabel, Stack, Switch, Typography } from '@mui/material';
-import React, { useEffect } from "react";
+import React from "react";
 
 import { useLocale } from "../../containers/ExternalisedStringsContext";
 
 import RDFFormatComboBox from '../../../domain_layer/entities/rdfData/RDFFormatComboBox';
 import RDFInferenceComboBox from '../../../domain_layer/entities/rdfData/RDFInferenceComboBox';
+import EditorFactory from '../../../domain_layer/use_cases/EditorFactory';
 import EditorSettings from '../editorSettings/EditorSettings';
 import { IRDFDataView } from "./IRDFDataView";
 import RDFDataResultFull from './rdfDataResult/RDFDataResultFull';
 import RDFDataResultResume from './rdfDataResult/RDFDataResultResume';
-import EditorFactory from '../../../domain_layer/use_cases/EditorFactory';
 
 
 /**
