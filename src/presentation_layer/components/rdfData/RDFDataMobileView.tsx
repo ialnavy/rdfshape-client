@@ -12,6 +12,7 @@ import EditorSettings from '../editorSettings/EditorSettings';
 import { IRDFDataView } from "./IRDFDataView";
 import RDFDataResultFull from './rdfDataResult/RDFDataResultFull';
 import RDFDataResultResume from './rdfDataResult/RDFDataResultResume';
+import EditorFactory from '../../../domain_layer/use_cases/EditorFactory';
 
 
 /**
@@ -21,7 +22,9 @@ import RDFDataResultResume from './rdfDataResult/RDFDataResultResume';
  * @returns 
  */
 let RDFDataMobileView: React.FC<IRDFDataView> = ({
-    /* code, */
+    idDoc,
+
+    code,
     rdfFormat,
     rdfInference,
     /* sourceOfRDFData, */
@@ -31,14 +34,12 @@ let RDFDataMobileView: React.FC<IRDFDataView> = ({
     responseMessage,
     responseNumberOfStatements,
 
-    /* isMobileView, */
     /* isHiddenApiResponse, */
     isLineWrapping,
     fontSize,
-    editor,
 
 
-    /* setCode, */
+    setCode,
     setRdfFormat,
     setRdfInference,
     /* setSourceOfRDFData, */
@@ -48,7 +49,6 @@ let RDFDataMobileView: React.FC<IRDFDataView> = ({
     /* setResponseMessage, */
     /* setResponseNumberOfStatements, */
 
-    setIsMobileView,
     /* setHiddenApiResponse, */
     setLineWrapping,
     setFontSize }) => {
@@ -60,9 +60,6 @@ let RDFDataMobileView: React.FC<IRDFDataView> = ({
         setTabIndex(nextTabIndex);
     };
 
-    useEffect(() => {
-        setIsMobileView(true);
-    }, []);
     return (<Container>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
             <Tabs value={tabIndex} onChange={handleTabChange} aria-label="basic tabs example">
@@ -102,7 +99,14 @@ let RDFDataMobileView: React.FC<IRDFDataView> = ({
                 <Grid size={12}>
                     <Divider orientation="horizontal" textAlign="center" />
                     <Typography variant="caption">{getString("viewTexts.rdfData.rdfDataCaption")}</Typography>
-                    {editor}
+                    <EditorFactory
+                        code={code}
+                        idDoc={idDoc}
+                        language={getString("mimeTypes.turtle")}
+                        editable={true}
+                        isLineWrapping={isLineWrapping}
+                        fontSize={fontSize}
+                        setCode={setCode} />
                 </Grid>
             </Grid>
         </CustomTabPanel>

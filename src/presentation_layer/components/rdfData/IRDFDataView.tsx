@@ -1,4 +1,6 @@
 export type IRDFDataView = {
+    idDoc: string | undefined;
+    
     code: string;
     rdfFormat: string;
     rdfInference: string;
@@ -9,11 +11,9 @@ export type IRDFDataView = {
     responseMessage: string;
     responseNumberOfStatements: number;
 
-    isMobileView: boolean;
     isHiddenApiResponse: boolean;
     isLineWrapping: boolean;
     fontSize: number;
-    editor: React.ReactNode;
     
 
     setCode(code: string): void;
@@ -26,7 +26,6 @@ export type IRDFDataView = {
     setResponseMessage(responseMessage: string): void;
     setResponseNumberOfStatements(responseNumberOfStatements: number): void;
 
-    setIsMobileView(isMobileView: boolean): void;
     setHiddenApiResponse(isHiddenApiResponse: boolean): void;
     setLineWrapping(isLineWrapping: boolean): void;
     setFontSize(fontSize: number): void;

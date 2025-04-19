@@ -9,6 +9,7 @@ import EditorSettings from '../editorSettings/EditorSettings';
 import { IRDFDataView } from "./IRDFDataView";
 import RDFDataResultFull from './rdfDataResult/RDFDataResultFull';
 import RDFDataResultResume from './rdfDataResult/RDFDataResultResume';
+import EditorFactory from '../../../domain_layer/use_cases/EditorFactory';
 
 
 /**
@@ -18,7 +19,10 @@ import RDFDataResultResume from './rdfDataResult/RDFDataResultResume';
  * @param param0 
  * @returns 
  */
-let RDFDataDesktopView: React.FC<IRDFDataView> = ({ /* code, */
+let RDFDataDesktopView: React.FC<IRDFDataView> = ({
+    idDoc,
+
+    code,
     rdfFormat,
     rdfInference,
     /* sourceOfRDFData, */
@@ -28,14 +32,12 @@ let RDFDataDesktopView: React.FC<IRDFDataView> = ({ /* code, */
     responseMessage,
     responseNumberOfStatements,
 
-    /* isMobileView, */
     isHiddenApiResponse,
     isLineWrapping,
     fontSize,
-    editor,
 
 
-    /* setCode, */
+    setCode,
     setRdfFormat,
     setRdfInference,
     /* setSourceOfRDFData, */
@@ -45,15 +47,11 @@ let RDFDataDesktopView: React.FC<IRDFDataView> = ({ /* code, */
     /* setResponseMessage, */
     /* setResponseNumberOfStatements, */
 
-    setIsMobileView,
     setHiddenApiResponse,
     setLineWrapping,
     setFontSize }) => {
     let { getString } = useLocale();
 
-    useEffect(() => {
-        setIsMobileView(false);
-    }, []);
     return (
         <Grid container spacing={2} className="rdfDataSmallView">
             <Grid size={12}>
@@ -92,7 +90,14 @@ let RDFDataDesktopView: React.FC<IRDFDataView> = ({ /* code, */
             <Grid size={isHiddenApiResponse ? 12 : 8}>
                 <Divider orientation="horizontal" textAlign="center" />
                 <Typography variant="caption">{getString("viewTexts.rdfData.rdfDataCaption")}</Typography>
-                {editor}
+                <EditorFactory
+                    code={code}
+                    idDoc={idDoc}
+                    language={getString("mimeTypes.turtle")}
+                    editable={true}
+                    isLineWrapping={isLineWrapping}
+                    fontSize={fontSize}
+                    setCode={setCode} />
             </Grid>
             {!isHiddenApiResponse && (
                 <Grid size={4}>

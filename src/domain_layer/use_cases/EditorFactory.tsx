@@ -78,6 +78,10 @@ let EditorFactory = ({ code, idDoc, language, editable, isLineWrapping, fontSize
         })
 
         let ytext = yDoc.getText('codemirror');
+        ytext.observe(() => {
+            setCode(ytext.toString());
+        });
+
         let undoManager = new Y.UndoManager(ytext);
 
         provider.awareness.setLocalStateField('user', {
@@ -88,11 +92,30 @@ let EditorFactory = ({ code, idDoc, language, editable, isLineWrapping, fontSize
         extensions.push(yCollab(ytext, provider.awareness, { undoManager }));
     }
 
-    return (<CodeMirror
-        value={code}
-        extensions={extensions}
-        onChange={(value: string) => { setCode(value); }}
-        editable={editable === undefined ? true : editable} />);
+    /*
+     * VERY IMPORTANT!
+     * 
+     * An 'Y.Doc' object is not a string value like the 'code' prop,
+     * it is a set of concurrent updates loaded against a MongoDB provider.
+     * 
+     * Therefore, when using colaborativity functionality,
+     * we cannot manipulate the 'value' property of CodeMirror as a string;
+     * that would lead to concurrency issues.
+     * 
+     * Instead, we let the yjs library make the synchronisation of the 
+     * CodeMirror editor content, and handle each update of the document;
+     * again, synchronised with the MongoDB provider.
+     */
+    return (idDoc === undefined)
+        ? (<CodeMirror
+            value={code}
+            extensions={extensions}
+            onChange={(value: string) => { setCode(value); }}
+            editable={editable === undefined ? true : editable} />)
+        : (<CodeMirror
+            extensions={extensions}
+            onChange={(value: string) => { setCode(value); }}
+            editable={editable === undefined ? true : editable} />);
 };
 
 export default EditorFactory;
