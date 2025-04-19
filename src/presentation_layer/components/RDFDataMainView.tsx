@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 import { useLocale } from "../../presentation_layer/containers/ExternalisedStringsContext";
 
@@ -12,6 +13,9 @@ import { fetchRDFDataInfo } from '../../infrastructure_layer/services/FetchRdfDa
 
 let RDFDataMainView: React.FC = () => {
     let { getString, getNumber, getBoolean, getStringsSet } = useLocale();
+
+    // The idDoc is used to identify the document that is being edited
+    let { idDoc } = useParams();
 
     // These variables are used for querying against RDFShape API
     let [code, setCode] = useState<string>(getString("defaultScripts.rdfData"));
@@ -38,9 +42,12 @@ let RDFDataMainView: React.FC = () => {
     let [editor, setEditor] = useState<React.ReactNode>(null);
 
     useEffect(() => {
+        if (idDoc === undefined)
+            idDoc = getString("api.defaultWssDocId");
         setEditor(
             <EditorFactory
                 code={code}
+                idDoc={idDoc}
                 language={getString("mimeTypes.turtle")}
                 editable={true}
                 isLineWrapping={isLineWrapping}

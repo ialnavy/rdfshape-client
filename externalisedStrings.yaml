@@ -531,6 +531,8 @@ mimeTypes:
 api:
   #host: "https://api.rdfshape.weso.es/api"
   host: "http://127.0.0.1:8080/api"
+  wssHost: "ws://127.0.0.1:2403/"
+  defaultWssDocId: "defaultDoc"
   endpoints:
     rdfDataInfo: "/data/info"
   formats:
