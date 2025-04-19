@@ -66,4 +66,4 @@ networks:
     name: rdfshape_network
     driver: bridge
     driver_opts:
-      com.docker.network.bridge.host_binding_ipv4: "156.35.95.83"
+      com.docker.network.bridge.host_binding_ipv4: "<YOUR_IP_ADDRESS>"
