@@ -1,5 +1,26 @@
 version: "3"
 services:
+  rdfshape-y-mongodb-provider:
+    image: ialnavy/rdfshape-y-mongodb-provider
+    container_name: rdfshape-y-mongodb-provider
+    hostname: rdfshape-y-mongodb-provider
+    networks:
+      - rdfshape_network
+    healthcheck:
+      test: curl -s -f --retry 4 --max-time 4 --retry-delay 6 rdfshape-y-mongodb-provider
+      interval: 1m
+      timeout: 1m
+      start_period: 20s
+      retries: 2
+    restart: unless-stopped
+    ports:
+      - "2403:2403"
+    environment:
+      - MONGODB_HOST=mongodb://host.docker.internal:27017
+      - WEBSOCKETS_DOMAIN=127.0.0.1
+      - WEBSOCKETS_PORT=2403 
+      - VIRTUAL_HOST=rdfshape-y-mongodb-provider
+
   rdfshape-api:
     image: ghcr.io/weso/rdfshape-api:stable
     container_name: rdfshape-api
@@ -36,12 +57,13 @@ services:
     ports:
       - "80:80"
     environment:
+      - VITE_RDFSHAPE_Y_MONGO_DB_PROVIDER_HOST=ws://rdfshape-y-mongodb-provider:2403/
+      - VITE_RDFSHAPE_API_HOST=http://rdfshape-api:8080/api
       - VIRTUAL_HOST=rdfshape-client
-      - RDFSHAPE_HOST=rdfshape-api
 
 networks:
   rdfshape_network:
     name: rdfshape_network
     driver: bridge
     driver_opts:
-      com.docker.network.bridge.host_binding_ipv4: "<YOUR_IP_ADDRESS>"
+      com.docker.network.bridge.host_binding_ipv4: "156.35.95.83"
