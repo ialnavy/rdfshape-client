@@ -66,7 +66,7 @@ let EditorFactory = ({ code, idDoc, language, editable, isLineWrapping, fontSize
         let userColor = { color: '#30bced', light: '#30bced33' };
         let yDoc = new Y.Doc();
         let provider = new WebsocketProvider(
-            (process.env.RDFSHAPE_Y_MONGO_DB_PROVIDER_HOST as string) ?? "ws://127.0.0.1:2403/",
+            (import.meta.env.RDFSHAPE_Y_MONGO_DB_PROVIDER_HOST as string) ?? "ws://127.0.0.1:2403/",
             idDoc ?? getString("api.defaultWssDocId"),
             yDoc);
         provider.on('status', (event) => {
