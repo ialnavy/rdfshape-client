@@ -42,19 +42,17 @@ let RDFDataMainView: React.FC = () => {
     let [editor, setEditor] = useState<React.ReactNode>(null);
 
     useEffect(() => {
-        if (editor === null) {
-            setEditor(
-                <EditorFactory
-                    code={code}
-                    idDoc={idDoc}
-                    language={getString("mimeTypes.turtle")}
-                    editable={true}
-                    isLineWrapping={isLineWrapping}
-                    fontSize={fontSize}
-                    onChange={(value: string) => { setCode(value); }}
-                />
-            );
-        }
+        setEditor(
+            <EditorFactory
+                code={code}
+                idDoc={idDoc}
+                language={getString("mimeTypes.turtle")}
+                editable={true}
+                isLineWrapping={isLineWrapping}
+                fontSize={fontSize}
+                onChange={(value: string) => { setCode(value); }}
+            />
+        );
     }, [isLineWrapping, fontSize]);
 
     let doFetch = () => {
