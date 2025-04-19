@@ -23,7 +23,7 @@ let RDFDataMainView: React.FC = () => {
     let [code, setCode] = useState<string>("");
     let [rdfFormat, setRdfFormat] = useState<string>(getString("api.formats.turtle"));
     let [rdfInference, setRdfInference] = useState<string>(getString("api.inference.none"));
-    let [sourceOfRDFData, setSourceOfRDFData] = useState<string>(getString("api.sources.byText"));
+    let [sourceOfRDFData /*, setSourceOfRDFData */ ] = useState<string>(getString("api.sources.byText"));
 
     // These variables are used for assemblying the result of the previous query
     let [isError, setError] = useState<boolean>(false);
