@@ -14,7 +14,6 @@ import RDFDataResultResume from './rdfDataResult/RDFDataResultResume';
 
 /**
  * RDF Data view, intended for desktop view.
- * TO BE DONE!
  * 
  * @param param0 
  * @returns 
