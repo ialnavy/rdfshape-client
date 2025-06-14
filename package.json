@@ -25,6 +25,7 @@
     "@types/react-router-dom": "^5.3.3",
     "@uiw/react-codemirror": "^4.23.10",
     "codemirror-lang-turtle": "^0.0.2",
+    "graphviz-react": "^1.2.5",
     "react": "^19.0.0",
     "react-bootstrap": "^2.10.9",
     "react-dom": "^19.0.0",
