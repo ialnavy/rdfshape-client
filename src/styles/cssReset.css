@@ -1,0 +1,20 @@
+html,
+body {
+    box-sizing: border-box;
+    /* paddings & borders stay inside the declared width  */
+    width: 100%;
+    margin: 0;
+    /* the default 8 px body margin is a common culprit  */
+    overflow-x: hidden;
+    /* hide anything that still slips through            */
+
+    /* let y scroll naturally (auto) or always reserve space (scroll) */
+    overflow-y: auto;
+    /* or scroll */
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+}
