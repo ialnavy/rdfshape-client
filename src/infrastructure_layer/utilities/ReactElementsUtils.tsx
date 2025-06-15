@@ -1,11 +1,12 @@
 import { Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 
-export let makeParagraph = (text: any, cssClassName?: string) => {
-    if (cssClassName)
-        return <Typography variant="body1" component="p" color="inherit" className={cssClassName}>{(new String(text)).toString()}</Typography>;
-    else
-        return <Typography variant="body1" component="p" color="inherit">{(new String(text)).toString()}</Typography>;
+export let makeParagraph = (text: any, isError: boolean = false) => {
+    return (<Typography
+        variant="body1"
+        component="p"
+        color={isError ? "red" : "inherit"}
+    >{(new String(text)).toString()}</Typography>);
 };
 
 export function useWindowDimensions() {

@@ -1,7 +1,7 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 
 import { generateRandomUuidForYjsDoc } from "../../infrastructure_layer/services/YjsDocServiceLayer";
-import Home from "../components/Home";
+import Home from "../Home";
 import RDFDataMainView from "../components/RDFDataMainView";
 import RDFShapeNavBar from "../components/RDFShapeNavBar";
 

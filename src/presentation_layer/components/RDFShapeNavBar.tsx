@@ -1,4 +1,4 @@
-import { AppBar, Stack, Toolbar, Button, Link, MenuItem, Menu } from '@mui/material';
+import { AppBar, Stack, Toolbar, Button, Link, MenuItem, Menu, Typography } from '@mui/material';
 import { StyledEngineProvider } from '@mui/material/styles';
 
 import "../../styles/mainLayout.css";
@@ -31,7 +31,11 @@ const RDFShapeNavBar: React.FC<RDFShapeNavBarProps> = ({ children }) => {
                                 alt="RDFShape Logo"
                                 className="rdfShapeNavBarLogo"
                             />
-                            {makeParagraph(getString("texts.title"), "rdfShapeNavBarLogoText")}
+                            <Typography
+                                    variant="body1"
+                                    component="p"
+                                    className="rdfShapeNavBarLogoText"
+                                >{getString("texts.title")}</Typography>
                         </Link>
                         <Button className="rdfShapeNavBarButton" color="inherit" href="/rdfData">{getString("viewTexts.navBar.rdfData")}</Button>
 

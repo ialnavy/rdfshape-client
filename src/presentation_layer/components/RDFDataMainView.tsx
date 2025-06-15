@@ -11,8 +11,8 @@ import { fetchDataConvertGraphViz, fetchDataInfo } from "../../infrastructure_la
 import DataComboBox from './dataComboBox/DataComboBox';
 import EditorSettings from "./editorSettings/EditorSettings";
 import FontSettings from './fontSettings/FontSettings';
-import RDFDataResultFull from "./rdfData/RDFDataResultFull";
-import RDFDataResultResume from "./rdfData/RDFDataResultResume";
+import DataResultFull from "./result/DataResultFull";
+import DataResultResume from "./result/DataResultResume";
 
 
 let RDFDataMainView: React.FC = () => {
@@ -140,7 +140,7 @@ let RDFDataMainView: React.FC = () => {
             </Grid>
 
             <Grid size={12}>
-                <RDFDataResultResume
+                <DataResultResume
                     isError={isError}
                     fullResponse={fullResponse}
                     responseMessage={responseMessage}
@@ -217,7 +217,7 @@ let RDFDataMainView: React.FC = () => {
           */}
 
         {!isHiddenApiResponse && (<>
-            <RDFDataResultFull
+            <DataResultFull
                 isError={isError}
                 fullResponse={fullResponse}
 

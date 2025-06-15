@@ -504,6 +504,7 @@ limits:
   tabletWindowWidthPxThreshold: "720"
   minEditorFontSizePx: "8"
   maxEditorFontSizePx: "26"
+  defaultEditorHeightVh: "52"
 defaultBehaviour:
   editorFontSizePx: "13"
   lineWrapping: "true"

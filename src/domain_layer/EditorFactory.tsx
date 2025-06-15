@@ -32,7 +32,7 @@ let EditorFactory = ({ code, idDoc, language, editable, isLineWrapping, fontSize
     let theme = EditorView.theme({
         "&": {
             fontSize: ((new String(fontSize)).toString()).concat("px"),
-            height: "50vh",
+            height: getString("limits.defaultEditorHeightVh").concat("vh"),
             position: "fixed"
         },
         ".cm-scroller": { overflow: "auto" }

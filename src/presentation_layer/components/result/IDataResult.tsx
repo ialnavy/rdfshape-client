@@ -1,4 +1,4 @@
-export type IRDFDataResult = {
+export type IDataResult = {
     isError: boolean;
     fullResponse: string;
 

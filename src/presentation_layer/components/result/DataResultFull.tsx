@@ -3,16 +3,17 @@ import { Container, Divider, Typography } from '@mui/material';
 import { useLocale } from "../../../infrastructure_layer/utilities/ExternalisedStringsContext";
 
 import EditorFactory from '../../../domain_layer/EditorFactory';
-import { IRDFDataResult } from './IRDFDataResult';
 import { makeParagraph } from '../../../infrastructure_layer/utilities/ReactElementsUtils';
+import { IDataResult } from './IDataResult';
 
-let RDFDataResultFull: React.FC<IRDFDataResult> = ({
+let DataResultFull: React.FC<IDataResult> = ({
     isError,
     fullResponse,
     isLineWrapping,
     fontSize
     /* responseMessage,*/
-    /*responseNumberOfStatements */ }) => {
+    /*responseNumberOfStatements */
+}) => {
     let { getString } = useLocale();
 
     return (<Container>
@@ -21,7 +22,7 @@ let RDFDataResultFull: React.FC<IRDFDataResult> = ({
 
         <Divider orientation="horizontal" textAlign="center" />
 
-        {isError ? (makeParagraph(fullResponse, "rdfDataResultResumeError"))
+        {isError ? (makeParagraph(fullResponse))
             : (<EditorFactory
                 code={fullResponse}
                 language={getString("mimeTypes.json.appJSON")}
@@ -31,4 +32,4 @@ let RDFDataResultFull: React.FC<IRDFDataResult> = ({
     </Container>);
 };
 
-export default RDFDataResultFull;
+export default DataResultFull;

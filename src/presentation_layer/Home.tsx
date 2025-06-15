@@ -1,12 +1,12 @@
 import { Container, Typography, Link, Stack, Grid2 as Grid } from '@mui/material';
 
-import "../../styles/homeLayout.css";
-import "../../styles/homeStyle.css";
-import "../../styles/cssReset.css";
-import "../../styles/graphVizStyle.css";
+import "../styles/homeLayout.css";
+import "../styles/homeStyle.css";
+import "../styles/cssReset.css";
+import "../styles/graphVizStyle.css";
 
-import { useLocale } from "../../infrastructure_layer/utilities/ExternalisedStringsContext";
-import { makeParagraph } from "../../infrastructure_layer/utilities/ReactElementsUtils";
+import { useLocale } from "../infrastructure_layer/utilities/ExternalisedStringsContext";
+import { makeParagraph } from "../infrastructure_layer/utilities/ReactElementsUtils";
 
 let Home: React.FC = () => {
     let { getString } = useLocale();
