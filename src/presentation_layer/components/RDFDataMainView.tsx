@@ -1,16 +1,18 @@
-import React, { useEffect, useState } from "react";
+import { Graphviz } from 'graphviz-react';
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import { useLocale } from "../../presentation_layer/containers/ExternalisedStringsContext";
+import { useLocale } from "../../infrastructure_layer/utilities/ExternalisedStringsContext";
 
-import { useWindowDimensions } from "../../infrastructure_layer/utilities/ReactElementsUtils";
-import RDFDataDesktopViewHeader from "./rdfData/RDFDataDesktopViewHeader";
-import RDFDataMobileViewHeader from "./rdfData/RDFDataMobileViewHeader";
-
-import { Container, Divider, Stack, Typography } from "@mui/material";
-import EditorFactory from "../../domain_layer/use_cases/EditorFactory";
-import { fetchRDFDataInfo } from '../../infrastructure_layer/services/FetchRdfData';
-import RDFDataResultFull from "./rdfData/rdfDataResult/RDFDataResultFull";
+import { Container, Divider, Grid2 as Grid, Stack, Typography } from "@mui/material";
+import { isDesktop } from "../../domain_layer/AdaptabilityChecks";
+import EditorFactory from "../../domain_layer/EditorFactory";
+import { fetchDataConvertGraphViz, fetchDataInfo } from "../../infrastructure_layer/services/RdfShapeApiServices";
+import DataComboBox from './dataComboBox/DataComboBox';
+import EditorSettings from "./editorSettings/EditorSettings";
+import FontSettings from './fontSettings/FontSettings';
+import RDFDataResultFull from "./rdfData/RDFDataResultFull";
+import RDFDataResultResume from "./rdfData/RDFDataResultResume";
 
 
 let RDFDataMainView: React.FC = () => {
@@ -23,99 +25,126 @@ let RDFDataMainView: React.FC = () => {
     let [code, setCode] = useState<string>("");
     let [rdfFormat, setRdfFormat] = useState<string>(getString("api.formats.turtle"));
     let [rdfInference, setRdfInference] = useState<string>(getString("api.inference.none"));
-    let [sourceOfRDFData /*, setSourceOfRDFData */ ] = useState<string>(getString("api.sources.byText"));
+    let [sourceOfRDFData /*, setSourceOfRDFData */] = useState<string>(getString("api.sources.byText"));
 
     // These variables are used for assemblying the result of the previous query
     let [isError, setError] = useState<boolean>(false);
     let [fullResponse, setFullResponse] = useState<string>(getString("texts.dataInfoWillAppearHere"));
     let [responseMessage, setResponseMessage] = useState<string>("");
     let [responseNumberOfStatements, setResponseNumberOfStatements] = useState<number>(0);
+    let [graphVizContent, setGraphVizContent] = useState<string | null>(null);
 
     // These variables are used for conditional rendering of React subelements
     let [isHiddenApiResponse, setHiddenApiResponse] = useState<boolean>(getBoolean("defaultBehaviour.hidApiResponse"));
+    let [isHiddenGraph, setHiddenGraph] = useState<boolean>(getBoolean("defaultBehaviour.hidRdfGraph"));
     let [isLineWrapping, setLineWrapping] = useState<boolean>(getBoolean("defaultBehaviour.lineWrapping"));
     let [fontSize, _setFontSize] = useState<number>(getNumber("defaultBehaviour.editorFontSizePx"));
-    let setFontSize = (value: number) => {
-        if (value >= getNumber("limits.minEditorFontSizePx")
-            && value <= getNumber("limits.maxEditorFontSizePx")) {
-            _setFontSize(value);
-        }
+    let setFontSize = (fontSize: number) => {
+        if (fontSize >= getNumber("limits.minEditorFontSizePx")
+            && fontSize <= getNumber("limits.maxEditorFontSizePx"))
+            _setFontSize(fontSize);
     };
 
     let doFetch = () => {
-        fetchRDFDataInfo({
-            host: (import.meta.env.VITE_RDFSHAPE_API_HOST as string) ?? "http://127.0.0.1:8080/api",
-            endpoints: getStringsSet("api.endpoints"),
-            contentType: getString("mimeTypes.json.appJSON"),
-            content: code, format: rdfFormat, inference: rdfInference, source: sourceOfRDFData
+        /*
+         * Against the RDFShape API,
+         * RDF data is validated.
+         */
+        fetchDataInfo({
+            content: code,
+            format: rdfFormat,
+            inference: rdfInference,
+            source: sourceOfRDFData
         }).then(data => {
             setError(false);
             setFullResponse(JSON.stringify(data, null, 2));
+
+            /*
+             * Against the RDFShape API,
+             * RDF data is converted to GraphViz dot.
+             */
+            fetchDataConvertGraphViz({
+                content: code,
+                format: rdfFormat,
+                inference: rdfInference,
+                source: sourceOfRDFData
+            }).then(data => {
+                if (data?.result?.content !== undefined)
+                    setGraphVizContent(data.result.content);
+            }).catch(_error => { setGraphVizContent(null); });
 
             setResponseMessage(data.message);
             setResponseNumberOfStatements(data.result.numberOfStatements);
         }).catch(error => {
             setError(true);
             setFullResponse((new String(error)).toString());
+            setGraphVizContent(null);
         });
     };
 
+    /*
+     * "doFetch()" function is invoked each time the code,
+     * rdfFormat, rdfInference, or sourceOfRDFData changes.
+     */
     useEffect(doFetch, [code, rdfFormat, rdfInference, sourceOfRDFData]);
 
-    return (<Stack direction="column" spacing={2} className="rdfDataMainView" alignContent="center" alignItems="center" justifyContent="center" justifyItems="center">
-        {(useWindowDimensions().width < getNumber("limits.adaptabilityThresholdPx")) ? (
-            <RDFDataMobileViewHeader
-                rdfFormat={rdfFormat}
-                rdfInference={rdfInference}
+    return (<Stack
+        direction="column"
+        spacing={2}
+        className="rdfDataMainView"
+        alignContent="center"
+        alignItems="center"
+        justifyContent="center"
+        justifyItems="center">
 
-                isError={isError}
-                fullResponse={fullResponse}
-                responseMessage={responseMessage}
-                responseNumberOfStatements={responseNumberOfStatements}
-
-                isHiddenApiResponse={isHiddenApiResponse}
-                isLineWrapping={isLineWrapping}
-                fontSize={fontSize}
-
-
-                setRdfFormat={setRdfFormat}
-                setRdfInference={setRdfInference}
-
-                setError={setError}
-                setFullResponse={setFullResponse}
-                setResponseMessage={setResponseMessage}
-                setResponseNumberOfStatements={setResponseNumberOfStatements}
-
-                setHiddenApiResponse={setHiddenApiResponse}
-                setLineWrapping={setLineWrapping}
-                setFontSize={setFontSize} />
-        ) : (
-            <RDFDataDesktopViewHeader
-                rdfFormat={rdfFormat}
-                rdfInference={rdfInference}
-
-                isError={isError}
-                fullResponse={fullResponse}
-                responseMessage={responseMessage}
-                responseNumberOfStatements={responseNumberOfStatements}
-
-                isHiddenApiResponse={isHiddenApiResponse}
-                isLineWrapping={isLineWrapping}
-                fontSize={fontSize}
-
-
-                setRdfFormat={setRdfFormat}
-                setRdfInference={setRdfInference}
-
-                setError={setError}
-                setFullResponse={setFullResponse}
-                setResponseMessage={setResponseMessage}
-                setResponseNumberOfStatements={setResponseNumberOfStatements}
-
-                setHiddenApiResponse={setHiddenApiResponse}
-                setLineWrapping={setLineWrapping}
-                setFontSize={setFontSize} />)}
         <Divider orientation="horizontal" textAlign="center" />
+
+        {/*
+          * Header of the RDF Data Main View.
+          */}
+        <Grid
+            container
+            alignContent="center"
+            alignItems="center"
+            justifyContent="center"
+            justifyItems="center"
+            sx={{ width: "100%" }}>
+
+            <Grid size={isDesktop() ? 6 : 12}>
+                <EditorSettings
+                    isLineWrapping={isLineWrapping}
+                    isHiddenApiResponse={isHiddenApiResponse}
+                    isHiddenGraph={isHiddenGraph}
+
+                    setLineWrapping={setLineWrapping}
+                    setHiddenApiResponse={setHiddenApiResponse}
+                    setHiddenGraph={setHiddenGraph} />
+            </Grid>
+
+            <Grid size={isDesktop() ? 6 : 12}>
+                <FontSettings
+                    fontSize={fontSize}
+                    setFontSize={setFontSize} />
+            </Grid>
+
+            <Grid size={12}>
+                <RDFDataResultResume
+                    isError={isError}
+                    fullResponse={fullResponse}
+                    responseMessage={responseMessage}
+                    responseNumberOfStatements={responseNumberOfStatements} />
+            </Grid>
+
+        </Grid>
+
+        <Divider orientation="horizontal" textAlign="center" />
+
+        {/*
+          * This is the main element for RDF data view.
+          */}
+        <Typography variant="caption"
+        >{getString("viewTexts.rdfData.rdfDataCaption")}</Typography>
+
         <Container>
             <EditorFactory
                 code={code}
@@ -134,12 +163,60 @@ let RDFDataMainView: React.FC = () => {
 
             />
         </Container>
-        <Typography variant="caption">{getString("viewTexts.rdfData.rdfDataCaption")}</Typography>
-        {!isHiddenApiResponse && (<RDFDataResultFull
-            isError={isError}
-            fullResponse={fullResponse}
-            responseMessage={responseMessage}
-            responseNumberOfStatements={responseNumberOfStatements} />)}
+
+        <Grid
+            container
+            alignContent="center"
+            alignItems="center"
+            justifyContent="center"
+            justifyItems="center"
+            sx={{ width: "100%" }}>
+            <Grid size={isDesktop() ? 6 : 12}>
+                <DataComboBox
+                    inputId={"rdfDataFormat"}
+                    label={getString("viewTexts.rdfFormat")}
+                    setOfData={Object.values(getStringsSet("api.formats"))}
+                    data={rdfFormat}
+                    setData={setRdfFormat} />
+            </Grid>
+
+            <Grid size={isDesktop() ? 6 : 12}>
+                <DataComboBox
+                    inputId={"rdfDataInference"}
+                    label={getString("viewTexts.rdfInference")}
+                    setOfData={Object.values(getStringsSet("api.inference"))}
+                    data={rdfInference}
+                    setData={setRdfInference} />
+            </Grid>
+        </Grid>
+
+        <Divider orientation="horizontal" textAlign="center" />
+
+        {graphVizContent !== null && !isHiddenGraph && (
+            <>
+                <Typography variant="caption"
+                    >{getString("viewTexts.graphCaption")}</Typography>
+                <Graphviz dot={graphVizContent} />
+                <Divider orientation="horizontal" textAlign="center" />
+            </>)}
+
+        {/*
+          * This is the element for the full data resume.
+          */}
+
+        {!isHiddenApiResponse && (<>
+            <RDFDataResultFull
+                isError={isError}
+                fullResponse={fullResponse}
+
+                isLineWrapping={isLineWrapping}
+                fontSize={fontSize}
+
+                responseMessage={responseMessage}
+                responseNumberOfStatements={responseNumberOfStatements} />
+            <Divider orientation="horizontal" textAlign="center" />
+        </>)}
+
     </Stack>);
 };
 

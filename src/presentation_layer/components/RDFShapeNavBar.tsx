@@ -1,12 +1,12 @@
-import React from 'react';
 import { AppBar, Stack, Toolbar, Button, Link, MenuItem, Menu } from '@mui/material';
 import { StyledEngineProvider } from '@mui/material/styles';
 
 import "../../styles/mainLayout.css";
 import "../../styles/navBarStyle.css";
 
-import { useLocale } from "../containers/ExternalisedStringsContext";
+import { useLocale } from "../../infrastructure_layer/utilities/ExternalisedStringsContext";
 import { makeParagraph } from "../../infrastructure_layer/utilities/ReactElementsUtils";
+import { useState } from 'react';
 
 
 interface RDFShapeNavBarProps {
@@ -16,7 +16,7 @@ interface RDFShapeNavBarProps {
 const RDFShapeNavBar: React.FC<RDFShapeNavBarProps> = ({ children }) => {
     let { getString } = useLocale();
 
-    let [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    let [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     let handleAboutClick = (event: React.MouseEvent<HTMLElement>) => { setAnchorEl(event.currentTarget); };
     let handleAboutClose = () => { setAnchorEl(null); };
 

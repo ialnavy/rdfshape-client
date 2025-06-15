@@ -1,4 +1,4 @@
-import { ExternalisedStringsContextProvider } from './presentation_layer/containers/ExternalisedStringsContext';
+import { ExternalisedStringsContextProvider } from './infrastructure_layer/utilities/ExternalisedStringsContext';
 import RDFShapeRoutes from './presentation_layer/routes/RDFShapeRoutes';
 
 import externalisedStrings from "../externalisedStrings.yaml";

@@ -1,0 +1,8 @@
+/*
+ * GraphViz <svg> element comes with width and height attributes on its own.
+ * This causes the SVG to overflow the container, which is not desired.
+ * This CSS rule overrides these attributes to make the SVG responsive.
+ */
+div [id^='graphviz'] svg {
+    width: 85vw !important;
+}

@@ -1,9 +1,9 @@
-export interface EditorSettingsProps {
+export interface IEditorSettings {
     isLineWrapping: boolean;
-    fontSize: number;
     isHiddenApiResponse: boolean;
+    isHiddenGraph: boolean;
     
     setLineWrapping(isLineWrapping: boolean): void;
-    setFontSize(fontSize: number): void;
     setHiddenApiResponse(isHiddenApiResponse: boolean): void;
+    setHiddenGraph(isHiddenGraph: boolean): void;
 }

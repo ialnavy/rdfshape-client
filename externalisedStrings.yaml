@@ -500,13 +500,15 @@ texts:
 # Values for code behaviour
 limits:
   byTextCharacterLimit: "2200"
-  adaptabilityThresholdPx: "640"
+  mobileWindowWidthPxThreshold: "360"
+  tabletWindowWidthPxThreshold: "720"
   minEditorFontSizePx: "8"
   maxEditorFontSizePx: "26"
 defaultBehaviour:
   editorFontSizePx: "13"
   lineWrapping: "true"
-  hidApiResponse: "false"
+  hidApiResponse: "true"
+  hidRdfGraph: "false"
 mimeTypes:
   shex: "text/shex"
   svg: "image/svg+xml"
@@ -531,7 +533,8 @@ mimeTypes:
 api:
   defaultWssDocId: "00000000-0000-4000-8000-000000000000"
   endpoints:
-    rdfDataInfo: "/data/info"
+    rdfDataInfo: "data/info"
+    graphViz: "graphviz"
   formats:
     turtle: "Turtle"
     nTriples: "N-Triples"
@@ -597,15 +600,16 @@ viewTexts:
   rdfFormat: "RDF Format"
   rdfInference: "RDF Inference"
   rdfShapeApiCaption: "Full response of RDF validation against RDFShape API will be shown below."
+  graphCaption: "See data as graph below."
   hideRdfShapeApiResponse: "Hide API Response"
+  hideRdfGraph: "Hide Graph"
+  fontSizeInput: "✏️ Font Size"
   settings:
     title: "Settings"
     lineWrapping: "Line Wrapping"
-    increaseFontSize: "➕ Font Size"
-    decreaseFontSize: "➖ Font Size"
-    defaultFontSize: "Default Font Size"
-    setMaxFontSize: "Max Font Size"
-    setMinFontSize: "Min Font Size"
+    defaultFontSize: "DEFAULT"
+    setMaxFontSize: "MAX"
+    setMinFontSize: "MIN"
   navBar:
     rdfData: "RDF Data"
     aboutMenuTitle: "About"
@@ -616,6 +620,6 @@ viewTexts:
     tabTitleRdfForm: "RDF Form"
     tabTitleFullResponse: "RDFShape API Response"
     rdfResultCaption: "Results of RDF validation will be shown above."
-    rdfDataCaption: "Enter the RDF data in the box above."
+    rdfDataCaption: "Enter the RDF data in the box below."
 
 # To be extended!

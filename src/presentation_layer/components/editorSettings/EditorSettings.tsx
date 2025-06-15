@@ -1,20 +1,21 @@
+import { useState } from 'react';
+
 import { Button, Container, InputLabel, Menu, MenuItem, Switch } from '@mui/material';
-import React from 'react';
-import { useLocale } from '../../containers/ExternalisedStringsContext';
-import { EditorSettingsProps } from './IEditorSettings';
+import { useLocale } from '../../../infrastructure_layer/utilities/ExternalisedStringsContext';
+import { IEditorSettings } from './IEditorSettings';
 
 
-let EditorSettings: React.FC<EditorSettingsProps> = ({
+let EditorSettings: React.FC<IEditorSettings> = ({
     isLineWrapping,
-    fontSize,
     isHiddenApiResponse,
+    isHiddenGraph,
 
     setLineWrapping,
-    setFontSize,
-    setHiddenApiResponse }) => {
-    let { getString, getNumber } = useLocale();
+    setHiddenApiResponse,
+    setHiddenGraph }) => {
+    let { getString } = useLocale();
 
-    let [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    let [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     let handleClick = (event: React.MouseEvent<HTMLElement>) => { setAnchorEl(event.currentTarget); };
     let handleClose = () => { setAnchorEl(null); };
 
@@ -49,23 +50,12 @@ let EditorSettings: React.FC<EditorSettingsProps> = ({
                 <Switch {... { inputProps: { "aria-label": "hide-api-response-input" } }} checked={isHiddenApiResponse} onChange={() => { setHiddenApiResponse(!isHiddenApiResponse); }} />
             </MenuItem>
             <MenuItem onClick={handleClose} disableRipple>
+                <InputLabel className="hide-graph-input">{getString("viewTexts.hideRdfGraph")}</InputLabel>
+                <Switch {... { inputProps: { "aria-label": "hide-graph-input" } }} checked={isHiddenGraph} onChange={() => { setHiddenGraph(!isHiddenGraph); }} />
+            </MenuItem>
+            <MenuItem onClick={handleClose} disableRipple>
                 <InputLabel className="line-wrapping-input">{getString("viewTexts.settings.lineWrapping")}</InputLabel>
                 <Switch {... { inputProps: { "aria-label": "line-wrapping-input" } }} checked={isLineWrapping} onChange={() => { setLineWrapping(!isLineWrapping); }} />
-            </MenuItem>
-            <MenuItem onClick={handleClose} disableRipple>
-                <Button className="increase-font-size-input" color="inherit" fullWidth style={{ justifyContent: 'flex-start' }} onClick={() => { setFontSize(fontSize + 1); }}>{getString("viewTexts.settings.increaseFontSize")}</Button>
-            </MenuItem>
-            <MenuItem onClick={handleClose} disableRipple>
-                <Button className="decrease-font-size-input" color="inherit" fullWidth style={{ justifyContent: 'flex-start' }} onClick={() => { setFontSize(fontSize - 1); }}>{getString("viewTexts.settings.decreaseFontSize")}</Button>
-            </MenuItem>
-            <MenuItem onClick={handleClose} disableRipple>
-                <Button className="default-font-size-input" color="inherit" fullWidth style={{ justifyContent: 'flex-start' }} onClick={() => { setFontSize(getNumber("defaultBehaviour.editorFontSizePx")); }}>{getString("viewTexts.settings.defaultFontSize")}</Button>
-            </MenuItem>
-            <MenuItem onClick={handleClose} disableRipple>
-                <Button className="max-font-size-input" color="inherit" fullWidth style={{ justifyContent: 'flex-start' }} onClick={() => { setFontSize(getNumber("limits.maxEditorFontSizePx")); }}>{getString("viewTexts.settings.setMaxFontSize")}</Button>
-            </MenuItem>
-            <MenuItem onClick={handleClose} disableRipple>
-                <Button className="min-font-size-input" color="inherit" fullWidth style={{ justifyContent: 'flex-start' }} onClick={() => { setFontSize(getNumber("limits.minEditorFontSizePx")); }}>{getString("viewTexts.settings.setMinFontSize")}</Button>
             </MenuItem>
         </Menu>
     </Container>);

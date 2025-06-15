@@ -1,4 +1,4 @@
-import React, { createContext } from "react";
+import { createContext, useContext } from "react";
 
 const ExternalisedStringsContext = createContext<Record<string, any>>({});
 
@@ -17,7 +17,7 @@ export function ExternalisedStringsContextProvider(
 }
 
 export function useExternalisedStringsContext(): Record<string, any> {
-    return React.useContext(ExternalisedStringsContext);
+    return useContext(ExternalisedStringsContext);
 }
 
 export interface IUseLocale {
@@ -55,8 +55,15 @@ export function useLocale(): IUseLocale {
 
     let getBoolean = (key: string): boolean => {
         let value = getString(key);
-        if (value)
-            return (new Boolean(value)).valueOf();
+        if (value) {
+            switch (value.toLowerCase()) {
+                case "true":
+                    return true;
+                case "false":
+                    return false;
+                default:
+            }
+        }
 
         throw new Error(`Value for key "${key}" is not a boolean.`);
     };

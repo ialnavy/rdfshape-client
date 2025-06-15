@@ -1,6 +1,4 @@
-import React from "react";
-
-import { useLocale } from "../../presentation_layer/containers/ExternalisedStringsContext";
+import { useLocale } from "../infrastructure_layer/utilities/ExternalisedStringsContext";
 
 import { javascript } from "@codemirror/lang-javascript";
 import CodeMirror, { EditorView, Extension } from "@uiw/react-codemirror";
@@ -24,9 +22,9 @@ let EditorFactory = ({ code, idDoc, language, editable, isLineWrapping, fontSize
     let { getString, getNumber } = useLocale();
 
     // Font size umbral check
-    if (fontSize === undefined
-        || fontSize < getNumber("limits.minEditorFontSizePx")
-        || fontSize > getNumber("limits.maxEditorFontSizePx")) {
+    if (fontSize === undefined ||
+        fontSize < getNumber("limits.minEditorFontSizePx") ||
+        fontSize > getNumber("limits.maxEditorFontSizePx")) {
         fontSize = getNumber("defaultBehaviour.editorFontSizePx");
     }
 

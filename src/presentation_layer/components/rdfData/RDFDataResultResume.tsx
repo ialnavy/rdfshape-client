@@ -1,8 +1,7 @@
 import { Container } from '@mui/material';
-import React from 'react';
 
-import { makeParagraph } from '../../../../infrastructure_layer/utilities/ReactElementsUtils';
-import { useLocale } from '../../../containers/ExternalisedStringsContext';
+import { makeParagraph } from '../../../infrastructure_layer/utilities/ReactElementsUtils';
+import { useLocale } from '../../../infrastructure_layer/utilities/ExternalisedStringsContext';
 import { IRDFDataResult } from './IRDFDataResult';
 
 
