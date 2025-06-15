@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 
 import { useLocale } from "../../infrastructure_layer/utilities/ExternalisedStringsContext";
 
-import { Container, Divider, Grid2 as Grid, Stack, Typography } from "@mui/material";
+import { Button, Container, Divider, Grid2 as Grid, Stack, Typography } from "@mui/material";
 import { isDesktop } from "../../domain_layer/AdaptabilityChecks";
 import EditorFactory from "../../domain_layer/EditorFactory";
 import { fetchDataConvertGraphViz, fetchDataInfo } from "../../infrastructure_layer/services/RdfShapeApiServices";
@@ -110,7 +110,7 @@ let RDFDataMainView: React.FC = () => {
             justifyItems="center"
             sx={{ width: "100%" }}>
 
-            <Grid size={isDesktop() ? 6 : 12}>
+            <Grid size={isDesktop() ? 3 : 12}>
                 <EditorSettings
                     isLineWrapping={isLineWrapping}
                     isHiddenApiResponse={isHiddenApiResponse}
@@ -119,6 +119,18 @@ let RDFDataMainView: React.FC = () => {
                     setLineWrapping={setLineWrapping}
                     setHiddenApiResponse={setHiddenApiResponse}
                     setHiddenGraph={setHiddenGraph} />
+            </Grid>
+
+            <Grid size={isDesktop() ? 3 : 12}>
+                <Button
+                    variant="contained"
+                    onClick={() => {
+                        navigator.clipboard.writeText(window.location.href);
+                        alert(getString("viewTexts.permalink.copied"));
+                    }}
+                >
+                    {getString("viewTexts.permalink.button")}
+                </Button>
             </Grid>
 
             <Grid size={isDesktop() ? 6 : 12}>
@@ -195,7 +207,7 @@ let RDFDataMainView: React.FC = () => {
         {graphVizContent !== null && !isHiddenGraph && (
             <>
                 <Typography variant="caption"
-                    >{getString("viewTexts.graphCaption")}</Typography>
+                >{getString("viewTexts.graphCaption")}</Typography>
                 <Graphviz dot={graphVizContent} />
                 <Divider orientation="horizontal" textAlign="center" />
             </>)}

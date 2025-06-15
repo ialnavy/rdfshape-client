@@ -604,6 +604,9 @@ viewTexts:
   hideRdfShapeApiResponse: "Hide API Response"
   hideRdfGraph: "Hide Graph"
   fontSizeInput: "✏️ Font Size"
+  permalink:
+    button: "🔗 Permalink"
+    copied: "Link copied to clipboard!"
   settings:
     title: "Settings"
     lineWrapping: "Line Wrapping"
