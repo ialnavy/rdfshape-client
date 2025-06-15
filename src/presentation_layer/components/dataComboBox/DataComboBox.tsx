@@ -1,8 +1,8 @@
 import { Container, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { isDesktop } from '../../../domain_layer/AdaptabilityChecks';
-import IRDFInferenceComboBox from './IDataComboBox';
+import IDataComboBox from './IDataComboBox';
 
-let DataComboBox: React.FC<IRDFInferenceComboBox> = ({
+let DataComboBox: React.FC<IDataComboBox> = ({
     inputId,
     label,
     setOfData,
@@ -12,7 +12,7 @@ let DataComboBox: React.FC<IRDFInferenceComboBox> = ({
     return (
         <Container sx={{ width: isDesktop() ? "30vw" : "100%", paddingTop: "10px" }}>
             <FormControl fullWidth>
-                <InputLabel id={inputId}>RDF Inference</InputLabel>
+                <InputLabel id={inputId}>{label}</InputLabel>
                 <Select
                     labelId={inputId}
                     value={data}

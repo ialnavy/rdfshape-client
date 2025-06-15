@@ -2,21 +2,19 @@ import { Graphviz } from 'graphviz-react';
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import { useLocale } from "../../infrastructure_layer/utilities/ExternalisedStringsContext";
+import { useLocale } from "../infrastructure_layer/utilities/ExternalisedStringsContext";
 
-import { Button, Container, Divider, Grid2 as Grid, Stack, Typography } from "@mui/material";
-import { isDesktop } from "../../domain_layer/AdaptabilityChecks";
-import EditorFactory from "../../domain_layer/EditorFactory";
-import { fetchDataConvertGraphViz, fetchDataInfo } from "../../infrastructure_layer/services/RdfShapeApiServices";
-import DataComboBox from './dataComboBox/DataComboBox';
-import EditorSettings from "./editorSettings/EditorSettings";
-import FontSettings from './fontSettings/FontSettings';
-import DataResultFull from "./result/DataResultFull";
-import DataResultResume from "./result/DataResultResume";
+import { Button, Divider, Grid2 as Grid, Stack, Typography } from "@mui/material";
+import { isDesktop } from "../domain_layer/AdaptabilityChecks";
+import { fetchDataConvertGraphViz, fetchDataInfo } from "../infrastructure_layer/services/RdfShapeApiServices";
+import ShareYasheEditor from './components/editor/ShareYasheEditor';
+import EditorSettings from "./components/editorSettings/EditorSettings";
+import FontSettings from './components/fontSettings/FontSettings';
+import DataResultFull from "./components/result/DataResultFull";
 
 
 let RDFDataMainView: React.FC = () => {
-    let { getString, getNumber, getBoolean, getStringsSet } = useLocale();
+    let { getString, getNumber, getBoolean /*, getStringsSet */ } = useLocale();
 
     // The idDoc is used to identify the document that is being edited
     let { idDoc } = useParams();
@@ -139,68 +137,27 @@ let RDFDataMainView: React.FC = () => {
                     setFontSize={setFontSize} />
             </Grid>
 
-            <Grid size={12}>
-                <DataResultResume
-                    isError={isError}
-                    fullResponse={fullResponse}
-                    responseMessage={responseMessage}
-                    responseNumberOfStatements={responseNumberOfStatements} />
-            </Grid>
-
         </Grid>
 
         <Divider orientation="horizontal" textAlign="center" />
 
-        {/*
-          * This is the main element for RDF data view.
-          */}
-        <Typography variant="caption"
-        >{getString("viewTexts.rdfData.rdfDataCaption")}</Typography>
+        <ShareYasheEditor
+            idDoc={idDoc}
+            code={code}
+            isLineWrapping={isLineWrapping}
+            fontSize={fontSize}
 
-        <Container>
-            <EditorFactory
-                code={code}
-                idDoc={idDoc}
-                language={getString("mimeTypes.turtle")}
-                editable={true}
-                isLineWrapping={isLineWrapping}
-                fontSize={fontSize}
-                setCode={setCode}
+            setCode={setCode}
 
-            /* WARNING!
-             * This element, which is the CodeMirror editor, MUST ALWAYS BE VISIBLE!
-             * Otherwise, the synchronisation of the Yjs document with the y-mongodb-provider
-             * would be lost when the component is made non-visible.
-             */
+            isError={isError}
+            fullResponse={fullResponse}
+            responseMessage={responseMessage}
+            responseNumberOfStatements={responseNumberOfStatements}
 
-            />
-        </Container>
-
-        <Grid
-            container
-            alignContent="center"
-            alignItems="center"
-            justifyContent="center"
-            justifyItems="center"
-            sx={{ width: "100%" }}>
-            <Grid size={isDesktop() ? 6 : 12}>
-                <DataComboBox
-                    inputId={"rdfDataFormat"}
-                    label={getString("viewTexts.rdfFormat")}
-                    setOfData={Object.values(getStringsSet("api.formats"))}
-                    data={rdfFormat}
-                    setData={setRdfFormat} />
-            </Grid>
-
-            <Grid size={isDesktop() ? 6 : 12}>
-                <DataComboBox
-                    inputId={"rdfDataInference"}
-                    label={getString("viewTexts.rdfInference")}
-                    setOfData={Object.values(getStringsSet("api.inference"))}
-                    data={rdfInference}
-                    setData={setRdfInference} />
-            </Grid>
-        </Grid>
+            rdfFormat={rdfFormat}
+            rdfInference={rdfInference}
+            setRdfFormat={setRdfFormat}
+            setRdfInference={setRdfInference} />
 
         <Divider orientation="horizontal" textAlign="center" />
 
