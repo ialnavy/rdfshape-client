@@ -39,13 +39,13 @@ let FontSettings: React.FC<IFontSettings> = ({
                     </Grid>
                     <Grid size={2}>
                         <Button
-                            className="max-font-size-input"
+                            className="min-font-size-input"
                             color="inherit"
                             fullWidth
                             style={{ justifyContent: 'flex-start' }}
                             onClick={() => {
-                                setFontSize(getNumber("limits.maxEditorFontSizePx"));
-                            }}>{getString("viewTexts.settings.setMaxFontSize")}</Button>
+                                setFontSize(getNumber("limits.minEditorFontSizePx"));
+                            }}>{getString("viewTexts.settings.setMinFontSize")}</Button>
                     </Grid>
                     <Grid size={2}>
                         <Button
@@ -59,13 +59,13 @@ let FontSettings: React.FC<IFontSettings> = ({
                     </Grid>
                     <Grid size={2}>
                         <Button
-                            className="min-font-size-input"
+                            className="max-font-size-input"
                             color="inherit"
                             fullWidth
                             style={{ justifyContent: 'flex-start' }}
                             onClick={() => {
-                                setFontSize(getNumber("limits.minEditorFontSizePx"));
-                            }}>{getString("viewTexts.settings.setMinFontSize")}</Button>
+                                setFontSize(getNumber("limits.maxEditorFontSizePx"));
+                            }}>{getString("viewTexts.settings.setMaxFontSize")}</Button>
                     </Grid>
                 </Grid>
             </Stack>
