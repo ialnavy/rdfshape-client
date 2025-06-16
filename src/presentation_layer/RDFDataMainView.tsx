@@ -1,15 +1,13 @@
+import { Container, Divider, Stack, Typography } from "@mui/material";
 import { Graphviz } from 'graphviz-react';
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
+import { fetchDataConvertGraphViz, fetchDataInfo } from "../infrastructure_layer/services/RdfShapeApiServices";
 import { useLocale } from "../infrastructure_layer/utilities/ExternalisedStringsContext";
 
-import { Button, Divider, Grid2 as Grid, Stack, Typography } from "@mui/material";
-import { isDesktop } from "../domain_layer/AdaptabilityChecks";
-import { fetchDataConvertGraphViz, fetchDataInfo } from "../infrastructure_layer/services/RdfShapeApiServices";
+import ConfigHeader from "./components/configHeader/ConfigHeader";
 import ShareYasheEditor from './components/editor/ShareYasheEditor';
-import EditorSettings from "./components/editorSettings/EditorSettings";
-import FontSettings from './components/fontSettings/FontSettings';
 import DataResultFull from "./components/result/DataResultFull";
 
 
@@ -98,49 +96,23 @@ let RDFDataMainView: React.FC = () => {
         <Divider orientation="horizontal" textAlign="center" />
 
         {/*
-          * Header of the RDF Data Main View.
+          * Element for view configuration.
           */}
-        <Grid
-            container
-            alignContent="center"
-            alignItems="center"
-            justifyContent="center"
-            justifyItems="center"
-            sx={{ width: "100%" }}>
+        <ConfigHeader
+            isLineWrapping={isLineWrapping}
+            isHiddenApiResponse={isHiddenApiResponse}
+            isHiddenGraph={isHiddenGraph}
+            fontSize={fontSize}
 
-            <Grid size={isDesktop() ? 3 : 12}>
-                <EditorSettings
-                    isLineWrapping={isLineWrapping}
-                    isHiddenApiResponse={isHiddenApiResponse}
-                    isHiddenGraph={isHiddenGraph}
-
-                    setLineWrapping={setLineWrapping}
-                    setHiddenApiResponse={setHiddenApiResponse}
-                    setHiddenGraph={setHiddenGraph} />
-            </Grid>
-
-            <Grid size={isDesktop() ? 3 : 12}>
-                <Button
-                    variant="contained"
-                    onClick={() => {
-                        navigator.clipboard.writeText(window.location.href);
-                        alert(getString("viewTexts.permalink.copied"));
-                    }}
-                >
-                    {getString("viewTexts.permalink.button")}
-                </Button>
-            </Grid>
-
-            <Grid size={isDesktop() ? 6 : 12}>
-                <FontSettings
-                    fontSize={fontSize}
-                    setFontSize={setFontSize} />
-            </Grid>
-
-        </Grid>
-
+            setLineWrapping={setLineWrapping}
+            setHiddenApiResponse={setHiddenApiResponse}
+            setHiddenGraph={setHiddenGraph}
+            setFontSize={setFontSize} />
         <Divider orientation="horizontal" textAlign="center" />
 
+        {/*
+          * Element for the main editor.
+          */}
         <ShareYasheEditor
             idDoc={idDoc}
             code={code}
@@ -158,21 +130,22 @@ let RDFDataMainView: React.FC = () => {
             rdfInference={rdfInference}
             setRdfFormat={setRdfFormat}
             setRdfInference={setRdfInference} />
-
         <Divider orientation="horizontal" textAlign="center" />
 
+        {/*
+          * Element for the GraphViz DOT graph.
+          */}
         {graphVizContent !== null && !isHiddenGraph && (
-            <>
+            <Container>
                 <Typography variant="caption"
                 >{getString("viewTexts.graphCaption")}</Typography>
                 <Graphviz dot={graphVizContent} />
                 <Divider orientation="horizontal" textAlign="center" />
-            </>)}
+            </Container>)}
 
         {/*
-          * This is the element for the full data resume.
+          * Element for the full data resume.
           */}
-
         {!isHiddenApiResponse && (<>
             <DataResultFull
                 isError={isError}
