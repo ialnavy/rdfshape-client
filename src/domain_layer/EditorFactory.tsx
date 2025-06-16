@@ -11,6 +11,7 @@ import * as Y from 'yjs';
 interface EditorFactoryParams {
     code: string | undefined;
     idDoc?: string | undefined;
+    yDocCollection: string | undefined;
     language: string | undefined;
     editable?: boolean | undefined;
     isLineWrapping?: boolean | undefined;
@@ -18,7 +19,16 @@ interface EditorFactoryParams {
     setCode?(code: string): void;
 }
 
-let EditorFactory = ({ code, idDoc, language, editable, isLineWrapping, fontSize, setCode }: EditorFactoryParams): React.ReactElement => {
+let EditorFactory = ({
+    code,
+    idDoc,
+    yDocCollection,
+    language,
+    editable,
+    isLineWrapping,
+    fontSize,
+    setCode
+}: EditorFactoryParams): React.ReactElement => {
     let { getString, getNumber } = useLocale();
 
     // Font size umbral check
@@ -64,7 +74,8 @@ let EditorFactory = ({ code, idDoc, language, editable, isLineWrapping, fontSize
         let userColor = { color: '#30bced', light: '#30bced33' };
         let yDoc = new Y.Doc();
         let provider = new WebsocketProvider(
-            (import.meta.env.VITE_RDFSHAPE_Y_MONGO_DB_PROVIDER_HOST as string) ?? "ws://127.0.0.1:2403/",
+            ((import.meta.env.VITE_RDFSHAPE_Y_MONGO_DB_PROVIDER_HOST as string)
+                ?? "ws://127.0.0.1:2403/").concat(yDocCollection ?? ""),
             idDoc,
             yDoc);
         provider.on('status', (event) => {

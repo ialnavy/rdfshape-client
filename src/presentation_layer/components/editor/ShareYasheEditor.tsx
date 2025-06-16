@@ -11,6 +11,7 @@ import { IEditor } from "./IEditor";
 
 let ShareYasheEditor: React.FC<IEditor> = ({
     idDoc,
+    yDocCollection,
     code,
     isLineWrapping,
     fontSize,
@@ -69,6 +70,7 @@ let ShareYasheEditor: React.FC<IEditor> = ({
             <EditorFactory
                 code={code}
                 idDoc={idDoc}
+                yDocCollection={yDocCollection}
                 language={getString("mimeTypes.turtle")}
                 editable={true}
                 isLineWrapping={isLineWrapping}

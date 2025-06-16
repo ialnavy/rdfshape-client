@@ -115,6 +115,7 @@ let RDFDataMainView: React.FC = () => {
           */}
         <ShareYasheEditor
             idDoc={idDoc}
+            yDocCollection={"rdfData"}
             code={code}
             isLineWrapping={isLineWrapping}
             fontSize={fontSize}
