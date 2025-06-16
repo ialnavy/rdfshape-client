@@ -11,7 +11,7 @@ import * as Y from 'yjs';
 interface EditorFactoryParams {
     code: string | undefined;
     idDoc?: string | undefined;
-    yDocCollection: string | undefined;
+    yDocCollection?: string | undefined;
     language: string | undefined;
     editable?: boolean | undefined;
     isLineWrapping?: boolean | undefined;

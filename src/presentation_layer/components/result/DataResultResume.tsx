@@ -6,23 +6,20 @@ import { IDataResult } from './IDataResult';
 
 
 let DataResultResume: React.FC<IDataResult> = ({
-    isError,
-    fullResponse,
-    responseMessage,
-    responseNumberOfStatements
+    editorState
 }) => {
     let { getString } = useLocale();
 
-    return (isError ? (<Container>
+    return (editorState.isError ? (<Container>
         {makeParagraph(getString("texts.errorResponsePrefix"), true)}
-        {makeParagraph(fullResponse, true)}
+        {makeParagraph(editorState.fullResponse, true)}
     </Container>
     ) : (<Container>
-        {makeParagraph(responseMessage)}
+        {makeParagraph(editorState.responseMessage)}
         {makeParagraph(
             getString("texts.numberOfStatements")
                 .concat(": ")
-                .concat((new String(responseNumberOfStatements))
+                .concat((new String(editorState.responseNumberOfStatements))
                     .toString()))}
     </Container>));
 };

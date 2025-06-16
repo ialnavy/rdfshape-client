@@ -7,12 +7,9 @@ import { makeParagraph } from '../../../infrastructure_layer/utilities/ReactElem
 import { IDataResult } from './IDataResult';
 
 let DataResultFull: React.FC<IDataResult> = ({
-    isError,
-    fullResponse,
     isLineWrapping,
-    fontSize
-    /* responseMessage,*/
-    /*responseNumberOfStatements */
+    fontSize,
+    editorState
 }) => {
     let { getString } = useLocale();
 
@@ -22,9 +19,9 @@ let DataResultFull: React.FC<IDataResult> = ({
 
         <Divider orientation="horizontal" textAlign="center" />
 
-        {isError ? (makeParagraph(fullResponse))
+        {editorState.isError ? (makeParagraph(editorState.fullResponse))
             : (<EditorFactory
-                code={fullResponse}
+                code={editorState.fullResponse}
                 language={getString("mimeTypes.json.appJSON")}
                 editable={false}
                 isLineWrapping={isLineWrapping}

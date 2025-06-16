@@ -1,11 +1,12 @@
 import { Container, Divider, Stack, Typography } from "@mui/material";
 import { Graphviz } from 'graphviz-react';
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 
 import { fetchDataConvertGraphViz, fetchDataInfo } from "../infrastructure_layer/services/RdfShapeApiServices";
 import { useLocale } from "../infrastructure_layer/utilities/ExternalisedStringsContext";
 
+import useEditorState from "../domain_layer/editorState/UseEditorState";
 import ConfigHeader from "./components/configHeader/ConfigHeader";
 import ShareYasheEditor from './components/editor/ShareYasheEditor';
 import DataResultFull from "./components/result/DataResultFull";
@@ -14,21 +15,20 @@ import DataResultFull from "./components/result/DataResultFull";
 let RDFDataMainView: React.FC = () => {
     let { getString, getNumber, getBoolean /*, getStringsSet */ } = useLocale();
 
-    // The idDoc is used to identify the document that is being edited
+    // A colaborative document ID is used to identify the document that is being edited
+    // This ID will be used to fetch the document from the Yjs server
+    // and to persist every change against a MongoDB database
     let { idDoc } = useParams();
 
-    // These variables are used for querying against RDFShape API
-    let [code, setCode] = useState<string>("");
-    let [rdfFormat, setRdfFormat] = useState<string>(getString("api.formats.turtle"));
-    let [rdfInference, setRdfInference] = useState<string>(getString("api.inference.none"));
-    let [sourceOfRDFData /*, setSourceOfRDFData */] = useState<string>(getString("api.sources.byText"));
+    // The location is used to get the current URL path
+    // Its first subdirectory is used to determine the collection
+    // where the document is stored in the MongoDB database
+    // and the Yjs server
+    let location = useLocation();
 
-    // These variables are used for assemblying the result of the previous query
-    let [isError, setError] = useState<boolean>(false);
-    let [fullResponse, setFullResponse] = useState<string>(getString("texts.dataInfoWillAppearHere"));
-    let [responseMessage, setResponseMessage] = useState<string>("");
-    let [responseNumberOfStatements, setResponseNumberOfStatements] = useState<number>(0);
-    let [graphVizContent, setGraphVizContent] = useState<string | null>(null);
+    // Software design pattern State is used to manage the editor state
+    // It is used to store all the information related to the editor
+    let editorState = useEditorState();
 
     // These variables are used for conditional rendering of React subelements
     let [isHiddenApiResponse, setHiddenApiResponse] = useState<boolean>(getBoolean("defaultBehaviour.hidApiResponse"));
@@ -47,42 +47,46 @@ let RDFDataMainView: React.FC = () => {
          * RDF data is validated.
          */
         fetchDataInfo({
-            content: code,
-            format: rdfFormat,
-            inference: rdfInference,
-            source: sourceOfRDFData
+            content: editorState.code,
+            format: editorState.rdfFormat,
+            inference: editorState.rdfInference,
+            source: editorState.sourceOfRDFData
         }).then(data => {
-            setError(false);
-            setFullResponse(JSON.stringify(data, null, 2));
+            editorState.setError(false);
+            editorState.setFullResponse(JSON.stringify(data, null, 2));
 
             /*
              * Against the RDFShape API,
              * RDF data is converted to GraphViz dot.
              */
             fetchDataConvertGraphViz({
-                content: code,
-                format: rdfFormat,
-                inference: rdfInference,
-                source: sourceOfRDFData
+                content: editorState.code,
+                format: editorState.rdfFormat,
+                inference: editorState.rdfInference,
+                source: editorState.sourceOfRDFData
             }).then(data => {
                 if (data?.result?.content !== undefined)
-                    setGraphVizContent(data.result.content);
-            }).catch(_error => { setGraphVizContent(null); });
+                    editorState.setGraphVizContent(data.result.content);
+            }).catch(_error => { editorState.setGraphVizContent(null); });
 
-            setResponseMessage(data.message);
-            setResponseNumberOfStatements(data.result.numberOfStatements);
+            editorState.setResponseMessage(data.message);
+            editorState.setResponseNumberOfStatements(data.result.numberOfStatements);
         }).catch(error => {
-            setError(true);
-            setFullResponse((new String(error)).toString());
-            setGraphVizContent(null);
+            editorState.setError(true);
+            editorState.setFullResponse((new String(error)).toString());
+            editorState.setGraphVizContent(null);
         });
     };
 
     /*
-     * "doFetch()" function is invoked each time the code,
-     * rdfFormat, rdfInference, or sourceOfRDFData changes.
+     * "doFetch()" function is invoked each time
+     * any of the following values changes.
      */
-    useEffect(doFetch, [code, rdfFormat, rdfInference, sourceOfRDFData]);
+    useEffect(doFetch, [
+        editorState.code,
+        editorState.rdfFormat,
+        editorState.rdfInference,
+        editorState.sourceOfRDFData]);
 
     return (<Stack
         direction="column"
@@ -115,32 +119,20 @@ let RDFDataMainView: React.FC = () => {
           */}
         <ShareYasheEditor
             idDoc={idDoc}
-            yDocCollection={"rdfData"}
-            code={code}
+            yDocCollection={location.pathname.split("/")[1]}
+            editorState={editorState}
             isLineWrapping={isLineWrapping}
-            fontSize={fontSize}
-
-            setCode={setCode}
-
-            isError={isError}
-            fullResponse={fullResponse}
-            responseMessage={responseMessage}
-            responseNumberOfStatements={responseNumberOfStatements}
-
-            rdfFormat={rdfFormat}
-            rdfInference={rdfInference}
-            setRdfFormat={setRdfFormat}
-            setRdfInference={setRdfInference} />
+            fontSize={fontSize} />
         <Divider orientation="horizontal" textAlign="center" />
 
         {/*
           * Element for the GraphViz DOT graph.
           */}
-        {graphVizContent !== null && !isHiddenGraph && (
+        {editorState.graphVizContent !== null && !isHiddenGraph && (
             <Container>
                 <Typography variant="caption"
                 >{getString("viewTexts.graphCaption")}</Typography>
-                <Graphviz dot={graphVizContent} />
+                <Graphviz dot={editorState.graphVizContent} />
                 <Divider orientation="horizontal" textAlign="center" />
             </Container>)}
 
@@ -149,14 +141,9 @@ let RDFDataMainView: React.FC = () => {
           */}
         {!isHiddenApiResponse && (<>
             <DataResultFull
-                isError={isError}
-                fullResponse={fullResponse}
-
                 isLineWrapping={isLineWrapping}
                 fontSize={fontSize}
-
-                responseMessage={responseMessage}
-                responseNumberOfStatements={responseNumberOfStatements} />
+                editorState={editorState} />
             <Divider orientation="horizontal" textAlign="center" />
         </>)}
 

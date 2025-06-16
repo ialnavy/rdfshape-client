@@ -12,21 +12,9 @@ import { IEditor } from "./IEditor";
 let ShareYasheEditor: React.FC<IEditor> = ({
     idDoc,
     yDocCollection,
-    code,
     isLineWrapping,
     fontSize,
-
-    setCode,
-
-    isError,
-    fullResponse,
-    responseMessage,
-    responseNumberOfStatements,
-
-    rdfFormat,
-    rdfInference,
-    setRdfFormat,
-    setRdfInference
+    editorState
 }) => {
     let { getString, /* getNumber, getBoolean, */ getStringsSet } = useLocale();
 
@@ -39,11 +27,7 @@ let ShareYasheEditor: React.FC<IEditor> = ({
         sx={{ width: "100%" }}>
 
         <Grid size={isDesktop() ? 4 : 12}>
-            <DataResultResume
-                isError={isError}
-                fullResponse={fullResponse}
-                responseMessage={responseMessage}
-                responseNumberOfStatements={responseNumberOfStatements} />
+            <DataResultResume editorState={editorState} />
         </Grid>
 
         <Grid size={isDesktop() ? 4 : 12}>
@@ -51,8 +35,8 @@ let ShareYasheEditor: React.FC<IEditor> = ({
                 inputId={"rdfDataFormat"}
                 label={getString("viewTexts.rdfFormat")}
                 setOfData={Object.values(getStringsSet("api.formats"))}
-                data={rdfFormat}
-                setData={setRdfFormat} />
+                data={editorState.rdfFormat}
+                setData={editorState.setRdfFormat} />
         </Grid>
 
         <Grid size={isDesktop() ? 4 : 12}>
@@ -60,22 +44,22 @@ let ShareYasheEditor: React.FC<IEditor> = ({
                 inputId={"rdfDataInference"}
                 label={getString("viewTexts.rdfInference")}
                 setOfData={Object.values(getStringsSet("api.inference"))}
-                data={rdfInference}
-                setData={setRdfInference} />
+                data={editorState.rdfInference}
+                setData={editorState.setRdfInference} />
         </Grid>
 
         <Divider orientation="horizontal" textAlign="center" />
 
         <Container>
             <EditorFactory
-                code={code}
+                code={editorState.code}
                 idDoc={idDoc}
                 yDocCollection={yDocCollection}
                 language={getString("mimeTypes.turtle")}
                 editable={true}
                 isLineWrapping={isLineWrapping}
                 fontSize={fontSize}
-                setCode={setCode}
+                setCode={editorState.setCode}
 
             /* WARNING!
              * This element, which is the CodeMirror editor, MUST ALWAYS BE VISIBLE!
