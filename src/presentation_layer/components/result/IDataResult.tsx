@@ -4,5 +4,7 @@ export type IDataResult = {
     isLineWrapping?: boolean | undefined;
     fontSize?: number | undefined;
 
-    editorState: IEditorState;
+    isError: boolean;
+    fullResponse: string;
+    editorState?: IEditorState | undefined;
 };

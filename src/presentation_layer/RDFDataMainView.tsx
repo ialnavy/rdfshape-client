@@ -1,7 +1,7 @@
 import { Container, Divider, Stack, Typography } from "@mui/material";
 import { Graphviz } from 'graphviz-react';
 import { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import { fetchDataConvertGraphViz, fetchDataInfo } from "../infrastructure_layer/services/RdfShapeApiServices";
 import { useLocale } from "../infrastructure_layer/utilities/ExternalisedStringsContext";
@@ -19,12 +19,6 @@ let RDFDataMainView: React.FC = () => {
     // This ID will be used to fetch the document from the Yjs server
     // and to persist every change against a MongoDB database
     let { idDoc } = useParams();
-
-    // The location is used to get the current URL path
-    // Its first subdirectory is used to determine the collection
-    // where the document is stored in the MongoDB database
-    // and the Yjs server
-    let location = useLocation();
 
     // Software design pattern State is used to manage the editor state
     // It is used to store all the information related to the editor
@@ -119,7 +113,7 @@ let RDFDataMainView: React.FC = () => {
           */}
         <ShareYasheEditor
             idDoc={idDoc}
-            yDocCollection={location.pathname.split("/")[1]}
+            yDocCollection={"rdfData"}
             editorState={editorState}
             isLineWrapping={isLineWrapping}
             fontSize={fontSize} />
