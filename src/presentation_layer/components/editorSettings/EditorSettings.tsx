@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { Button, Container, InputLabel, Menu, MenuItem, Switch } from '@mui/material';
+import { Button, InputLabel, Menu, MenuItem, Stack, Switch } from '@mui/material';
 import { useLocale } from '../../../infrastructure_layer/utilities/ExternalisedStringsContext';
 import { IEditorSettings } from './IEditorSettings';
 
@@ -19,7 +19,14 @@ let EditorSettings: React.FC<IEditorSettings> = ({
     let handleClick = (event: React.MouseEvent<HTMLElement>) => { setAnchorEl(event.currentTarget); };
     let handleClose = () => { setAnchorEl(null); };
 
-    return (<Container>
+    return (<Stack
+        direction="column"
+        spacing={2}
+        padding={1}
+        alignContent="center"
+        alignItems="center"
+        justifyContent="center"
+        justifyItems="center">
         <Button
             className="rdfShapeEditorSettingsButton"
             aria-controls={Boolean(anchorEl) ? 'rdfshape-editor-settings-button' : undefined}
@@ -58,7 +65,7 @@ let EditorSettings: React.FC<IEditorSettings> = ({
                 <Switch {... { inputProps: { "aria-label": "line-wrapping-input" } }} checked={isLineWrapping} onChange={() => { setLineWrapping(!isLineWrapping); }} />
             </MenuItem>
         </Menu>
-    </Container>);
+    </Stack>);
 };
 
 export default EditorSettings;

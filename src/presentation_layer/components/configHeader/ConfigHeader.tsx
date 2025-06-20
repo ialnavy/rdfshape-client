@@ -1,4 +1,4 @@
-import { Grid2 as Grid } from '@mui/material';
+import { Grid2 as Grid, Stack } from '@mui/material';
 
 
 import { isDesktop } from '../../../domain_layer/AdaptabilityChecks';
@@ -46,7 +46,16 @@ let ConfigHeader: React.FC<IConfigHeader> = ({
             </Grid>
 
             <Grid size={isDesktop() ? 3 : 12}>
-                <PermalinkButton idDocs={idDocs} yjsCollection={yjsCollection} permalinkButtonText={permalinkButtonText} />
+                <Stack
+                    direction="column"
+                    spacing={2}
+                    padding={1}
+                    alignContent="center"
+                    alignItems="center"
+                    justifyContent="center"
+                    justifyItems="center">
+                    <PermalinkButton idDocs={idDocs} yjsCollection={yjsCollection} permalinkButtonText={permalinkButtonText} />
+                </Stack>
             </Grid>
 
             <Grid size={isDesktop() ? 6 : 12}>

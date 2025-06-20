@@ -91,10 +91,19 @@ let RDFDataMainView: React.FC = () => {
                 fontSize={fontSize}
                 isEditable={true} />
 
-            <PermalinkButton
-                idDocs={idDoc !== null ? [idDoc] : []}
-                yjsCollection={getString("yjs.collections.rdfMerge")}
-                permalinkButtonText={getString("viewTexts.rdfData.permalink.toRdfMerge")} />
+            <Stack
+                direction="column"
+                spacing={2}
+                padding={1}
+                alignContent="center"
+                alignItems="center"
+                justifyContent="center"
+                justifyItems="center">
+                <PermalinkButton
+                    idDocs={idDoc !== null ? [idDoc] : []}
+                    yjsCollection={getString("yjs.collections.rdfMerge")}
+                    permalinkButtonText={getString("viewTexts.rdfData.permalink.toRdfMerge")} />
+            </Stack>
 
         </Stack>
 
@@ -102,24 +111,38 @@ let RDFDataMainView: React.FC = () => {
           * Element for the GraphViz DOT graph.
           */}
         {editorState.graphVizContent !== null && !isHiddenGraph && (
-            <>
+            <Stack
+                direction="column"
+                spacing={2}
+                padding={1}
+                alignContent="center"
+                alignItems="center"
+                justifyContent="center"
+                justifyItems="center">
                 <Typography variant="caption"
                 >{getString("viewTexts.graphCaption")}</Typography>
                 <Graphviz dot={editorState.graphVizContent} />
                 <Divider orientation="horizontal" textAlign="center" />
-            </>)}
+            </Stack>)}
 
         {/*
           * Element for the full data resume.
           */}
-        {!isHiddenApiResponse && (<>
+        {!isHiddenApiResponse && (<Stack
+            direction="column"
+            spacing={2}
+            padding={1}
+            alignContent="center"
+            alignItems="center"
+            justifyContent="center"
+            justifyItems="center">
             <DataResultFull
                 isError={editorState.isError}
                 fullResponse={editorState.fullResponse}
 
                 isLineWrapping={isLineWrapping}
                 fontSize={fontSize} />
-        </>)}
+        </Stack>)}
     </Container>);
 };
 

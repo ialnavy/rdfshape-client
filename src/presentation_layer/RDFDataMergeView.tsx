@@ -152,21 +152,30 @@ let RDFDataMergeView: React.FC = () => {
             </Grid>
 
             <Grid size={12} justifySelf={"center"} alignSelf="center">
-                <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={forRdfDataInfo(editorStateLeft,
-                        // Callback
-                        forRdfDataInfo(editorStateRight,
-                            forRdfDataMerge(editorStateLeft,
-                                editorStateRight,
-                                editorStateMerged),
+                <Stack
+                    direction="column"
+                    spacing={2}
+                    padding={1}
+                    alignContent="center"
+                    alignItems="center"
+                    justifyContent="center"
+                    justifyItems="center">
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={forRdfDataInfo(editorStateLeft,
+                            // Callback
+                            forRdfDataInfo(editorStateRight,
+                                forRdfDataMerge(editorStateLeft,
+                                    editorStateRight,
+                                    editorStateMerged),
+                                // Error callback
+                                setRdfMergeError),
                             // Error callback
-                            setRdfMergeError),
-                        // Error callback
-                        setRdfMergeError)}
-                    sx={{ marginTop: 2, alignSelf: "center", justifyContent: "center" }}
-                >{getString("viewTexts.rdfMerge.buttonRdfMerge")}</Button>
+                            setRdfMergeError)}
+                        sx={{ marginTop: 2, alignSelf: "center", justifyContent: "center" }}
+                    >{getString("viewTexts.rdfMerge.buttonRdfMerge")}</Button>
+                </Stack>
             </Grid>
 
         </Grid>
@@ -175,7 +184,15 @@ let RDFDataMergeView: React.FC = () => {
           * Element for the merged RDF data.
           */}
         {
-            !editorStateMerged.isError && editorStateMerged.code !== "" && (<>
+            !editorStateMerged.isError && editorStateMerged.code !== "" && (<Stack
+                direction="column"
+                spacing={2}
+                padding={1}
+                alignContent="center"
+                alignItems="center"
+                justifyContent="center"
+                justifyItems="center"
+                sx={{ width: "100%" }}>
                 <Typography variant="caption"
                 >{getString("viewTexts.rdfMerge.editorTitleMerged")}</Typography>
                 <EditorFactory
@@ -186,21 +203,29 @@ let RDFDataMergeView: React.FC = () => {
                     fontSize={fontSize}
                     setCode={editorStateMerged.setCode} />
                 <Divider orientation="horizontal" textAlign="center" />
-            </>)
+            </Stack>)
         }
 
         {/*
           * Element for the full response from RdfShape API.
           */}
         {
-            !isHiddenApiResponse && (<>
+            !isHiddenApiResponse && (<Stack
+                direction="column"
+                spacing={2}
+                padding={1}
+                alignContent="center"
+                alignItems="center"
+                justifyContent="center"
+                justifyItems="center"
+                sx={{ width: "100%" }}>
                 <DataResultFull
                     isError={editorStateMerged.isError}
                     fullResponse={editorStateMerged.fullResponse}
                     isLineWrapping={isLineWrapping}
                     fontSize={fontSize} />
                 <Divider orientation="horizontal" textAlign="center" />
-            </>)
+            </Stack>)
         }
     </Container>);
 };
