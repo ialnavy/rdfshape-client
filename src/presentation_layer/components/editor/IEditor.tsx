@@ -1,7 +1,7 @@
 import { IEditorState } from "../../../domain_layer/editorState/IEditorState";
 
 
-export interface IYjsEditor {
+export interface IEditor {
 
     /*
      * Parameters of editor.
@@ -10,6 +10,7 @@ export interface IYjsEditor {
     yDocCollection: string | undefined;
     isLineWrapping: boolean;
     fontSize: number;
+    isEditable: boolean;
 
     editorState: IEditorState;
 }

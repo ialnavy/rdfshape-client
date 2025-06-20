@@ -6,14 +6,15 @@ import { useLocale } from "../../../infrastructure_layer/utilities/ExternalisedS
 import DataComboBox from "../dataComboBox/DataComboBox";
 import DataResultResume from "../resumeResponse/ResumeResponse";
 
-import { IYjsEditor } from "./IYjsEditor";
+import { IEditor } from "./IEditor";
 
 
-let ShareYasheEditor: React.FC<IYjsEditor> = ({
+let ShareYasheTurtleEditor: React.FC<IEditor> = ({
     idDoc,
     yDocCollection,
     isLineWrapping,
     fontSize,
+    isEditable,
     editorState
 }) => {
     let { getString, /* getNumber, getBoolean, */ getStringsSet } = useLocale();
@@ -59,7 +60,7 @@ let ShareYasheEditor: React.FC<IYjsEditor> = ({
                 idDoc={idDoc}
                 yDocCollection={yDocCollection}
                 language={getString("mimeTypes.turtle")}
-                editable={true}
+                editable={isEditable}
                 isLineWrapping={isLineWrapping}
                 fontSize={fontSize}
                 setCode={editorState.setCode}
@@ -76,4 +77,4 @@ let ShareYasheEditor: React.FC<IYjsEditor> = ({
     </Grid>);
 };
 
-export default ShareYasheEditor;
+export default ShareYasheTurtleEditor;

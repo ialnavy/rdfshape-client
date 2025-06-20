@@ -3,13 +3,14 @@ import { Graphviz } from 'graphviz-react';
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import { fetchDataConvertGraphViz, fetchDataInfo } from "../infrastructure_layer/services/RdfShapeApiServices";
+import { fetchConvertRdfDataToGraphVizDot, fetchRdfDataInfo } from "../infrastructure_layer/services/RdfShapeApiServices";
 import { useLocale } from "../infrastructure_layer/utilities/ExternalisedStringsContext";
 
 import useEditorState from "../domain_layer/editorState/UseEditorState";
+import { forConvertRdfDataToGraphVizDot, forRdfDataInfo } from "../domain_layer/RdfShapeStrategiesFactory";
 import ConfigHeader from "./components/configHeader/ConfigHeader";
-import ShareYasheEditor from './components/yEditor/ShareYasheEditor';
 import DataResultFull from "./components/fullResponse/FullResponse";
+import ShareYasheTurtleEditor from './components/editor/ShareYasheTurtleEditor';
 
 
 let RDFDataMainView: React.FC = () => {
@@ -35,52 +36,19 @@ let RDFDataMainView: React.FC = () => {
             _setFontSize(fontSize);
     };
 
-    let doFetch = () => {
-        /*
-         * Against the RDFShape API,
-         * RDF data is validated.
-         */
-        fetchDataInfo({
-            content: editorState.code,
-            format: editorState.rdfFormat,
-            inference: editorState.rdfInference,
-            source: editorState.sourceOfRDFData
-        }).then(data => {
-            editorState.setError(false);
-            editorState.setFullResponse(JSON.stringify(data, null, 2));
-
-            /*
-             * Against the RDFShape API,
-             * RDF data is converted to GraphViz dot.
-             */
-            fetchDataConvertGraphViz({
-                content: editorState.code,
-                format: editorState.rdfFormat,
-                inference: editorState.rdfInference,
-                source: editorState.sourceOfRDFData
-            }).then(data => {
-                if (data?.result?.content !== undefined)
-                    editorState.setGraphVizContent(data.result.content);
-            }).catch(_error => { editorState.setGraphVizContent(null); });
-
-            editorState.setResponseMessage(data.message);
-            editorState.setResponseNumberOfStatements(data.result.numberOfStatements);
-        }).catch(error => {
-            editorState.setError(true);
-            editorState.setFullResponse((new String(error)).toString());
-            editorState.setGraphVizContent(null);
-        });
-    };
-
     /*
-     * "doFetch()" function is invoked each time
+     * Function is invoked each time
      * any of the following values changes.
      */
-    useEffect(doFetch, [
-        editorState.code,
-        editorState.rdfFormat,
-        editorState.rdfInference,
-        editorState.sourceOfRDFData]);
+    useEffect(
+        forRdfDataInfo(editorState,
+            forConvertRdfDataToGraphVizDot(editorState)),
+        [
+            editorState.code,
+            editorState.rdfFormat,
+            editorState.rdfInference,
+            editorState.sourceOfRDFData
+        ]);
 
     return (<Stack
         direction="column"
@@ -111,12 +79,13 @@ let RDFDataMainView: React.FC = () => {
         {/*
           * Element for the main editor.
           */}
-        <ShareYasheEditor
+        <ShareYasheTurtleEditor
             idDoc={idDoc}
             yDocCollection={getString("yjs.collections.rdfData")}
             editorState={editorState}
             isLineWrapping={isLineWrapping}
-            fontSize={fontSize} />
+            fontSize={fontSize}
+            isEditable={true} />
         <Divider orientation="horizontal" textAlign="center" />
 
         {/*
