@@ -50,54 +50,53 @@ let RDFDataMainView: React.FC = () => {
             editorState.sourceOfRDFData
         ]);
 
-    return (<Stack
-        direction="column"
-        spacing={2}
-        className="rdfDataMainView"
-        alignContent="center"
-        alignItems="center"
-        justifyContent="center"
-        justifyItems="center">
+    return (<Container>
+        <Stack
+            direction="column"
+            spacing={2}
+            className="rdfDataMainView"
+            alignContent="center"
+            alignItems="center"
+            justifyContent="center"
+            justifyItems="center">
 
-        <Divider orientation="horizontal" textAlign="center" />
-
-        {/*
+            {/*
           * Element for view configuration.
           */}
-        <ConfigHeader
-            isLineWrapping={isLineWrapping}
-            isHiddenApiResponse={isHiddenApiResponse}
-            isHiddenGraph={isHiddenGraph}
-            fontSize={fontSize}
+            <ConfigHeader
+                isLineWrapping={isLineWrapping}
+                isHiddenApiResponse={isHiddenApiResponse}
+                isHiddenGraph={isHiddenGraph}
+                fontSize={fontSize}
 
-            setLineWrapping={setLineWrapping}
-            setHiddenApiResponse={setHiddenApiResponse}
-            setHiddenGraph={setHiddenGraph}
-            setFontSize={setFontSize} />
-        <Divider orientation="horizontal" textAlign="center" />
+                setLineWrapping={setLineWrapping}
+                setHiddenApiResponse={setHiddenApiResponse}
+                setHiddenGraph={setHiddenGraph}
+                setFontSize={setFontSize} />
 
-        {/*
+            {/*
           * Element for the main editor.
           */}
-        <ShareYasheTurtleEditor
-            idDoc={idDoc}
-            yDocCollection={getString("yjs.collections.rdfData")}
-            editorState={editorState}
-            isLineWrapping={isLineWrapping}
-            fontSize={fontSize}
-            isEditable={true} />
-        <Divider orientation="horizontal" textAlign="center" />
+            <ShareYasheTurtleEditor
+                idDoc={idDoc}
+                yDocCollection={getString("yjs.collections.rdfData")}
+                editorState={editorState}
+                isLineWrapping={isLineWrapping}
+                fontSize={fontSize}
+                isEditable={true} />
+
+        </Stack>
 
         {/*
           * Element for the GraphViz DOT graph.
           */}
         {editorState.graphVizContent !== null && !isHiddenGraph && (
-            <Container>
+            <>
                 <Typography variant="caption"
                 >{getString("viewTexts.graphCaption")}</Typography>
                 <Graphviz dot={editorState.graphVizContent} />
                 <Divider orientation="horizontal" textAlign="center" />
-            </Container>)}
+            </>)}
 
         {/*
           * Element for the full data resume.
@@ -109,10 +108,8 @@ let RDFDataMainView: React.FC = () => {
 
                 isLineWrapping={isLineWrapping}
                 fontSize={fontSize} />
-            <Divider orientation="horizontal" textAlign="center" />
         </>)}
-
-    </Stack>);
+    </Container>);
 };
 
 export default RDFDataMainView;

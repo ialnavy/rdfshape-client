@@ -1,4 +1,4 @@
-import { Button, Divider, Grid2 as Grid, Typography } from "@mui/material";
+import { Button, Container, Divider, Grid2 as Grid, Typography } from "@mui/material";
 import { useState } from "react";
 
 import { useLocale } from "../infrastructure_layer/utilities/ExternalisedStringsContext";
@@ -49,80 +49,83 @@ let RDFDataMergeView: React.FC = () => {
         editorStateMerged.setFullResponse(getString("viewTexts.genericDocumentError"));
     };
 
-    return (<Grid
-        container
-        alignContent="center"
-        alignItems="center"
-        justifyContent="center"
-        justifyItems="center"
-        sx={{ width: "100%" }}>
+    return (<Container>
+        <Grid
+            container
+            alignContent="center"
+            alignItems="center"
+            justifyContent="center"
+            justifyItems="center"
+            sx={{ width: "100%" }}>
 
-        <Grid size={12}>
-            <ConfigHeader
-                isLineWrapping={isLineWrapping}
-                isHiddenApiResponse={isHiddenApiResponse}
-                isHiddenGraph={isHiddenGraph}
-                fontSize={fontSize}
+            <Grid size={12}>
+                <ConfigHeader
+                    isLineWrapping={isLineWrapping}
+                    isHiddenApiResponse={isHiddenApiResponse}
+                    isHiddenGraph={isHiddenGraph}
+                    fontSize={fontSize}
 
-                setLineWrapping={setLineWrapping}
-                setHiddenApiResponse={setHiddenApiResponse}
-                setHiddenGraph={setHiddenGraph}
-                setFontSize={setFontSize} />
-        </Grid>
+                    setLineWrapping={setLineWrapping}
+                    setHiddenApiResponse={setHiddenApiResponse}
+                    setHiddenGraph={setHiddenGraph}
+                    setFontSize={setFontSize} />
+            </Grid>
 
-        <Grid size={12}>
-            <DataResultResume
-                isError={editorStateMerged.isError}
-                fullResponse={editorStateMerged.fullResponse} />
-        </Grid>
+            <Grid size={12}>
+                <DataResultResume
+                    isError={editorStateMerged.isError}
+                    fullResponse={editorStateMerged.fullResponse} />
+            </Grid>
 
-        <Grid size={isDesktop() ? 6 : 12}>
-            <ShareYasheTurtleEditor
-                idDoc={idDocLeft}
-                yDocCollection={"rdfMerge"}
-                editorState={editorStateLeft}
-                isLineWrapping={isLineWrapping}
-                fontSize={fontSize}
-                isEditable={true} />
-            <Typography variant="caption"
-            >{getString("viewTexts.rdfMerge.editorTitleLeft")}</Typography>
-        </Grid>
+            <Grid size={isDesktop() ? 6 : 12}>
+                <ShareYasheTurtleEditor
+                    idDoc={idDocLeft}
+                    yDocCollection={"rdfMerge"}
+                    editorState={editorStateLeft}
+                    isLineWrapping={isLineWrapping}
+                    fontSize={fontSize}
+                    isEditable={true} />
+                <Typography variant="caption"
+                >{getString("viewTexts.rdfMerge.editorTitleLeft")}</Typography>
+            </Grid>
 
-        <Grid size={isDesktop() ? 6 : 12}>
-            <ShareYasheTurtleEditor
-                idDoc={idDocRight}
-                yDocCollection={"rdfMerge"}
-                editorState={editorStateRight}
-                isLineWrapping={isLineWrapping}
-                fontSize={fontSize}
-                isEditable={true} />
-            <Typography variant="caption"
-            >{getString("viewTexts.rdfMerge.editorTitleRight")}</Typography>
-        </Grid>
+            <Grid size={isDesktop() ? 6 : 12}>
+                <ShareYasheTurtleEditor
+                    idDoc={idDocRight}
+                    yDocCollection={"rdfMerge"}
+                    editorState={editorStateRight}
+                    isLineWrapping={isLineWrapping}
+                    fontSize={fontSize}
+                    isEditable={true} />
+                <Typography variant="caption"
+                >{getString("viewTexts.rdfMerge.editorTitleRight")}</Typography>
+            </Grid>
 
-        <Grid size={12} justifySelf={"center"} alignSelf="center">
-            <Button
-                variant="contained"
-                color="primary"
-                onClick={forRdfDataInfo(editorStateLeft,
-                    // Callback
-                    forRdfDataInfo(editorStateRight,
-                        forRdfDataMerge(editorStateLeft,
-                            editorStateRight,
-                            editorStateMerged),
+            <Grid size={12} justifySelf={"center"} alignSelf="center">
+                <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={forRdfDataInfo(editorStateLeft,
+                        // Callback
+                        forRdfDataInfo(editorStateRight,
+                            forRdfDataMerge(editorStateLeft,
+                                editorStateRight,
+                                editorStateMerged),
+                            // Error callback
+                            setRdfMergeError),
                         // Error callback
-                        setRdfMergeError),
-                    // Error callback
-                    setRdfMergeError)}
-                sx={{ marginTop: 2, alignSelf: "center", justifyContent: "center" }}
-            >{getString("viewTexts.rdfMerge.buttonRdfMerge")}</Button>
+                        setRdfMergeError)}
+                    sx={{ marginTop: 2, alignSelf: "center", justifyContent: "center" }}
+                >{getString("viewTexts.rdfMerge.buttonRdfMerge")}</Button>
+            </Grid>
+
         </Grid>
 
         {/*
           * Element for the merged RDF data.
           */}
         {
-            !editorStateMerged.isError && editorStateMerged.code !== "" && (<Grid size={12} padding={2}>
+            !editorStateMerged.isError && editorStateMerged.code !== "" && (<>
                 <Typography variant="caption"
                 >{getString("viewTexts.rdfMerge.editorTitleMerged")}</Typography>
                 <EditorFactory
@@ -133,24 +136,23 @@ let RDFDataMergeView: React.FC = () => {
                     fontSize={fontSize}
                     setCode={editorStateMerged.setCode} />
                 <Divider orientation="horizontal" textAlign="center" />
-            </Grid>)
+            </>)
         }
 
         {/*
           * Element for the full response from RdfShape API.
           */}
         {
-            !isHiddenApiResponse && (<Grid size={12}>
+            !isHiddenApiResponse && (<>
                 <DataResultFull
                     isError={editorStateMerged.isError}
                     fullResponse={editorStateMerged.fullResponse}
                     isLineWrapping={isLineWrapping}
                     fontSize={fontSize} />
                 <Divider orientation="horizontal" textAlign="center" />
-            </Grid>)
+            </>)
         }
-
-    </Grid>);
+    </Container>);
 };
 
 export default RDFDataMergeView;
