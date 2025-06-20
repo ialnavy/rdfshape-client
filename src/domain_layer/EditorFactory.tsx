@@ -101,6 +101,26 @@ let EditorFactory = ({
             colorLight: userColor.light
         });
         extensions.push(yCollab(ytext, provider.awareness, { undoManager }));
+
+        /*
+         * Set default value for the editor
+         * if the document is empty.
+         */
+        let setDefaultValueIfEmpty = () => {
+            if (ytext.toString() === "") {
+                switch (language) {
+                    case getString("mimeTypes.turtle"):
+                        ytext.insert(0, getString("defaultScripts.rdfData"));
+                        break;
+                    default:
+                        break;
+                }
+            }
+        };
+        if (provider.synced)
+            setDefaultValueIfEmpty();
+        else
+            provider.once("sync", setDefaultValueIfEmpty);
     }
 
     /*

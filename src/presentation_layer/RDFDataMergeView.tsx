@@ -127,7 +127,7 @@ let RDFDataMergeView: React.FC = () => {
                 forRdfDataInfo(editorStateRight,
                     forRdfDataMerge(editorStateLeft,
                         editorStateRight,
-                        editorStateMerged /*, Callback to be done */),
+                        editorStateMerged),
                     // Error callback
                     setRdfMergeError),
                 // Error callback
@@ -150,7 +150,7 @@ let RDFDataMergeView: React.FC = () => {
         </>)}
 
         {/*
-          * Element for the full data resume.
+          * Element for the full response from RdfShape API.
           */}
         {!isHiddenApiResponse && (<>
             <DataResultFull
