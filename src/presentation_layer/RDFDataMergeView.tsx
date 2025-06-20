@@ -1,4 +1,4 @@
-import { Divider, Grid2 as Grid, Stack, Button, Typography } from "@mui/material";
+import { Button, Divider, Grid2 as Grid, Stack, Typography } from "@mui/material";
 import { useState } from "react";
 
 import { fetchDataInfo, fetchDataMerge } from "../infrastructure_layer/services/RdfShapeApiServices";
@@ -8,8 +8,9 @@ import { isDesktop } from "../domain_layer/AdaptabilityChecks";
 import useEditorState from "../domain_layer/editorState/UseEditorState";
 import { generateRandomUuidForYjsDoc } from "../infrastructure_layer/services/YjsDocServiceLayer";
 import ConfigHeader from "./components/configHeader/ConfigHeader";
-import ShareYasheEditor from './components/yEditor/ShareYasheEditor';
 import DataResultFull from "./components/fullResponse/FullResponse";
+import ShareYasheEditor from './components/yEditor/ShareYasheEditor';
+import DataResultResume from "./components/resumeResponse/ResumeResponse";
 
 
 let RDFDataMergeView: React.FC = () => {
@@ -100,11 +101,17 @@ let RDFDataMergeView: React.FC = () => {
                 editorStateRight.setError(true);
                 editorStateRight.setFullResponse((new String(error)).toString());
                 editorStateRight.setGraphVizContent(null);
+
+                setError(true);
+                setFullResponse(getString("viewTexts.genericDocumentError"));
             });
         }).catch(error => {
             editorStateLeft.setError(true);
             editorStateLeft.setFullResponse((new String(error)).toString());
             editorStateLeft.setGraphVizContent(null);
+
+            setError(true);
+            setFullResponse(getString("viewTexts.genericDocumentError"));
         });
     };
 
@@ -134,6 +141,11 @@ let RDFDataMergeView: React.FC = () => {
             setFontSize={setFontSize} />
         <Divider orientation="horizontal" textAlign="center" />
 
+        <DataResultResume
+            isError={isError}
+            fullResponse={fullResponse} />
+        <Divider orientation="horizontal" textAlign="center" />
+
         {/*
           * Element for the main editor.
           */}
@@ -146,8 +158,8 @@ let RDFDataMergeView: React.FC = () => {
             sx={{ width: "100%" }}>
 
             <Grid size={isDesktop() ? 6 : 12}>
-            <Typography variant="caption"
-                    >{getString("viewTexts.rdfMerge.editorTitleLeft")}</Typography>
+                <Typography variant="caption"
+                >{getString("viewTexts.rdfMerge.editorTitleLeft")}</Typography>
                 <ShareYasheEditor
                     idDoc={idDocLeft}
                     yDocCollection={"rdfMerge"}
@@ -159,7 +171,7 @@ let RDFDataMergeView: React.FC = () => {
 
             <Grid size={isDesktop() ? 6 : 12}>
                 <Typography variant="caption"
-                    >{getString("viewTexts.rdfMerge.editorTitleRight")}</Typography>
+                >{getString("viewTexts.rdfMerge.editorTitleRight")}</Typography>
                 <ShareYasheEditor
                     idDoc={idDocRight}
                     yDocCollection={"rdfMerge"}
@@ -176,7 +188,7 @@ let RDFDataMergeView: React.FC = () => {
             color="primary"
             onClick={doFetch}
             sx={{ marginTop: 2 }}
-            >{getString("viewTexts.rdfMerge.buttonRdfMerge")}</Button>
+        >{getString("viewTexts.rdfMerge.buttonRdfMerge")}</Button>
 
         {/*
           * Element for the full data resume.

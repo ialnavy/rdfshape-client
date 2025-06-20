@@ -605,6 +605,7 @@ viewTexts:
   rdfFormat: "RDF Format"
   rdfInference: "RDF Inference"
   rdfShapeApiCaption: "Full response of RDF validation against RDFShape API will be shown below."
+  genericDocumentError: "An error occurred while processing the documents. Please check the input and try again."
   graphCaption: "See data as graph below."
   hideRdfShapeApiResponse: "Hide API Response"
   hideRdfGraph: "Hide Graph"
