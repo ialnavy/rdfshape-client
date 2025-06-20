@@ -67,6 +67,7 @@ let RDFDataMainView: React.FC = () => {
             <ConfigHeader
                 idDocs={idDoc !== null ? [idDoc] : []}
                 yjsCollection={getString("yjs.collections.rdfData")}
+                verbosePermalink={false}
 
                 isLineWrapping={isLineWrapping}
                 isHiddenApiResponse={isHiddenApiResponse}

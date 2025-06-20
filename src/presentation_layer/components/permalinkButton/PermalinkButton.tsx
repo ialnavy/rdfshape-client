@@ -1,6 +1,5 @@
 import { Button } from '@mui/material';
 
-import { useNavigate } from 'react-router-dom';
 import { forRdfData, forRdfMerge } from '../../../domain_layer/PermalinkFactory';
 import { useLocale } from '../../../infrastructure_layer/utilities/ExternalisedStringsContext';
 import { IPermalinkButton } from './IPermalinkButton';
@@ -8,10 +7,10 @@ import { IPermalinkButton } from './IPermalinkButton';
 
 let PermalinkButton: React.FC<IPermalinkButton> = ({
     idDocs,
-    yjsCollection
+    yjsCollection,
+    verbose
 }) => {
     let { getString /*, getNumber, getBoolean, getStringsSet */ } = useLocale();
-    let navigate = useNavigate();
 
     let getPermalink = (): string => {
         let permalink = window.location.href;
@@ -42,11 +41,24 @@ let PermalinkButton: React.FC<IPermalinkButton> = ({
         return permalink;
     };
 
+    let permalinkButtonText: string;
+    switch (yjsCollection) {
+        case getString("yjs.collections.rdfData"):
+            permalinkButtonText = getString("viewTexts.permalink.toRdfData");
+            break;
+        case getString("yjs.collections.rdfMerge"):
+            permalinkButtonText = getString("viewTexts.permalink.toRdfMerge");
+            break;
+        default:
+            permalinkButtonText = getString("viewTexts.permalink.default");
+            break;
+    }
+
     return (
         <Button
             variant="contained"
-            onClick={() => { navigate(getPermalink()); }}
-        >{getString("viewTexts.permalink.button")}</Button>
+            onClick={() => { window.open(getPermalink(), '_blank'); }}
+        >{verbose ? permalinkButtonText : getString("viewTexts.permalink.default")}</Button>
     );
 };
 

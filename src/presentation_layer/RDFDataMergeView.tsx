@@ -1,32 +1,50 @@
-import { Button, Container, Divider, Grid2 as Grid, Typography } from "@mui/material";
+import { Button, Container, Divider, Grid2 as Grid, Stack, Typography } from "@mui/material";
 import { useState } from "react";
 
 import { useLocale } from "../infrastructure_layer/utilities/ExternalisedStringsContext";
 
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { isDesktop } from "../domain_layer/AdaptabilityChecks";
 import EditorFactory from "../domain_layer/EditorFactory";
 import useEditorState from "../domain_layer/editorState/UseEditorState";
+import { forRdfMerge } from "../domain_layer/PermalinkFactory";
 import { forRdfDataInfo, forRdfDataMerge } from "../domain_layer/RdfShapeStrategiesFactory";
 import { generateRandomUuidForYjsDoc } from "../infrastructure_layer/services/YjsDocServiceLayer";
 import ConfigHeader from "./components/configHeader/ConfigHeader";
 import ShareYasheTurtleEditor from './components/editor/ShareYasheTurtleEditor';
 import DataResultFull from "./components/fullResponse/FullResponse";
+import PermalinkButton from "./components/permalinkButton/PermalinkButton";
 import DataResultResume from "./components/resumeResponse/ResumeResponse";
 
 
 let RDFDataMergeView: React.FC = () => {
     let [searchParams] = useSearchParams();
+    let navigate = useNavigate();
     let { getString, getNumber, getBoolean /*, getStringsSet */ } = useLocale();
 
-    // A colaborative document ID is used to identify the document that is being edited
-    // This ID will be used to fetch the document from the Yjs server
-    // and to persist every change against a MongoDB database
-    let idDocLeft = searchParams.has('idDocLeft') ? searchParams.get('idDocLeft') : generateRandomUuidForYjsDoc();
-    let idDocRight = searchParams.has('idDocRight') ? searchParams.get('idDocRight') : generateRandomUuidForYjsDoc();
+    /*
+     * A colaborative document ID is used to identify the document that is being edited
+     * This ID will be used to fetch the document from the Yjs server
+     * and to persist every change against a MongoDB database
+     */
+    let hasIdDocLeft: boolean = searchParams.has('idDocLeft');
+    let hasIdDocRight: boolean = searchParams.has('idDocRight');
+    let idDocLeft = hasIdDocLeft ? searchParams.get('idDocLeft') : generateRandomUuidForYjsDoc();
+    let idDocRight = hasIdDocRight ? searchParams.get('idDocRight') : generateRandomUuidForYjsDoc();
 
-    // Software design pattern State is used to manage the editor state
-    // It is used to store all the information related to the editor
+    /*
+     * The IDs of the RDF documents must be shown as query parameters
+     * in the URL, so that the user can share the link with others.
+     * Otherwise, the user would lose the changes if they refresh the page.
+     */
+    if (!hasIdDocLeft || !hasIdDocRight)
+        navigate(forRdfMerge(idDocLeft !== null ? (idDocRight !== null ? [idDocLeft, idDocRight] : []) : [],
+            getString("yjs.collections.rdfMerge")));
+
+    /*
+     * Software design pattern State is used to manage the editor state
+     * It is used to store all the information related to the editor
+     */
     let editorStateLeft = useEditorState();
     let editorStateRight = useEditorState();
     let editorStateMerged = useEditorState();
@@ -64,6 +82,7 @@ let RDFDataMergeView: React.FC = () => {
                 <ConfigHeader
                     idDocs={idDocLeft !== null ? (idDocRight !== null ? [idDocLeft, idDocRight] : []) : []}
                     yjsCollection={getString("yjs.collections.rdfMerge")}
+                    verbosePermalink={true}
 
                     isLineWrapping={isLineWrapping}
                     isHiddenApiResponse={isHiddenApiResponse}
@@ -83,27 +102,53 @@ let RDFDataMergeView: React.FC = () => {
             </Grid>
 
             <Grid size={isDesktop() ? 6 : 12}>
-                <ShareYasheTurtleEditor
-                    idDoc={idDocLeft}
-                    yDocCollection={"rdfMerge"}
-                    editorState={editorStateLeft}
-                    isLineWrapping={isLineWrapping}
-                    fontSize={fontSize}
-                    isEditable={true} />
-                <Typography variant="caption"
-                >{getString("viewTexts.rdfMerge.editorTitleLeft")}</Typography>
+                <Stack
+                    direction="column"
+                    spacing={2}
+                    className="rdfDataMainView"
+                    alignContent="center"
+                    alignItems="center"
+                    justifyContent="center"
+                    justifyItems="center">
+                    <ShareYasheTurtleEditor
+                        idDoc={idDocLeft}
+                        yDocCollection={"rdfMerge"}
+                        editorState={editorStateLeft}
+                        isLineWrapping={isLineWrapping}
+                        fontSize={fontSize}
+                        isEditable={true} />
+                    <Typography variant="caption"
+                    >{getString("viewTexts.rdfMerge.editorTitleLeft")}</Typography>
+                    <PermalinkButton
+                        idDocs={idDocLeft !== null ? [idDocLeft] : []}
+                        yjsCollection={getString("yjs.collections.rdfData")}
+                        verbose={true} />
+                </Stack>
             </Grid>
 
             <Grid size={isDesktop() ? 6 : 12}>
-                <ShareYasheTurtleEditor
-                    idDoc={idDocRight}
-                    yDocCollection={"rdfMerge"}
-                    editorState={editorStateRight}
-                    isLineWrapping={isLineWrapping}
-                    fontSize={fontSize}
-                    isEditable={true} />
-                <Typography variant="caption"
-                >{getString("viewTexts.rdfMerge.editorTitleRight")}</Typography>
+                <Stack
+                    direction="column"
+                    spacing={2}
+                    className="rdfDataMainView"
+                    alignContent="center"
+                    alignItems="center"
+                    justifyContent="center"
+                    justifyItems="center">
+                    <ShareYasheTurtleEditor
+                        idDoc={idDocRight}
+                        yDocCollection={"rdfMerge"}
+                        editorState={editorStateRight}
+                        isLineWrapping={isLineWrapping}
+                        fontSize={fontSize}
+                        isEditable={true} />
+                    <Typography variant="caption"
+                    >{getString("viewTexts.rdfMerge.editorTitleRight")}</Typography>
+                    <PermalinkButton
+                        idDocs={idDocRight !== null ? [idDocRight] : []}
+                        yjsCollection={getString("yjs.collections.rdfData")}
+                        verbose={true} />
+                </Stack>
             </Grid>
 
             <Grid size={12} justifySelf={"center"} alignSelf="center">

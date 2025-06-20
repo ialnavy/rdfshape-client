@@ -1,6 +1,5 @@
 import { Grid2 as Grid } from '@mui/material';
 
-import { useLocale } from '../../../infrastructure_layer/utilities/ExternalisedStringsContext';
 
 import { isDesktop } from '../../../domain_layer/AdaptabilityChecks';
 
@@ -14,6 +13,7 @@ import IConfigHeader from './IConfigHeader';
 let ConfigHeader: React.FC<IConfigHeader> = ({
     idDocs,
     yjsCollection,
+    verbosePermalink,
 
     isLineWrapping,
     isHiddenApiResponse,
@@ -25,7 +25,6 @@ let ConfigHeader: React.FC<IConfigHeader> = ({
     setHiddenGraph,
     setFontSize
 }) => {
-    let { getString /*, getNumber, getBoolean, getStringsSet */ } = useLocale();
     return (
         <Grid
             container
@@ -47,7 +46,7 @@ let ConfigHeader: React.FC<IConfigHeader> = ({
             </Grid>
 
             <Grid size={isDesktop() ? 3 : 12}>
-                <PermalinkButton idDocs={idDocs} yjsCollection={yjsCollection} />
+                <PermalinkButton idDocs={idDocs} yjsCollection={yjsCollection} verbose={verbosePermalink} />
             </Grid>
 
             <Grid size={isDesktop() ? 6 : 12}>

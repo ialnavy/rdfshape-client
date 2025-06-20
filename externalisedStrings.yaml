@@ -611,8 +611,10 @@ viewTexts:
   hideRdfGraph: "Hide Graph"
   fontSizeInput: "✏️ Font Size"
   permalink:
-    button: "🔗 Permalink"
     copied: "Link copied to clipboard!"
+    default: "🔗 Permalink"
+    toRdfData: "📝 Edit as single doc"
+    toRdfMerge: "🔗 Permalink to this merge"
   settings:
     title: "Settings"
     lineWrapping: "Line Wrapping"
@@ -634,8 +636,8 @@ viewTexts:
     rdfResultCaption: "Results of RDF validation will be shown below."
     rdfDataCaption: "Enter the RDF data in the box below."
   rdfMerge:
-    editorTitleLeft: "Introduce the contents of your RDF document above"
-    editorTitleRight: "Introduce the contents of another RDF document above"
+    editorTitleLeft: "Write the contents of your RDF document above"
+    editorTitleRight: "Write the contents of another RDF document above"
     editorTitleMerged: "See the contents of the merged RDF document below"
     buttonRdfMerge: "Merge RDF Data"
 

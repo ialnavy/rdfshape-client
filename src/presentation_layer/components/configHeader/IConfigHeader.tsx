@@ -7,6 +7,7 @@ interface IConfigHeader {
      */
     idDocs: string[];
     yjsCollection: string;
+    verbosePermalink: boolean;
 
     isLineWrapping: boolean;
     isHiddenApiResponse: boolean;
