@@ -559,6 +559,10 @@ api:
     bySchema: "bySchema"
     byStream: "byStream"
     default: "byText"
+yjs:
+  collections:
+    rdfData: "rdfData"
+    rdfMerge: "rdfMerge"
 
 # Externalisation of text
 defaultScripts:
@@ -615,7 +619,10 @@ viewTexts:
     setMaxFontSize: "MAX"
     setMinFontSize: "MIN"
   navBar:
-    rdfData: "RDF Data"
+    rdfMenu:
+      title: "RDF Views"
+      rdfData: "Analyse a RDF document"
+      rdfMerge: "Merge two RDF documents"
     aboutMenuTitle: "About"
     aboutApiProject: "🚀 WESO RDFShape API Project"
     aboutApiDocs: "🛠️ RDFShape API SwaggerAPI"
@@ -625,5 +632,9 @@ viewTexts:
     tabTitleFullResponse: "RDFShape API Response"
     rdfResultCaption: "Results of RDF validation will be shown above."
     rdfDataCaption: "Enter the RDF data in the box below."
+  rdfMerge:
+    editorTitleLeft: "Introduce the contents of your RDF document"
+    editorTitleRight: "Introduce the contents of another RDF document"
+    buttonRdfMerge: "Merge RDF Data"
 
 # To be extended!

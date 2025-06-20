@@ -1,9 +1,6 @@
 import { IEditorState } from "../../../domain_layer/editorState/IEditorState";
 
-export type IDataResult = {
-    isLineWrapping?: boolean | undefined;
-    fontSize?: number | undefined;
-
+export type IResumeResponse = {
     isError: boolean;
     fullResponse: string;
     editorState?: IEditorState | undefined;

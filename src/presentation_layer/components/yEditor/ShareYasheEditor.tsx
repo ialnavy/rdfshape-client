@@ -4,12 +4,12 @@ import { isDesktop } from "../../../domain_layer/AdaptabilityChecks";
 import EditorFactory from "../../../domain_layer/EditorFactory";
 import { useLocale } from "../../../infrastructure_layer/utilities/ExternalisedStringsContext";
 import DataComboBox from "../dataComboBox/DataComboBox";
-import DataResultResume from "../result/DataResultResume";
+import DataResultResume from "../resumeResponse/ResumeResponse";
 
-import { IEditor } from "./IEditor";
+import { IYjsEditor } from "./IYjsEditor";
 
 
-let ShareYasheEditor: React.FC<IEditor> = ({
+let ShareYasheEditor: React.FC<IYjsEditor> = ({
     idDoc,
     yDocCollection,
     isLineWrapping,
@@ -27,7 +27,10 @@ let ShareYasheEditor: React.FC<IEditor> = ({
         sx={{ width: "100%" }}>
 
         <Grid size={isDesktop() ? 4 : 12}>
-            <DataResultResume editorState={editorState} />
+            <DataResultResume
+                editorState={editorState}
+                isError={editorState.isError}
+                fullResponse={editorState.fullResponse} />
         </Grid>
 
         <Grid size={isDesktop() ? 4 : 12}>

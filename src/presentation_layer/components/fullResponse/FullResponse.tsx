@@ -4,9 +4,9 @@ import { useLocale } from "../../../infrastructure_layer/utilities/ExternalisedS
 
 import EditorFactory from '../../../domain_layer/EditorFactory';
 import { makeParagraph } from '../../../infrastructure_layer/utilities/ReactElementsUtils';
-import { IDataResult } from './IDataResult';
+import { IFullResponse } from './IFullResponse';
 
-let DataResultFull: React.FC<IDataResult> = ({
+let FullResponse: React.FC<IFullResponse> = ({
     isError,
     fullResponse,
     isLineWrapping,
@@ -30,4 +30,4 @@ let DataResultFull: React.FC<IDataResult> = ({
     </Container>);
 };
 
-export default DataResultFull;
+export default FullResponse;

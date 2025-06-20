@@ -8,8 +8,8 @@ import { useLocale } from "../infrastructure_layer/utilities/ExternalisedStrings
 
 import useEditorState from "../domain_layer/editorState/UseEditorState";
 import ConfigHeader from "./components/configHeader/ConfigHeader";
-import ShareYasheEditor from './components/editor/ShareYasheEditor';
-import DataResultFull from "./components/result/DataResultFull";
+import ShareYasheEditor from './components/yEditor/ShareYasheEditor';
+import DataResultFull from "./components/fullResponse/FullResponse";
 
 
 let RDFDataMainView: React.FC = () => {
@@ -113,7 +113,7 @@ let RDFDataMainView: React.FC = () => {
           */}
         <ShareYasheEditor
             idDoc={idDoc}
-            yDocCollection={"rdfData"}
+            yDocCollection={getString("yjs.collections.rdfData")}
             editorState={editorState}
             isLineWrapping={isLineWrapping}
             fontSize={fontSize} />
@@ -135,9 +135,11 @@ let RDFDataMainView: React.FC = () => {
           */}
         {!isHiddenApiResponse && (<>
             <DataResultFull
+                isError={editorState.isError}
+                fullResponse={editorState.fullResponse}
+
                 isLineWrapping={isLineWrapping}
-                fontSize={fontSize}
-                editorState={editorState} />
+                fontSize={fontSize} />
             <Divider orientation="horizontal" textAlign="center" />
         </>)}
 

@@ -1,7 +1,7 @@
 import { IEditorState } from "../../../domain_layer/editorState/IEditorState";
 
 
-export interface IEditor {
+export interface IYjsEditor {
 
     /*
      * Parameters of editor.

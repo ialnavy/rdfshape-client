@@ -1,4 +1,4 @@
-import { Divider, Grid2 as Grid, Stack } from "@mui/material";
+import { Divider, Grid2 as Grid, Stack, Button, Typography } from "@mui/material";
 import { useState } from "react";
 
 import { fetchDataInfo, fetchDataMerge } from "../infrastructure_layer/services/RdfShapeApiServices";
@@ -8,12 +8,12 @@ import { isDesktop } from "../domain_layer/AdaptabilityChecks";
 import useEditorState from "../domain_layer/editorState/UseEditorState";
 import { generateRandomUuidForYjsDoc } from "../infrastructure_layer/services/YjsDocServiceLayer";
 import ConfigHeader from "./components/configHeader/ConfigHeader";
-import ShareYasheEditor from './components/editor/ShareYasheEditor';
-import DataResultFull from "./components/result/DataResultFull";
+import ShareYasheEditor from './components/yEditor/ShareYasheEditor';
+import DataResultFull from "./components/fullResponse/FullResponse";
 
 
 let RDFDataMergeView: React.FC = () => {
-    let { /* getString, */ getNumber, getBoolean /*, getStringsSet */ } = useLocale();
+    let { getString, getNumber, getBoolean /*, getStringsSet */ } = useLocale();
 
     // A colaborative document ID is used to identify the document that is being edited
     // This ID will be used to fetch the document from the Yjs server
@@ -25,6 +25,9 @@ let RDFDataMergeView: React.FC = () => {
     // It is used to store all the information related to the editor
     let editorStateLeft = useEditorState();
     let editorStateRight = useEditorState();
+
+    let [isError, setError] = useState<boolean>(false);
+    let [fullResponse, setFullResponse] = useState<string>(getString("texts.dataInfoWillAppearHere"));
 
     // These variables are used for conditional rendering of React subelements
     let [isHiddenApiResponse, setHiddenApiResponse] = useState<boolean>(getBoolean("defaultBehaviour.hidApiResponse"));
@@ -86,7 +89,12 @@ let RDFDataMergeView: React.FC = () => {
                     }],
                     targetFormat: editorStateLeft.rdfFormat
                 }).then(data => {
-                    console.log("Merged data:", data);
+                    setError(false);
+                    setFullResponse((new String(data)).toString());
+                    console.log(data); // TBD
+                }).catch(error => {
+                    setError(true);
+                    setFullResponse((new String(error)).toString());
                 });
             }).catch(error => {
                 editorStateRight.setError(true);
@@ -138,6 +146,8 @@ let RDFDataMergeView: React.FC = () => {
             sx={{ width: "100%" }}>
 
             <Grid size={isDesktop() ? 6 : 12}>
+            <Typography variant="caption"
+                    >{getString("viewTexts.rdfMerge.editorTitleLeft")}</Typography>
                 <ShareYasheEditor
                     idDoc={idDocLeft}
                     yDocCollection={"rdfMerge"}
@@ -148,6 +158,8 @@ let RDFDataMergeView: React.FC = () => {
             </Grid>
 
             <Grid size={isDesktop() ? 6 : 12}>
+                <Typography variant="caption"
+                    >{getString("viewTexts.rdfMerge.editorTitleRight")}</Typography>
                 <ShareYasheEditor
                     idDoc={idDocRight}
                     yDocCollection={"rdfMerge"}
@@ -158,6 +170,13 @@ let RDFDataMergeView: React.FC = () => {
             </Grid>
 
         </Grid>
+
+        <Button
+            variant="contained"
+            color="primary"
+            onClick={doFetch}
+            sx={{ marginTop: 2 }}
+            >{getString("viewTexts.rdfMerge.buttonRdfMerge")}</Button>
 
         {/*
           * Element for the full data resume.
