@@ -10,7 +10,7 @@ import * as Y from 'yjs';
 
 interface EditorFactoryParams {
     code: string | undefined;
-    idDoc?: string | undefined;
+    idDoc?: string | null;
     yDocCollection?: string | undefined;
     language: string | undefined;
     editable?: boolean | undefined;
@@ -70,7 +70,7 @@ let EditorFactory = ({
     }
 
     // Colaborativity functionality
-    if (idDoc !== undefined) {
+    if (idDoc !== undefined && idDoc !== null) {
         let userColor = { color: '#30bced', light: '#30bced33' };
         let yDoc = new Y.Doc();
         let provider = new WebsocketProvider(

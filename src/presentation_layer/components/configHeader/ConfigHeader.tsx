@@ -1,4 +1,4 @@
-import { Button, Grid2 as Grid } from '@mui/material';
+import { Grid2 as Grid } from '@mui/material';
 
 import { useLocale } from '../../../infrastructure_layer/utilities/ExternalisedStringsContext';
 
@@ -7,10 +7,14 @@ import { isDesktop } from '../../../domain_layer/AdaptabilityChecks';
 import EditorSettings from '../editorSettings/EditorSettings';
 import FontSettings from '../fontSettings/FontSettings';
 
+import PermalinkButton from '../permalinkButton/PermalinkButton';
 import IConfigHeader from './IConfigHeader';
 
 
 let ConfigHeader: React.FC<IConfigHeader> = ({
+    idDocs,
+    yjsCollection,
+
     isLineWrapping,
     isHiddenApiResponse,
     isHiddenGraph,
@@ -43,15 +47,7 @@ let ConfigHeader: React.FC<IConfigHeader> = ({
             </Grid>
 
             <Grid size={isDesktop() ? 3 : 12}>
-                <Button
-                    variant="contained"
-                    onClick={() => {
-                        navigator.clipboard.writeText(window.location.href);
-                        alert(getString("viewTexts.permalink.copied"));
-                    }}
-                >
-                    {getString("viewTexts.permalink.button")}
-                </Button>
+                <PermalinkButton idDocs={idDocs} yjsCollection={yjsCollection} />
             </Grid>
 
             <Grid size={isDesktop() ? 6 : 12}>

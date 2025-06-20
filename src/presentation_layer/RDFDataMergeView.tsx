@@ -3,6 +3,7 @@ import { useState } from "react";
 
 import { useLocale } from "../infrastructure_layer/utilities/ExternalisedStringsContext";
 
+import { useSearchParams } from "react-router-dom";
 import { isDesktop } from "../domain_layer/AdaptabilityChecks";
 import EditorFactory from "../domain_layer/EditorFactory";
 import useEditorState from "../domain_layer/editorState/UseEditorState";
@@ -15,13 +16,14 @@ import DataResultResume from "./components/resumeResponse/ResumeResponse";
 
 
 let RDFDataMergeView: React.FC = () => {
+    let [searchParams] = useSearchParams();
     let { getString, getNumber, getBoolean /*, getStringsSet */ } = useLocale();
 
     // A colaborative document ID is used to identify the document that is being edited
     // This ID will be used to fetch the document from the Yjs server
     // and to persist every change against a MongoDB database
-    let idDocLeft = generateRandomUuidForYjsDoc();
-    let idDocRight = generateRandomUuidForYjsDoc();
+    let idDocLeft = searchParams.has('idDocLeft') ? searchParams.get('idDocLeft') : generateRandomUuidForYjsDoc();
+    let idDocRight = searchParams.has('idDocRight') ? searchParams.get('idDocRight') : generateRandomUuidForYjsDoc();
 
     // Software design pattern State is used to manage the editor state
     // It is used to store all the information related to the editor
@@ -60,6 +62,9 @@ let RDFDataMergeView: React.FC = () => {
 
             <Grid size={12}>
                 <ConfigHeader
+                    idDocs={idDocLeft !== null ? (idDocRight !== null ? [idDocLeft, idDocRight] : []) : []}
+                    yjsCollection={getString("yjs.collections.rdfMerge")}
+
                     isLineWrapping={isLineWrapping}
                     isHiddenApiResponse={isHiddenApiResponse}
                     isHiddenGraph={isHiddenGraph}

@@ -19,7 +19,7 @@ let RDFShapeRoutes: React.FC = () => {
                 <Route path="/" element={<RDFShapeNavBar><Home /></RDFShapeNavBar>} />
 
                 <Route path={"/".concat(getString("yjs.collections.rdfData"))} element={<Navigate to={"/".concat(getString("yjs.collections.rdfData")).concat("/").concat(generateRandomUuidForYjsDoc())} />} />
-                <Route path={"/".concat(getString("yjs.collections.rdfData")).concat("/:idDoc?")} element={<RDFShapeNavBar><RDFDataMainView /></RDFShapeNavBar>} />
+                <Route path={"/".concat(getString("yjs.collections.rdfData")).concat("/:idDocParam?")} element={<RDFShapeNavBar><RDFDataMainView /></RDFShapeNavBar>} />
 
                 <Route path={"/".concat(getString("yjs.collections.rdfMerge"))} element={<RDFShapeNavBar><RDFDataMergeView /></RDFShapeNavBar>} />
 

@@ -6,7 +6,7 @@ export interface IEditor {
     /*
      * Parameters of editor.
      */
-    idDoc: string | undefined;
+    idDoc: string | null;
     yDocCollection: string | undefined;
     isLineWrapping: boolean;
     fontSize: number;

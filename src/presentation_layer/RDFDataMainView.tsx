@@ -19,7 +19,8 @@ let RDFDataMainView: React.FC = () => {
     // A colaborative document ID is used to identify the document that is being edited
     // This ID will be used to fetch the document from the Yjs server
     // and to persist every change against a MongoDB database
-    let { idDoc } = useParams();
+    let { idDocParam } = useParams();
+    let idDoc = idDocParam === undefined ? null : idDocParam;
 
     // Software design pattern State is used to manage the editor state
     // It is used to store all the information related to the editor
@@ -64,6 +65,9 @@ let RDFDataMainView: React.FC = () => {
           * Element for view configuration.
           */}
             <ConfigHeader
+                idDocs={idDoc !== null ? [idDoc] : []}
+                yjsCollection={getString("yjs.collections.rdfData")}
+
                 isLineWrapping={isLineWrapping}
                 isHiddenApiResponse={isHiddenApiResponse}
                 isHiddenGraph={isHiddenGraph}
