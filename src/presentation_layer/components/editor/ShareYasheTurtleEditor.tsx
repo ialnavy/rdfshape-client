@@ -1,4 +1,4 @@
-import { Container, Divider, Grid2 as Grid } from "@mui/material";
+import { Grid2 as Grid } from "@mui/material";
 
 import { isDesktop } from "../../../domain_layer/AdaptabilityChecks";
 import EditorFactory from "../../../domain_layer/EditorFactory";
@@ -28,13 +28,6 @@ let ShareYasheTurtleEditor: React.FC<IEditor> = ({
         sx={{ width: "100%" }}>
 
         <Grid size={isDesktop() ? 4 : 12}>
-            <DataResultResume
-                editorState={editorState}
-                isError={editorState.isError}
-                fullResponse={editorState.fullResponse} />
-        </Grid>
-
-        <Grid size={isDesktop() ? 4 : 12}>
             <DataComboBox
                 inputId={"rdfDataFormat"}
                 label={getString("viewTexts.rdfFormat")}
@@ -52,9 +45,14 @@ let ShareYasheTurtleEditor: React.FC<IEditor> = ({
                 setData={editorState.setRdfInference} />
         </Grid>
 
-        <Divider orientation="horizontal" textAlign="center" />
+        <Grid size={isDesktop() ? 4 : 12}>
+            <DataResultResume
+                editorState={editorState}
+                isError={editorState.isError}
+                fullResponse={editorState.fullResponse} />
+        </Grid>
 
-        <Container>
+        <Grid size={12} padding={2}>
             <EditorFactory
                 code={editorState.code}
                 idDoc={idDoc}
@@ -72,7 +70,7 @@ let ShareYasheTurtleEditor: React.FC<IEditor> = ({
              */
 
             />
-        </Container>
+        </Grid>
 
     </Grid>);
 };

@@ -631,11 +631,12 @@ viewTexts:
   rdfData:
     tabTitleRdfForm: "RDF Form"
     tabTitleFullResponse: "RDFShape API Response"
-    rdfResultCaption: "Results of RDF validation will be shown above."
+    rdfResultCaption: "Results of RDF validation will be shown below."
     rdfDataCaption: "Enter the RDF data in the box below."
   rdfMerge:
-    editorTitleLeft: "Introduce the contents of your RDF document"
-    editorTitleRight: "Introduce the contents of another RDF document"
+    editorTitleLeft: "Introduce the contents of your RDF document above"
+    editorTitleRight: "Introduce the contents of another RDF document above"
+    editorTitleMerged: "See the contents of the merged RDF document below"
     buttonRdfMerge: "Merge RDF Data"
 
 # To be extended!

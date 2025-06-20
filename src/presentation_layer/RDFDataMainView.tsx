@@ -3,14 +3,14 @@ import { Graphviz } from 'graphviz-react';
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import { fetchConvertRdfDataToGraphVizDot, fetchRdfDataInfo } from "../infrastructure_layer/services/RdfShapeApiServices";
 import { useLocale } from "../infrastructure_layer/utilities/ExternalisedStringsContext";
 
 import useEditorState from "../domain_layer/editorState/UseEditorState";
 import { forConvertRdfDataToGraphVizDot, forRdfDataInfo } from "../domain_layer/RdfShapeStrategiesFactory";
 import ConfigHeader from "./components/configHeader/ConfigHeader";
+import ShareYasheTurtleEditor from "./components/editor/ShareYasheTurtleEditor";
 import DataResultFull from "./components/fullResponse/FullResponse";
-import ShareYasheTurtleEditor from './components/editor/ShareYasheTurtleEditor';
+
 
 
 let RDFDataMainView: React.FC = () => {

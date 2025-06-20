@@ -1,5 +1,4 @@
 import { Container, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
-import { isDesktop } from '../../../domain_layer/AdaptabilityChecks';
 import IDataComboBox from './IDataComboBox';
 
 let DataComboBox: React.FC<IDataComboBox> = ({
@@ -10,7 +9,7 @@ let DataComboBox: React.FC<IDataComboBox> = ({
     setData
 }) => {
     return (
-        <Container sx={{ width: isDesktop() ? "30vw" : "100%", paddingTop: "10px" }}>
+        <Container sx={{ width: "100%", paddingTop: "10px" }}>
             <FormControl fullWidth>
                 <InputLabel id={inputId}>{label}</InputLabel>
                 <Select
