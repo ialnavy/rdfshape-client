@@ -82,7 +82,7 @@ let RDFDataMergeView: React.FC = () => {
                 <ConfigHeader
                     idDocs={idDocLeft !== null ? (idDocRight !== null ? [idDocLeft, idDocRight] : []) : []}
                     yjsCollection={getString("yjs.collections.rdfMerge")}
-                    verbosePermalink={true}
+                    permalinkButtonText={getString("viewTexts.rdfMerge.permalink.toRdfMerge")}
 
                     isLineWrapping={isLineWrapping}
                     isHiddenApiResponse={isHiddenApiResponse}
@@ -122,7 +122,7 @@ let RDFDataMergeView: React.FC = () => {
                     <PermalinkButton
                         idDocs={idDocLeft !== null ? [idDocLeft] : []}
                         yjsCollection={getString("yjs.collections.rdfData")}
-                        verbose={true} />
+                        permalinkButtonText={getString("viewTexts.rdfMerge.permalink.toRdfData")} />
                 </Stack>
             </Grid>
 
@@ -147,7 +147,7 @@ let RDFDataMergeView: React.FC = () => {
                     <PermalinkButton
                         idDocs={idDocRight !== null ? [idDocRight] : []}
                         yjsCollection={getString("yjs.collections.rdfData")}
-                        verbose={true} />
+                        permalinkButtonText={getString("viewTexts.rdfMerge.permalink.toRdfData")} />
                 </Stack>
             </Grid>
 

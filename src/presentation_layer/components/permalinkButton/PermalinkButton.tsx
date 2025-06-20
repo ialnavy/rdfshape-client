@@ -8,7 +8,7 @@ import { IPermalinkButton } from './IPermalinkButton';
 let PermalinkButton: React.FC<IPermalinkButton> = ({
     idDocs,
     yjsCollection,
-    verbose
+    permalinkButtonText
 }) => {
     let { getString /*, getNumber, getBoolean, getStringsSet */ } = useLocale();
 
@@ -23,7 +23,7 @@ let PermalinkButton: React.FC<IPermalinkButton> = ({
             permalink = forRdfData(idDocs, yjsCollection);
 
         } else if (yjsCollection === getString("yjs.collections.rdfMerge")
-            && idDocs.length >= 2) {
+            && idDocs.length >= 1) {
             /*
              * Permalink for accessing a RDF document merging
              * with two RDF documents, left and right.
@@ -41,24 +41,11 @@ let PermalinkButton: React.FC<IPermalinkButton> = ({
         return permalink;
     };
 
-    let permalinkButtonText: string;
-    switch (yjsCollection) {
-        case getString("yjs.collections.rdfData"):
-            permalinkButtonText = getString("viewTexts.permalink.toRdfData");
-            break;
-        case getString("yjs.collections.rdfMerge"):
-            permalinkButtonText = getString("viewTexts.permalink.toRdfMerge");
-            break;
-        default:
-            permalinkButtonText = getString("viewTexts.permalink.default");
-            break;
-    }
-
     return (
         <Button
             variant="contained"
             onClick={() => { window.open(getPermalink(), '_blank'); }}
-        >{verbose ? permalinkButtonText : getString("viewTexts.permalink.default")}</Button>
+        >{permalinkButtonText}</Button>
     );
 };
 

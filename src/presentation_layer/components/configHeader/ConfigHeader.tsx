@@ -13,7 +13,7 @@ import IConfigHeader from './IConfigHeader';
 let ConfigHeader: React.FC<IConfigHeader> = ({
     idDocs,
     yjsCollection,
-    verbosePermalink,
+    permalinkButtonText,
 
     isLineWrapping,
     isHiddenApiResponse,
@@ -46,7 +46,7 @@ let ConfigHeader: React.FC<IConfigHeader> = ({
             </Grid>
 
             <Grid size={isDesktop() ? 3 : 12}>
-                <PermalinkButton idDocs={idDocs} yjsCollection={yjsCollection} verbose={verbosePermalink} />
+                <PermalinkButton idDocs={idDocs} yjsCollection={yjsCollection} permalinkButtonText={permalinkButtonText} />
             </Grid>
 
             <Grid size={isDesktop() ? 6 : 12}>

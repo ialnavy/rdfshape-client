@@ -10,6 +10,7 @@ import { forConvertRdfDataToGraphVizDot, forRdfDataInfo } from "../domain_layer/
 import ConfigHeader from "./components/configHeader/ConfigHeader";
 import ShareYasheTurtleEditor from "./components/editor/ShareYasheTurtleEditor";
 import DataResultFull from "./components/fullResponse/FullResponse";
+import PermalinkButton from "./components/permalinkButton/PermalinkButton";
 
 
 
@@ -62,12 +63,12 @@ let RDFDataMainView: React.FC = () => {
             justifyItems="center">
 
             {/*
-          * Element for view configuration.
-          */}
+              * Element for view configuration.
+              */}
             <ConfigHeader
                 idDocs={idDoc !== null ? [idDoc] : []}
                 yjsCollection={getString("yjs.collections.rdfData")}
-                verbosePermalink={false}
+                permalinkButtonText={getString("viewTexts.rdfData.permalink.toRdfData")}
 
                 isLineWrapping={isLineWrapping}
                 isHiddenApiResponse={isHiddenApiResponse}
@@ -80,8 +81,8 @@ let RDFDataMainView: React.FC = () => {
                 setFontSize={setFontSize} />
 
             {/*
-          * Element for the main editor.
-          */}
+              * Element for the main editor.
+              */}
             <ShareYasheTurtleEditor
                 idDoc={idDoc}
                 yDocCollection={getString("yjs.collections.rdfData")}
@@ -89,6 +90,11 @@ let RDFDataMainView: React.FC = () => {
                 isLineWrapping={isLineWrapping}
                 fontSize={fontSize}
                 isEditable={true} />
+
+            <PermalinkButton
+                idDocs={idDoc !== null ? [idDoc] : []}
+                yjsCollection={getString("yjs.collections.rdfMerge")}
+                permalinkButtonText={getString("viewTexts.rdfData.permalink.toRdfMerge")} />
 
         </Stack>
 
