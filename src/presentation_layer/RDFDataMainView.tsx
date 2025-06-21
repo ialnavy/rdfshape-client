@@ -128,7 +128,7 @@ let RDFDataMainView: React.FC = () => {
                         justifyItems="center">
                         <DataComboBox
                             inputId={"rdfDataFormatConvert"}
-                            label={getString("viewTexts.rdfFormat")}
+                            label={getString("viewTexts.rdfData.convert.comboBox")}
                             setOfData={Object.values(getStringsSet("api.formats"))}
                             data={rdfFormatConvert}
                             setData={setRdfFormatConvert} />

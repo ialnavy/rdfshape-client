@@ -639,6 +639,7 @@ viewTexts:
       toRdfMerge: "🔀 Merge this doc with another"
     convert:
       button: "Convert RDF Data"
+      comboBox: "RDF Format to Convert"
       error: "Error converting RDF data"
   rdfMerge:
     editorTitleLeft: "Write the contents of your RDF document above"
