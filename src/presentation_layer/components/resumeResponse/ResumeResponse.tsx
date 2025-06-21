@@ -8,7 +8,8 @@ import { IResumeResponse } from './IResumeResponse';
 let DataResultResume: React.FC<IResumeResponse> = ({
     isError,
     fullResponse,
-    editorState
+    responseMessage,
+    responseNumberOfStatements
 }) => {
     let { getString } = useLocale();
 
@@ -17,13 +18,13 @@ let DataResultResume: React.FC<IResumeResponse> = ({
             {makeParagraph(getString("texts.errorResponsePrefix"), true)}
             {makeParagraph(fullResponse, true)}
         </Container>);
-    } else if (editorState !== undefined) {
+    } else {
         return (<Container>
-            {makeParagraph(editorState.responseMessage)}
+            {makeParagraph(responseMessage)}
             {makeParagraph(
                 getString("texts.numberOfStatements")
                     .concat(": ")
-                    .concat((new String(editorState.responseNumberOfStatements))
+                    .concat((new String(responseNumberOfStatements))
                         .toString()))}
         </Container>);
     }

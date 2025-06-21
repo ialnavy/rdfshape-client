@@ -47,9 +47,10 @@ let ShareYasheTurtleEditor: React.FC<IEditor> = ({
 
         <Grid size={isDesktop() ? 4 : 12}>
             <DataResultResume
-                editorState={editorState}
-                isError={editorState.isError}
-                fullResponse={editorState.fullResponse} />
+                isError={editorState.validate.isError}
+                fullResponse={editorState.validate.fullResponse}
+                responseMessage={editorState.validate.responseMessage}
+                responseNumberOfStatements={editorState.validate.responseNumberOfStatements} />
         </Grid>
 
         <Grid size={12} padding={2}>

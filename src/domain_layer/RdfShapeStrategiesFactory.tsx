@@ -23,18 +23,18 @@ export let forRdfDataInfo = (
             inference: editorState.rdfInference,
             source: editorState.sourceOfRDFData
         }).then(data => {
-            editorState.setError(false);
-            editorState.setFullResponse(JSON.stringify(data, null, 2));
-            editorState.setResponseMessage(data.message);
-            editorState.setResponseNumberOfStatements(data.result.numberOfStatements);
+            editorState.validate.setError(false);
+            editorState.validate.setFullResponse(JSON.stringify(data, null, 2));
+            editorState.validate.setResponseMessage(data.message);
+            editorState.validate.setResponseNumberOfStatements(data.result.numberOfStatements);
 
             if (callback !== undefined)
                 callback();
 
         }).catch(error => {
-            editorState.setError(true);
-            editorState.setFullResponse((new String(error)).toString());
-            editorState.setGraphVizContent(null);
+            editorState.validate.setError(true);
+            editorState.validate.setFullResponse((new String(error)).toString());
+            editorState.convertToGraph.setContent(null);
 
             if (errorCallback !== undefined)
                 errorCallback();
@@ -69,8 +69,8 @@ export let forRdfDataMerge = (
             }],
             targetFormat: editorStateLeft.rdfFormat
         }).then(data => {
-            editorStateMerged.setError(false);
-            editorStateMerged.setFullResponse(JSON.stringify(data, null, 2));
+            editorStateMerged.merge.setError(false);
+            editorStateMerged.merge.setFullResponse(JSON.stringify(data, null, 2));
 
             if (data?.result?.content !== undefined)
                 editorStateMerged.setCode(data.result.content);
@@ -82,8 +82,8 @@ export let forRdfDataMerge = (
             if (callback !== undefined)
                 callback();
         }).catch(error => {
-            editorStateMerged.setError(true);
-            editorStateMerged.setFullResponse((new String(error)).toString());
+            editorStateMerged.merge.setError(true);
+            editorStateMerged.merge.setFullResponse((new String(error)).toString());
 
             if (errorCallback !== undefined)
                 errorCallback();
@@ -108,13 +108,13 @@ export let forConvertRdfDataToGraphVizDot = (
             source: editorState.sourceOfRDFData
         }).then(data => {
             if (data?.result?.content !== undefined)
-                editorState.setGraphVizContent(data.result.content);
+                editorState.convertToGraph.setContent(data.result.content);
 
             if (callback !== undefined)
                 callback();
 
         }).catch(_error => {
-            editorState.setGraphVizContent(null);
+            editorState.convertToGraph.setContent(null);
 
             if (errorCallback !== undefined)
                 errorCallback();
@@ -143,15 +143,15 @@ export let forRdfDataConvert = (
             targetFormat: targetFormat
         }).then(data => {
             if (data?.result?.content !== undefined)
-                editorState.setConvertedRdfData(data.result.content);
+                editorState.convertToAny.setContent(data.result.content);
 
             if (callback !== undefined)
                 callback();
 
         }).catch(error => {
-            editorState.setConvertedRdfData(null);
-            editorState.setError(true);
-            editorState.setFullResponse(error);
+            editorState.convertToAny.setContent(null);
+            editorState.convertToAny.setError(true);
+            editorState.convertToAny.setFullResponse(error);
 
             if (errorCallback !== undefined)
                 errorCallback();

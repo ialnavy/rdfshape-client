@@ -65,8 +65,8 @@ let RDFDataMergeView: React.FC = () => {
      * left or right, has a validation error.
      */
     let setRdfMergeError = () => {
-        editorStateMerged.setError(true);
-        editorStateMerged.setFullResponse(getString("viewTexts.genericDocumentError"));
+        editorStateMerged.merge.setError(true);
+        editorStateMerged.merge.setFullResponse(getString("viewTexts.genericDocumentError"));
     };
 
     return (<Container>
@@ -97,8 +97,8 @@ let RDFDataMergeView: React.FC = () => {
 
             <Grid size={12}>
                 <DataResultResume
-                    isError={editorStateMerged.isError}
-                    fullResponse={editorStateMerged.fullResponse} />
+                    isError={editorStateMerged.merge.isError}
+                    fullResponse={editorStateMerged.merge.fullResponse} />
             </Grid>
 
             <Grid size={isDesktop() ? 6 : 12}>
@@ -188,7 +188,7 @@ let RDFDataMergeView: React.FC = () => {
           * Element for the merged RDF data.
           */}
         {
-            !editorStateMerged.isError && editorStateMerged.code !== "" && (<Stack
+            !editorStateMerged.merge.isError && editorStateMerged.code !== "" && (<Stack
                 direction="column"
                 spacing={2}
                 padding={1}
@@ -223,8 +223,8 @@ let RDFDataMergeView: React.FC = () => {
                 justifyItems="center"
                 sx={{ width: "100%" }}>
                 <DataResultFull
-                    isError={editorStateMerged.isError}
-                    fullResponse={editorStateMerged.fullResponse}
+                    isError={editorStateMerged.merge.isError}
+                    fullResponse={editorStateMerged.merge.fullResponse}
                     isLineWrapping={isLineWrapping}
                     fontSize={fontSize} />
             </Stack>)

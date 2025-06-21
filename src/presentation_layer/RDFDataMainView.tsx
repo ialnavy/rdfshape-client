@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import { useLocale } from "../infrastructure_layer/utilities/ExternalisedStringsContext";
 
 import { isDesktop } from "../domain_layer/AdaptabilityChecks";
+import EditorFactory from "../domain_layer/EditorFactory";
 import useEditorState from "../domain_layer/editorState/UseEditorState";
 import { forConvertRdfDataToGraphVizDot, forRdfDataConvert, forRdfDataInfo } from "../domain_layer/RdfShapeStrategiesFactory";
 import ConfigHeader from "./components/configHeader/ConfigHeader";
@@ -13,7 +14,6 @@ import DataComboBox from "./components/dataComboBox/DataComboBox";
 import ShareYasheTurtleEditor from "./components/editor/ShareYasheTurtleEditor";
 import DataResultFull from "./components/fullResponse/FullResponse";
 import PermalinkButton from "./components/permalinkButton/PermalinkButton";
-import EditorFactory from "../domain_layer/EditorFactory";
 
 
 
@@ -43,7 +43,7 @@ let RDFDataMainView: React.FC = () => {
 
     let [rdfFormatConvert, setRdfFormatConvert] = useState<string>(getString("api.formats.turtle"));
     let setRdfConvertError = () => {
-        editorState.setError(true);
+        editorState.convertToAny.setError(true);
     };
 
     /*
@@ -54,7 +54,7 @@ let RDFDataMainView: React.FC = () => {
         () => {
             forRdfDataInfo(editorState,
                 forConvertRdfDataToGraphVizDot(editorState))();
-            editorState.setConvertedRdfData(null);
+            editorState.convertToAny.setContent(null);
         },
         [
             editorState.code,
@@ -156,7 +156,7 @@ let RDFDataMainView: React.FC = () => {
           * Element for the converted RDF data.
           */}
         {
-            !editorState.isError && editorState.convertedRdfData !== null && (<Stack
+            !editorState.convertToAny.isError && editorState.convertToAny.content !== null && (<Stack
                 direction="column"
                 spacing={2}
                 padding={1}
@@ -168,19 +168,19 @@ let RDFDataMainView: React.FC = () => {
                 <Typography variant="caption"
                 >{getString("viewTexts.rdfData.editorTitleConverted")}</Typography>
                 <EditorFactory
-                    code={editorState.convertedRdfData ?? undefined}
+                    code={editorState.convertToAny.content ?? undefined}
                     language={rdfFormatConvert}
                     editable={false}
                     isLineWrapping={isLineWrapping}
                     fontSize={fontSize}
-                    setCode={editorState.setConvertedRdfData} />
+                    setCode={editorState.convertToAny.setContent} />
             </Stack>)
         }
 
         {/*
           * Element for the GraphViz DOT graph.
           */}
-        {editorState.graphVizContent !== null && !isHiddenGraph && (
+        {editorState.convertToGraph.content !== null && !isHiddenGraph && (
             <Stack
                 direction="column"
                 spacing={2}
@@ -191,7 +191,7 @@ let RDFDataMainView: React.FC = () => {
                 justifyItems="center">
                 <Typography variant="caption"
                 >{getString("viewTexts.graphCaption")}</Typography>
-                <Graphviz dot={editorState.graphVizContent} />
+                <Graphviz dot={editorState.convertToGraph.content} />
                 <Divider orientation="horizontal" textAlign="center" />
             </Stack>)}
 
@@ -207,8 +207,8 @@ let RDFDataMainView: React.FC = () => {
             justifyContent="center"
             justifyItems="center">
             <DataResultFull
-                isError={editorState.isError}
-                fullResponse={editorState.fullResponse}
+                isError={editorState.validate.isError}
+                fullResponse={editorState.validate.fullResponse}
 
                 isLineWrapping={isLineWrapping}
                 fontSize={fontSize} />
