@@ -72,8 +72,10 @@ export let forRdfDataMerge = (
             editorStateMerged.merge.setError(false);
             editorStateMerged.merge.setFullResponse(JSON.stringify(data, null, 2));
 
-            if (data?.result?.content !== undefined)
+            if (data?.result?.content !== undefined) {
                 editorStateMerged.setCode(data.result.content);
+                editorStateMerged.merge.setContent(data.result.content);
+            }
             if (data?.result?.format?.name !== undefined)
                 editorStateMerged.setRdfFormat(data.result.format.name);
             if (data?.result?.inference !== undefined)

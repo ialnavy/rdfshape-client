@@ -1,11 +1,12 @@
 import { Button, Container, Grid2 as Grid, Stack, Typography } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { useLocale } from "../infrastructure_layer/utilities/ExternalisedStringsContext";
 
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { isDesktop } from "../domain_layer/AdaptabilityChecks";
 import EditorFactory from "../domain_layer/EditorFactory";
+import { IEditorStateOperation } from "../domain_layer/editorState/IEditorState";
 import useEditorState from "../domain_layer/editorState/UseEditorState";
 import { forRdfMerge } from "../domain_layer/PermalinkFactory";
 import { forRdfDataInfo, forRdfDataMerge } from "../domain_layer/RdfShapeStrategiesFactory";
@@ -64,10 +65,52 @@ let RDFDataMergeView: React.FC = () => {
      * This function is executed whenever any of the RDF documents,
      * left or right, has a validation error.
      */
-    let setRdfMergeError = () => {
-        editorStateMerged.merge.setError(true);
-        editorStateMerged.merge.setFullResponse(getString("viewTexts.genericDocumentError"));
+    let setOperationError = (operationState: IEditorStateOperation) => {
+        operationState.setError(true);
+        operationState.setFullResponse(getString("viewTexts.genericDocumentError"));
     };
+
+    let doMerge = () => {
+        forRdfDataInfo(editorStateLeft,
+            // Callback editor left
+            forRdfDataInfo(editorStateRight,
+                // Callback editor right
+                forRdfDataMerge(editorStateLeft,
+                    editorStateRight,
+                    editorStateMerged
+                    // No callbacks for editor merged
+                ),
+                // Error callback editor right
+                () => { setOperationError(editorStateMerged.merge); }),
+            // Error callback editor left
+            () => { setOperationError(editorStateMerged.merge); })();
+    };
+
+    useEffect(() => {
+        forRdfDataInfo(editorStateLeft,
+            () => { },
+            () => { setOperationError(editorStateLeft.validate); })();
+        // Reset quieries
+        editorStateMerged.merge.setContent(null);
+    }, [
+        editorStateLeft.code,
+        editorStateLeft.rdfFormat,
+        editorStateLeft.rdfInference,
+        editorStateLeft.sourceOfRDFData
+    ]);
+
+    useEffect(() => {
+        forRdfDataInfo(editorStateRight,
+            () => { },
+            () => { setOperationError(editorStateRight.validate); })();
+        // Reset quieries
+        editorStateMerged.merge.setContent(null);
+    }, [
+        editorStateRight.code,
+        editorStateRight.rdfFormat,
+        editorStateRight.rdfInference,
+        editorStateRight.sourceOfRDFData
+    ]);
 
     return (<Container>
         <Grid
@@ -98,7 +141,8 @@ let RDFDataMergeView: React.FC = () => {
             <Grid size={12}>
                 <DataResultResume
                     isError={editorStateMerged.merge.isError}
-                    fullResponse={editorStateMerged.merge.fullResponse} />
+                    fullResponse={editorStateMerged.merge.fullResponse}
+                    responseMessage={editorStateMerged.merge.responseMessage} />
             </Grid>
 
             <Grid size={isDesktop() ? 6 : 12}>
@@ -163,20 +207,7 @@ let RDFDataMergeView: React.FC = () => {
                     <Button
                         variant="contained"
                         color="primary"
-                        onClick={
-                            forRdfDataInfo(editorStateLeft,
-                                // Callback editor left
-                                forRdfDataInfo(editorStateRight,
-                                    // Callback editor right
-                                    forRdfDataMerge(editorStateLeft,
-                                        editorStateRight,
-                                        editorStateMerged
-                                        // No callbacks for editor merged
-                                    ),
-                                    // Error callback editor right
-                                    setRdfMergeError),
-                                // Error callback editor left
-                                setRdfMergeError)}
+                        onClick={doMerge}
                         sx={{ marginTop: 2, alignSelf: "center", justifyContent: "center" }}
                     >{getString("viewTexts.rdfMerge.buttonRdfMerge")}</Button>
                 </Stack>
@@ -188,25 +219,27 @@ let RDFDataMergeView: React.FC = () => {
           * Element for the merged RDF data.
           */}
         {
-            !editorStateMerged.merge.isError && editorStateMerged.code !== "" && (<Stack
-                direction="column"
-                spacing={2}
-                padding={1}
-                alignContent="center"
-                alignItems="center"
-                justifyContent="center"
-                justifyItems="center"
-                sx={{ width: "100%" }}>
-                <Typography variant="caption"
-                >{getString("viewTexts.rdfMerge.editorTitleMerged")}</Typography>
-                <EditorFactory
-                    code={editorStateMerged.code}
-                    language={getString("mimeTypes.turtle")}
-                    editable={false}
-                    isLineWrapping={isLineWrapping}
-                    fontSize={fontSize}
-                    setCode={editorStateMerged.setCode} />
-            </Stack>)
+            !editorStateMerged.merge.isError &&
+            editorStateMerged.merge.content !== null && (
+                <Stack
+                    direction="column"
+                    spacing={2}
+                    padding={1}
+                    alignContent="center"
+                    alignItems="center"
+                    justifyContent="center"
+                    justifyItems="center"
+                    sx={{ width: "100%" }}>
+                    <Typography variant="caption"
+                    >{getString("viewTexts.rdfMerge.editorTitleMerged")}</Typography>
+                    <EditorFactory
+                        code={editorStateMerged.code}
+                        language={getString("mimeTypes.turtle")}
+                        editable={false}
+                        isLineWrapping={isLineWrapping}
+                        fontSize={fontSize}
+                        setCode={editorStateMerged.setCode} />
+                </Stack>)
         }
 
         {/*

@@ -50,18 +50,17 @@ let RDFDataMainView: React.FC = () => {
      * Function is invoked each time
      * any of the following values changes.
      */
-    useEffect(
-        () => {
-            forRdfDataInfo(editorState,
-                forConvertRdfDataToGraphVizDot(editorState))();
-            editorState.convertToAny.setContent(null);
-        },
-        [
-            editorState.code,
-            editorState.rdfFormat,
-            editorState.rdfInference,
-            editorState.sourceOfRDFData
-        ]);
+    useEffect(() => {
+        forRdfDataInfo(editorState,
+            forConvertRdfDataToGraphVizDot(editorState))();
+        // Reset quieries
+        editorState.convertToAny.setContent(null);
+    }, [
+        editorState.code,
+        editorState.rdfFormat,
+        editorState.rdfInference,
+        editorState.sourceOfRDFData
+    ]);
 
     return (<Container>
         <Stack

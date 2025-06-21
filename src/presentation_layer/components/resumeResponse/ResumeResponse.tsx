@@ -21,7 +21,7 @@ let DataResultResume: React.FC<IResumeResponse> = ({
     } else {
         return (<Container>
             {makeParagraph(responseMessage)}
-            {makeParagraph(
+            {responseNumberOfStatements !== undefined && makeParagraph(
                 getString("texts.numberOfStatements")
                     .concat(": ")
                     .concat((new String(responseNumberOfStatements))
