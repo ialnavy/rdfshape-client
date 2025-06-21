@@ -19,6 +19,7 @@ let useEditorState = (): IEditorState => {
     let [responseMessage, setResponseMessage] = useState<string>("");
     let [responseNumberOfStatements, setResponseNumberOfStatements] = useState<number>(0);
     let [graphVizContent, setGraphVizContent] = useState<string | null>(null);
+    let [convertedRdfData, setConvertedRdfData] = useState<string | null>(null);
 
     return {
         code,
@@ -31,6 +32,7 @@ let useEditorState = (): IEditorState => {
         responseMessage,
         responseNumberOfStatements,
         graphVizContent,
+        convertedRdfData,
 
         setCode,
         setRdfFormat,
@@ -41,7 +43,8 @@ let useEditorState = (): IEditorState => {
         setFullResponse,
         setResponseMessage,
         setResponseNumberOfStatements,
-        setGraphVizContent
+        setGraphVizContent,
+        setConvertedRdfData
     };
 };
 

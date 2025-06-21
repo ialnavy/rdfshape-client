@@ -10,8 +10,13 @@ export type IFetchDataInfo = {
     source: string;
 };
 
-export type IFetchDataConvert = {
+export type IFetchDataMerge = {
     content: Array<IFetchDataInfo>;
+    targetFormat: string;
+};
+
+export type IFetchDataConvert = {
+    data: IFetchDataInfo;
     targetFormat: string;
 };
 
@@ -23,7 +28,7 @@ export let fetchRdfDataInfo = (data: IFetchDataInfo) => {
     }).then(response => response.json()));
 };
 
-export let fetchRdfDataMerge = (data: IFetchDataConvert) => {
+export let fetchRdfDataMerge = (data: IFetchDataMerge) => {
     return (fetch(getRdfShapeApiEndpoint().concat("data/convert"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -42,5 +47,14 @@ export let fetchConvertRdfDataToGraphVizDot = (data: IFetchDataInfo) => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ data, targetFormat: "DOT" })
+    }).then(response => response.json()));
+};
+
+export let fetchRdfDataConvert = (data: IFetchDataConvert) => {
+    console.log(data);
+    return (fetch(getRdfShapeApiEndpoint().concat("data/convert"), {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
     }).then(response => response.json()));
 };

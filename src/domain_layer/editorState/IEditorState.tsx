@@ -9,6 +9,7 @@ export interface IEditorState {
     responseMessage: string;
     responseNumberOfStatements: number;
     graphVizContent: string | null;
+    convertedRdfData: string | null;
 
 
     setCode(code: string): void;
@@ -21,4 +22,5 @@ export interface IEditorState {
     setResponseMessage(responseMessage: string): void;
     setResponseNumberOfStatements(responseNumberOfStatements: number): void;
     setGraphVizContent(graphVizContent: string | null): void;
+    setConvertedRdfData(convertedRdfData: string | null): void;
 };

@@ -1,4 +1,4 @@
-import { Button } from '@mui/material';
+import { Button, Stack } from '@mui/material';
 
 import { forRdfData, forRdfMerge } from '../../../domain_layer/PermalinkFactory';
 import { useLocale } from '../../../infrastructure_layer/utilities/ExternalisedStringsContext';
@@ -41,12 +41,19 @@ let PermalinkButton: React.FC<IPermalinkButton> = ({
         return permalink;
     };
 
-    return (
+    return (<Stack
+        direction="column"
+        spacing={2}
+        padding={1}
+        alignContent="center"
+        alignItems="center"
+        justifyContent="center"
+        justifyItems="center">
         <Button
             variant="contained"
             onClick={() => { window.open(getPermalink(), '_blank'); }}
         >{permalinkButtonText}</Button>
-    );
+    </Stack>);
 };
 
 export default PermalinkButton;

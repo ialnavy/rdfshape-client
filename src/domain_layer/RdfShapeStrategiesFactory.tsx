@@ -1,5 +1,5 @@
 
-import { fetchConvertRdfDataToGraphVizDot, fetchRdfDataInfo, fetchRdfDataMerge } from "../infrastructure_layer/services/RdfShapeApiServices";
+import { fetchConvertRdfDataToGraphVizDot, fetchRdfDataConvert, fetchRdfDataInfo, fetchRdfDataMerge } from "../infrastructure_layer/services/RdfShapeApiServices";
 import { IEditorState } from "./editorState/IEditorState";
 
 /**
@@ -44,37 +44,6 @@ export let forRdfDataInfo = (
     return strategy;
 };
 
-export let forConvertRdfDataToGraphVizDot = (
-    editorState: IEditorState,
-    callback?: () => void,
-    errorCallback?: () => void): () => void => {
-    let strategy = () => {
-        /*
-         * Against the RDFShape API,
-         * RDF data is converted to GraphViz dot.
-         */
-        fetchConvertRdfDataToGraphVizDot({
-            content: editorState.code,
-            format: editorState.rdfFormat,
-            inference: editorState.rdfInference,
-            source: editorState.sourceOfRDFData
-        }).then(data => {
-            if (data?.result?.content !== undefined)
-                editorState.setGraphVizContent(data.result.content);
-
-            if (callback !== undefined)
-                callback();
-
-        }).catch(_error => {
-            editorState.setGraphVizContent(null);
-
-            if (errorCallback !== undefined)
-                errorCallback();
-        });
-    };
-    return strategy;
-}
-
 export let forRdfDataMerge = (
     editorStateLeft: IEditorState,
     editorStateRight: IEditorState,
@@ -115,6 +84,74 @@ export let forRdfDataMerge = (
         }).catch(error => {
             editorStateMerged.setError(true);
             editorStateMerged.setFullResponse((new String(error)).toString());
+
+            if (errorCallback !== undefined)
+                errorCallback();
+        });
+    };
+    return strategy;
+}
+
+export let forConvertRdfDataToGraphVizDot = (
+    editorState: IEditorState,
+    callback?: () => void,
+    errorCallback?: () => void): () => void => {
+    let strategy = () => {
+        /*
+         * Against the RDFShape API,
+         * RDF data is converted to GraphViz dot.
+         */
+        fetchConvertRdfDataToGraphVizDot({
+            content: editorState.code,
+            format: editorState.rdfFormat,
+            inference: editorState.rdfInference,
+            source: editorState.sourceOfRDFData
+        }).then(data => {
+            if (data?.result?.content !== undefined)
+                editorState.setGraphVizContent(data.result.content);
+
+            if (callback !== undefined)
+                callback();
+
+        }).catch(_error => {
+            editorState.setGraphVizContent(null);
+
+            if (errorCallback !== undefined)
+                errorCallback();
+        });
+    };
+    return strategy;
+}
+
+export let forRdfDataConvert = (
+    editorState: IEditorState,
+    targetFormat: string,
+    callback?: () => void,
+    errorCallback?: () => void): () => void => {
+    let strategy = () => {
+        /*
+         * Against the RDFShape API,
+         * RDF data is converted.
+         */
+        fetchRdfDataConvert({
+            data: {
+                content: editorState.code,
+                format: editorState.rdfFormat,
+                inference: editorState.rdfInference,
+                source: editorState.sourceOfRDFData
+            },
+            targetFormat: targetFormat
+        }).then(data => {
+            if (data?.result?.content !== undefined)
+                editorState.setConvertedRdfData(data.result.content);
+
+            if (callback !== undefined)
+                callback();
+
+        }).catch(error => {
+            editorState.setConvertedRdfData(null);
+            editorState.setError(true);
+            editorState.setFullResponse(error);
 
             if (errorCallback !== undefined)
                 errorCallback();

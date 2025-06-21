@@ -1,21 +1,24 @@
-import { Container, Divider, Stack, Typography } from "@mui/material";
+import { Button, Container, Divider, Grid2 as Grid, Stack, Typography } from "@mui/material";
 import { Graphviz } from 'graphviz-react';
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import { useLocale } from "../infrastructure_layer/utilities/ExternalisedStringsContext";
 
+import { isDesktop } from "../domain_layer/AdaptabilityChecks";
 import useEditorState from "../domain_layer/editorState/UseEditorState";
-import { forConvertRdfDataToGraphVizDot, forRdfDataInfo } from "../domain_layer/RdfShapeStrategiesFactory";
+import { forConvertRdfDataToGraphVizDot, forRdfDataConvert, forRdfDataInfo } from "../domain_layer/RdfShapeStrategiesFactory";
 import ConfigHeader from "./components/configHeader/ConfigHeader";
+import DataComboBox from "./components/dataComboBox/DataComboBox";
 import ShareYasheTurtleEditor from "./components/editor/ShareYasheTurtleEditor";
 import DataResultFull from "./components/fullResponse/FullResponse";
 import PermalinkButton from "./components/permalinkButton/PermalinkButton";
+import EditorFactory from "../domain_layer/EditorFactory";
 
 
 
 let RDFDataMainView: React.FC = () => {
-    let { getString, getNumber, getBoolean /*, getStringsSet */ } = useLocale();
+    let { getString, getNumber, getBoolean, getStringsSet } = useLocale();
 
     // A colaborative document ID is used to identify the document that is being edited
     // This ID will be used to fetch the document from the Yjs server
@@ -38,13 +41,21 @@ let RDFDataMainView: React.FC = () => {
             _setFontSize(fontSize);
     };
 
+    let [rdfFormatConvert, setRdfFormatConvert] = useState<string>(getString("api.formats.turtle"));
+    let setRdfConvertError = () => {
+        editorState.setError(true);
+    };
+
     /*
      * Function is invoked each time
      * any of the following values changes.
      */
     useEffect(
-        forRdfDataInfo(editorState,
-            forConvertRdfDataToGraphVizDot(editorState)),
+        () => {
+            forRdfDataInfo(editorState,
+                forConvertRdfDataToGraphVizDot(editorState))();
+            editorState.setConvertedRdfData(null);
+        },
         [
             editorState.code,
             editorState.rdfFormat,
@@ -91,21 +102,80 @@ let RDFDataMainView: React.FC = () => {
                 fontSize={fontSize}
                 isEditable={true} />
 
-            <Stack
+            <Grid
+                container
+                alignContent="center"
+                alignItems="center"
+                justifyContent="center"
+                justifyItems="center"
+                sx={{ width: "100%" }}>
+
+                <Grid size={isDesktop() ? 6 : 12}>
+                    <PermalinkButton
+                        idDocs={idDoc !== null ? [idDoc] : []}
+                        yjsCollection={getString("yjs.collections.rdfMerge")}
+                        permalinkButtonText={getString("viewTexts.rdfData.permalink.toRdfMerge")} />
+                </Grid>
+
+                <Grid size={isDesktop() ? 6 : 12}>
+                    <Stack
+                        direction="column"
+                        spacing={2}
+                        padding={1}
+                        alignContent="center"
+                        alignItems="center"
+                        justifyContent="center"
+                        justifyItems="center">
+                        <DataComboBox
+                            inputId={"rdfDataFormatConvert"}
+                            label={getString("viewTexts.rdfFormat")}
+                            setOfData={Object.values(getStringsSet("api.formats"))}
+                            data={rdfFormatConvert}
+                            setData={setRdfFormatConvert} />
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={
+                                forRdfDataInfo(editorState,
+                                    forRdfDataConvert(editorState,
+                                        rdfFormatConvert,
+                                        () => { },
+                                        setRdfConvertError),
+                                    // Error callback RDF data info
+                                    setRdfConvertError)}
+                            sx={{ marginTop: 2, alignSelf: "center", justifyContent: "center" }}
+                        >{getString("viewTexts.rdfData.convert.button")}</Button>
+                    </Stack>
+                </Grid>
+
+            </Grid>
+
+        </Stack>
+
+        {/*
+          * Element for the converted RDF data.
+          */}
+        {
+            !editorState.isError && editorState.convertedRdfData !== null && (<Stack
                 direction="column"
                 spacing={2}
                 padding={1}
                 alignContent="center"
                 alignItems="center"
                 justifyContent="center"
-                justifyItems="center">
-                <PermalinkButton
-                    idDocs={idDoc !== null ? [idDoc] : []}
-                    yjsCollection={getString("yjs.collections.rdfMerge")}
-                    permalinkButtonText={getString("viewTexts.rdfData.permalink.toRdfMerge")} />
-            </Stack>
-
-        </Stack>
+                justifyItems="center"
+                sx={{ width: "100%" }}>
+                <Typography variant="caption"
+                >{getString("viewTexts.rdfData.editorTitleConverted")}</Typography>
+                <EditorFactory
+                    code={editorState.convertedRdfData ?? undefined}
+                    language={rdfFormatConvert}
+                    editable={false}
+                    isLineWrapping={isLineWrapping}
+                    fontSize={fontSize}
+                    setCode={editorState.setConvertedRdfData} />
+            </Stack>)
+        }
 
         {/*
           * Element for the GraphViz DOT graph.

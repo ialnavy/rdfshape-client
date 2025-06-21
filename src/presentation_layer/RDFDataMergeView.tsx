@@ -1,4 +1,4 @@
-import { Button, Container, Divider, Grid2 as Grid, Stack, Typography } from "@mui/material";
+import { Button, Container, Grid2 as Grid, Stack, Typography } from "@mui/material";
 import { useState } from "react";
 
 import { useLocale } from "../infrastructure_layer/utilities/ExternalisedStringsContext";
@@ -163,16 +163,20 @@ let RDFDataMergeView: React.FC = () => {
                     <Button
                         variant="contained"
                         color="primary"
-                        onClick={forRdfDataInfo(editorStateLeft,
-                            // Callback
-                            forRdfDataInfo(editorStateRight,
-                                forRdfDataMerge(editorStateLeft,
-                                    editorStateRight,
-                                    editorStateMerged),
-                                // Error callback
-                                setRdfMergeError),
-                            // Error callback
-                            setRdfMergeError)}
+                        onClick={
+                            forRdfDataInfo(editorStateLeft,
+                                // Callback editor left
+                                forRdfDataInfo(editorStateRight,
+                                    // Callback editor right
+                                    forRdfDataMerge(editorStateLeft,
+                                        editorStateRight,
+                                        editorStateMerged
+                                        // No callbacks for editor merged
+                                    ),
+                                    // Error callback editor right
+                                    setRdfMergeError),
+                                // Error callback editor left
+                                setRdfMergeError)}
                         sx={{ marginTop: 2, alignSelf: "center", justifyContent: "center" }}
                     >{getString("viewTexts.rdfMerge.buttonRdfMerge")}</Button>
                 </Stack>
@@ -202,7 +206,6 @@ let RDFDataMergeView: React.FC = () => {
                     isLineWrapping={isLineWrapping}
                     fontSize={fontSize}
                     setCode={editorStateMerged.setCode} />
-                <Divider orientation="horizontal" textAlign="center" />
             </Stack>)
         }
 
@@ -224,7 +227,6 @@ let RDFDataMergeView: React.FC = () => {
                     fullResponse={editorStateMerged.fullResponse}
                     isLineWrapping={isLineWrapping}
                     fontSize={fontSize} />
-                <Divider orientation="horizontal" textAlign="center" />
             </Stack>)
         }
     </Container>);

@@ -633,9 +633,13 @@ viewTexts:
     tabTitleFullResponse: "RDFShape API Response"
     rdfResultCaption: "Results of RDF validation will be shown below."
     rdfDataCaption: "Enter the RDF data in the box below."
+    editorTitleConverted: "See the contents of the converted RDF document below"
     permalink:
       toRdfData: "🔗 Permalink"
       toRdfMerge: "🔀 Merge this doc with another"
+    convert:
+      button: "Convert RDF Data"
+      error: "Error converting RDF data"
   rdfMerge:
     editorTitleLeft: "Write the contents of your RDF document above"
     editorTitleRight: "Write the contents of another RDF document above"
