@@ -112,7 +112,7 @@ let RDFDataMergeView: React.FC = () => {
                     justifyItems="center">
                     <ShareYasheTurtleEditor
                         idDoc={idDocLeft}
-                        yDocCollection={"rdfMerge"}
+                        yDocCollection={getString("yjs.collections.rdfData")}
                         editorState={editorStateLeft}
                         isLineWrapping={isLineWrapping}
                         fontSize={fontSize}
@@ -137,7 +137,7 @@ let RDFDataMergeView: React.FC = () => {
                     justifyItems="center">
                     <ShareYasheTurtleEditor
                         idDoc={idDocRight}
-                        yDocCollection={"rdfMerge"}
+                        yDocCollection={getString("yjs.collections.rdfData")}
                         editorState={editorStateRight}
                         isLineWrapping={isLineWrapping}
                         fontSize={fontSize}
