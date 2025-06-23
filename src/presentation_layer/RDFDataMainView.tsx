@@ -46,15 +46,26 @@ let RDFDataMainView: React.FC = () => {
         editorState.convertToAny.setError(true);
     };
 
+    let [lastTimeValidated, setLastTimeValidated] = useState<number>(0);
+
+    let doValidate = () => {
+        forRdfDataInfo(editorState,
+            forConvertRdfDataToGraphVizDot(editorState))();
+        // Reset quieries
+        editorState.convertToAny.setContent(null);
+    };
+
     /*
      * Function is invoked each time
      * any of the following values changes.
      */
     useEffect(() => {
-        forRdfDataInfo(editorState,
-            forConvertRdfDataToGraphVizDot(editorState))();
-        // Reset quieries
-        editorState.convertToAny.setContent(null);
+        let timestamp = Date.now();
+        // Only run effect if N milliseconds have passed since lastTimeValidated
+        if (timestamp - lastTimeValidated >= getNumber("limits.validationIntervalMilliseconds")) {
+            doValidate();
+            setLastTimeValidated(timestamp);
+        }
     }, [
         editorState.code,
         editorState.rdfFormat,
@@ -100,6 +111,13 @@ let RDFDataMainView: React.FC = () => {
                 isLineWrapping={isLineWrapping}
                 fontSize={fontSize}
                 isEditable={true} />
+
+            <Button
+                variant="contained"
+                color="primary"
+                onClick={doValidate}
+                sx={{ marginTop: 2, alignSelf: "center", justifyContent: "center" }}
+            >{getString("viewTexts.rdfData.buttonRdfData")}</Button>
 
             <Grid
                 container

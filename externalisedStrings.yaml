@@ -505,6 +505,7 @@ limits:
   minEditorFontSizePx: "8"
   maxEditorFontSizePx: "26"
   defaultEditorHeightVh: "52"
+  validationIntervalMilliseconds: "20000"
 defaultBehaviour:
   editorFontSizePx: "13"
   lineWrapping: "true"
@@ -634,6 +635,7 @@ viewTexts:
     rdfResultCaption: "Results of RDF validation will be shown below."
     rdfDataCaption: "Enter the RDF data in the box below."
     editorTitleConverted: "See the contents of the converted RDF document below"
+    buttonRdfData: "Validate RDF Data"
     permalink:
       toRdfData: "🔗 Permalink"
       toRdfMerge: "🔀 Merge this doc with another"

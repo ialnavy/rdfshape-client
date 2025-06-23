@@ -6,7 +6,7 @@ import { useLocale } from "../infrastructure_layer/utilities/ExternalisedStrings
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { isDesktop } from "../domain_layer/AdaptabilityChecks";
 import EditorFactory from "../domain_layer/EditorFactory";
-import { IEditorStateOperation } from "../domain_layer/editorState/IEditorState";
+import { IEditorState, IEditorStateOperation } from "../domain_layer/editorState/IEditorState";
 import useEditorState from "../domain_layer/editorState/UseEditorState";
 import { forRdfMerge } from "../domain_layer/PermalinkFactory";
 import { forRdfDataInfo, forRdfDataMerge } from "../domain_layer/RdfShapeStrategiesFactory";
@@ -61,6 +61,8 @@ let RDFDataMergeView: React.FC = () => {
             _setFontSize(fontSize);
     };
 
+    let [lastTimeValidated, setLastTimeValidated] = useState<number>(0);
+
     /*
      * This function is executed whenever any of the RDF documents,
      * left or right, has a validation error.
@@ -68,6 +70,14 @@ let RDFDataMergeView: React.FC = () => {
     let setOperationError = (operationState: IEditorStateOperation) => {
         operationState.setError(true);
         operationState.setFullResponse(getString("viewTexts.genericDocumentError"));
+    };
+
+    let doValidate = (editorState: IEditorState) => {
+        forRdfDataInfo(editorState,
+            () => { },
+            () => { setOperationError(editorState.validate); })();
+        // Reset quieries
+        editorStateMerged.merge.setContent(null);
     };
 
     let doMerge = () => {
@@ -87,11 +97,12 @@ let RDFDataMergeView: React.FC = () => {
     };
 
     useEffect(() => {
-        forRdfDataInfo(editorStateLeft,
-            () => { },
-            () => { setOperationError(editorStateLeft.validate); })();
-        // Reset quieries
-        editorStateMerged.merge.setContent(null);
+        let timestamp = Date.now();
+        // Only run effect if N milliseconds have passed since lastTimeValidated
+        if (timestamp - lastTimeValidated >= getNumber("limits.validationIntervalMilliseconds")) {
+            doValidate(editorStateLeft);
+            setLastTimeValidated(timestamp);
+        }
     }, [
         editorStateLeft.code,
         editorStateLeft.rdfFormat,
@@ -100,11 +111,12 @@ let RDFDataMergeView: React.FC = () => {
     ]);
 
     useEffect(() => {
-        forRdfDataInfo(editorStateRight,
-            () => { },
-            () => { setOperationError(editorStateRight.validate); })();
-        // Reset quieries
-        editorStateMerged.merge.setContent(null);
+        let timestamp = Date.now();
+        // Only run effect if N milliseconds have passed since lastTimeValidated
+        if (timestamp - lastTimeValidated >= getNumber("limits.validationIntervalMilliseconds")) {
+            doValidate(editorStateRight);
+            setLastTimeValidated(timestamp);
+        }
     }, [
         editorStateRight.code,
         editorStateRight.rdfFormat,
@@ -195,15 +207,25 @@ let RDFDataMergeView: React.FC = () => {
                 </Stack>
             </Grid>
 
-            <Grid size={12} justifySelf={"center"} alignSelf="center">
+            <Grid size={6} justifySelf={"center"} alignSelf="center">
                 <Stack
-                    direction="column"
+                    direction="row"
                     spacing={2}
                     padding={1}
                     alignContent="center"
                     alignItems="center"
                     justifyContent="center"
                     justifyItems="center">
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() => {
+                            doValidate(editorStateLeft);
+                            doValidate(editorStateRight);
+                        }}
+                        sx={{ marginTop: 2, alignSelf: "center", justifyContent: "center" }}
+                    >{getString("viewTexts.rdfData.buttonRdfData")}</Button>
+
                     <Button
                         variant="contained"
                         color="primary"
